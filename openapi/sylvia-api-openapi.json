@@ -1,0 +1,676 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Sylvia API",
+    "version": "1.0.0",
+    "description": "Reddit data API - no OAuth, no rate limits, pay-per-request. Posts, comments, search, subreddits, users, live streams, datasets.",
+    "contact": {
+      "name": "Sylvia API",
+      "url": "https://sylvia-api.com",
+      "email": "support@sylvia-api.com"
+    },
+    "license": {
+      "name": "Proprietary",
+      "url": "https://sylvia-api.com/terms"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.sylvia-api.com/v1",
+      "description": "Production API server"
+    }
+  ],
+  "security": [
+    {
+      "ApiKeyAuth": []
+    }
+  ],
+  "paths": {
+    "/posts/search": {
+      "get": {
+        "summary": "Search posts",
+        "description": "Search Reddit posts by query, subreddit, author, time range, and more. Returns paginated results with full post objects.",
+        "operationId": "searchPosts",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "Search query (Reddit search syntax supported)",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "subreddit",
+            "in": "query",
+            "description": "Limit to specific subreddit (without r/)",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "author",
+            "in": "query",
+            "description": "Limit to specific author (without u/)",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "after",
+            "in": "query",
+            "description": "Unix timestamp - only posts after this time",
+            "schema": { "type": "integer", "format": "int64" }
+          },
+          {
+            "name": "before",
+            "in": "query",
+            "description": "Unix timestamp - only posts before this time",
+            "schema": { "type": "integer", "format": "int64" }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sort order",
+            "schema": { "type": "string", "enum": ["relevance", "new", "top", "comments"], "default": "relevance" }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Results per page (max 100)",
+            "schema": { "type": "integer", "minimum": 1, "maximum": 100, "default": 25 }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "description": "Pagination cursor from previous response",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful search results",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/SearchResponse" }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "429": { "$ref": "#/components/responses/RateLimited" },
+          "500": { "$ref": "#/components/responses/ServerError" }
+        }
+      }
+    },
+    "/posts/{id}": {
+      "get": {
+        "summary": "Get single post by ID",
+        "description": "Fetch a single Reddit post by its full ID (e.g., 't3_abc123' or just 'abc123')",
+        "operationId": "getPost",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Post object",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Post" }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "429": { "$ref": "#/components/responses/RateLimited" }
+        }
+      }
+    },
+    "/comments/search": {
+      "get": {
+        "summary": "Search comments",
+        "description": "Search Reddit comments by query, subreddit, author, time range. Returns paginated results with full comment objects.",
+        "operationId": "searchComments",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "Search query",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "subreddit",
+            "in": "query",
+            "description": "Limit to specific subreddit",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "author",
+            "in": "query",
+            "description": "Limit to specific author",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "after",
+            "in": "query",
+            "description": "Unix timestamp - only comments after this time",
+            "schema": { "type": "integer", "format": "int64" }
+          },
+          {
+            "name": "before",
+            "in": "query",
+            "description": "Unix timestamp - only comments before this time",
+            "schema": { "type": "integer", "format": "int64" }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sort order",
+            "schema": { "type": "string", "enum": ["relevance", "new", "top"], "default": "relevance" }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Results per page (max 100)",
+            "schema": { "type": "integer", "minimum": 1, "maximum": 100, "default": 25 }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "description": "Pagination cursor",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful search results",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/SearchResponse" }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "429": { "$ref": "#/components/responses/RateLimited" },
+          "500": { "$ref": "#/components/responses/ServerError" }
+        }
+      }
+    },
+    "/comments/{id}": {
+      "get": {
+        "summary": "Get single comment by ID",
+        "description": "Fetch a single Reddit comment by its full ID (e.g., 't1_abc123' or just 'abc123')",
+        "operationId": "getComment",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Comment object",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Comment" }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "429": { "$ref": "#/components/responses/RateLimited" }
+        }
+      }
+    },
+    "/subreddits/{name}": {
+      "get": {
+        "summary": "Get subreddit info",
+        "description": "Fetch subreddit metadata: subscribers, description, rules, icon, etc.",
+        "operationId": "getSubreddit",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "Subreddit name (without r/)",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Subreddit object",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Subreddit" }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "429": { "$ref": "#/components/responses/RateLimited" }
+        }
+      }
+    },
+    "/subreddits/{name}/posts": {
+      "get": {
+        "summary": "Get posts from a subreddit",
+        "description": "Fetch recent/hot/top/new posts from a specific subreddit with pagination.",
+        "operationId": "getSubredditPosts",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "Subreddit name (without r/)",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sort order",
+            "schema": { "type": "string", "enum": ["hot", "new", "top", "rising"], "default": "hot" }
+          },
+          {
+            "name": "time",
+            "in": "query",
+            "description": "Time filter for 'top' sort",
+            "schema": { "type": "string", "enum": ["hour", "day", "week", "month", "year", "all"] }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Results per page (max 100)",
+            "schema": { "type": "integer", "minimum": 1, "maximum": 100, "default": 25 }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "description": "Pagination cursor",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated posts",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/SearchResponse" }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "429": { "$ref": "#/components/responses/RateLimited" }
+        }
+      }
+    },
+    "/users/{username}": {
+      "get": {
+        "summary": "Get user profile",
+        "description": "Fetch Reddit user profile: karma, cake day, avatar, bio, etc.",
+        "operationId": "getUser",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "description": "Username (without u/)",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User object",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/User" }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "429": { "$ref": "#/components/responses/RateLimited" }
+        }
+      }
+    },
+    "/users/{username}/posts": {
+      "get": {
+        "summary": "Get user's posts",
+        "description": "Fetch posts submitted by a specific user with pagination.",
+        "operationId": "getUserPosts",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "description": "Username (without u/)",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sort order",
+            "schema": { "type": "string", "enum": ["new", "top", "controversial"], "default": "new" }
+          },
+          {
+            "name": "time",
+            "in": "query",
+            "description": "Time filter for 'top' sort",
+            "schema": { "type": "string", "enum": ["hour", "day", "week", "month", "year", "all"] }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Results per page (max 100)",
+            "schema": { "type": "integer", "minimum": 1, "maximum": 100, "default": 25 }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "description": "Pagination cursor",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated posts",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/SearchResponse" }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "429": { "$ref": "#/components/responses/RateLimited" }
+        }
+      }
+    },
+    "/users/{username}/comments": {
+      "get": {
+        "summary": "Get user's comments",
+        "description": "Fetch comments made by a specific user with pagination.",
+        "operationId": "getUserComments",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "description": "Username (without u/)",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sort order",
+            "schema": { "type": "string", "enum": ["new", "top", "controversial"], "default": "new" }
+          },
+          {
+            "name": "time",
+            "in": "query",
+            "description": "Time filter for 'top' sort",
+            "schema": { "type": "string", "enum": ["hour", "day", "week", "month", "year", "all"] }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Results per page (max 100)",
+            "schema": { "type": "integer", "minimum": 1, "maximum": 100, "default": 25 }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "description": "Pagination cursor",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated comments",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/SearchResponse" }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "404": { "$ref": "#/components/responses/NotFound" },
+          "429": { "$ref": "#/components/responses/RateLimited" }
+        }
+      }
+    },
+    "/live/comments": {
+      "get": {
+        "summary": "Live comment stream",
+        "description": "Server-Sent Events (SSE) stream of real-time Reddit comments. Filter by subreddit or globally.",
+        "operationId": "getLiveComments",
+        "parameters": [
+          {
+            "name": "subreddit",
+            "in": "query",
+            "description": "Limit to specific subreddit (omit for global firehose)",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SSE stream of Comment objects",
+            "content": {
+              "text/event-stream": {
+                "schema": { "$ref": "#/components/schemas/Comment" }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "429": { "$ref": "#/components/responses/RateLimited" }
+        }
+      }
+    },
+    "/datasets/torrents": {
+      "get": {
+        "summary": "List available dataset torrents",
+        "description": "Get metadata about available Reddit dataset torrents (historical dumps).",
+        "operationId": "listTorrents",
+        "responses": {
+          "200": {
+            "description": "List of torrent metadata",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/TorrentInfo" }
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "429": { "$ref": "#/components/responses/RateLimited" }
+        }
+      }
+    },
+    "/usage": {
+      "get": {
+        "summary": "Get usage and billing info",
+        "description": "Current usage stats, remaining free credit, tier info.",
+        "operationId": "getUsage",
+        "responses": {
+          "200": {
+            "description": "Usage information",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Usage" }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "SearchResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": { "type": "object" }
+          },
+          "cursor": { "type": "string", "nullable": true },
+          "has_more": { "type": "boolean" },
+          "total": { "type": "integer", "nullable": true }
+        }
+      },
+      "Post": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "title": { "type": "string" },
+          "selftext": { "type": "string" },
+          "author": { "type": "string" },
+          "subreddit": { "type": "string" },
+          "score": { "type": "integer" },
+          "upvote_ratio": { "type": "number" },
+          "num_comments": { "type": "integer" },
+          "created_utc": { "type": "integer", "format": "int64" },
+          "permalink": { "type": "string" },
+          "url": { "type": "string" },
+          "is_self": { "type": "boolean" },
+          "is_video": { "type": "boolean" },
+          "flair": { "type": "string", "nullable": true },
+          "awards": { "type": "integer" },
+          "gilded": { "type": "integer" },
+          "over_18": { "type": "boolean" },
+          "spoiler": { "type": "boolean" },
+          "stickied": { "type": "boolean" }
+        }
+      },
+      "Comment": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "body": { "type": "string" },
+          "author": { "type": "string" },
+          "subreddit": { "type": "string" },
+          "score": { "type": "integer" },
+          "created_utc": { "type": "integer", "format": "int64" },
+          "permalink": { "type": "string" },
+          "parent_id": { "type": "string" },
+          "link_id": { "type": "string" },
+          "is_submitter": { "type": "boolean" },
+          "gilded": { "type": "integer" },
+          "depth": { "type": "integer" },
+          "collapsed": { "type": "boolean" }
+        }
+      },
+      "Subreddit": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "display_name": { "type": "string" },
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "subscribers": { "type": "integer" },
+          "created_utc": { "type": "integer", "format": "int64" },
+          "over_18": { "type": "boolean" },
+          "icon": { "type": "string", "nullable": true },
+          "banner": { "type": "string", "nullable": true },
+          "rules": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "short_name": { "type": "string" },
+                "description": { "type": "string" }
+              }
+            }
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "icon": { "type": "string", "nullable": true },
+          "karma": { "type": "integer" },
+          "cake_day": { "type": "integer", "format": "int64" },
+          "is_mod": { "type": "boolean" },
+          "is_gold": { "type": "boolean" },
+          "verified": { "type": "boolean" },
+          "has_verified_email": { "type": "boolean" }
+        }
+      },
+      "TorrentInfo": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "size_bytes": { "type": "integer", "format": "int64" },
+          "magnet": { "type": "string" },
+          "description": { "type": "string" },
+          "date_range": { "type": "string" }
+        }
+      },
+      "Usage": {
+        "type": "object",
+        "properties": {
+          "requests_this_month": { "type": "integer" },
+          "free_credit_remaining": { "type": "number", "format": "float" },
+          "tier": { "type": "string", "enum": ["free", "starter", "pro", "enterprise"] },
+          "rate_limit": { "type": "integer" }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": { "type": "string" },
+          "message": { "type": "string" },
+          "code": { "type": "integer" }
+        }
+      }
+    },
+    "responses": {
+      "Unauthorized": {
+        "description": "Invalid or missing API key",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Resource not found",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+          }
+        }
+      },
+      "RateLimited": {
+        "description": "Rate limit exceeded",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+          }
+        }
+      },
+      "ServerError": {
+        "description": "Internal server error",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-Key",
+        "description": "API key for authentication. Get yours at https://sylvia-api.com"
+      }
+    }
+  }
+}

@@ -1,0 +1,86 @@
+aid: sylvia-api
+url: https://raw.githubusercontent.com/api-evangelist/sylvia-api/refs/heads/main/apis.yml
+name: Sylvia API
+description: Sylvia API is a third-party Reddit data API that serves Reddit content as JSON — posts, comments
+  with full recursive threads, subreddit and user surfaces, and a live comment feed. Twelve read operations
+  cover post and comment search, single-item lookup, subreddit and user timelines, a live comments stream,
+  dataset torrents for bulk access, and a usage endpoint. Authentication is an API key. It occupies the
+  gap left by Pushshift, giving researchers and developers queryable Reddit history without going through
+  OAuth on the first-party API.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/sylvia-api.png
+created: '2026-08-04'
+modified: '2026-08-04'
+specificationVersion: '0.21'
+type: Index
+position: Producing
+access: 3rd-Party
+kind: contract
+tags:
+- Reddit
+- Social
+- Data
+- Search
+- Comments
+- Research
+- Content
+- Datasets
+apis:
+- aid: sylvia-api:sylvia-api
+  name: Sylvia API
+  description: Reddit content as JSON — posts, recursive comment threads, subreddits, users, a live feed
+    and bulk datasets.
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://sylvia-api.com/
+  baseURL: https://api.sylvia-api.com/v1
+  tags:
+  - Reddit
+  - Social
+  - Search
+  - Comments
+  - Datasets
+  properties:
+  - url: openapi/sylvia-api-openapi.json
+    type: OpenAPI
+  - url: https://sylvia-api.com/openapi.json
+    type: X-OpenAPI-Source
+  - url: https://sylvia-api.com/
+    type: Website
+  - url: authentication/sylvia-api-authentication.yml
+    type: Authentication
+  - url: https://sylvia-api.com/llms.txt
+    type: LlmsText
+common:
+- url: https://sylvia-api.com/
+  type: Website
+- url: https://sylvia-api.com/llms.txt
+  type: LlmsText
+- url: authentication/sylvia-api-authentication.yml
+  type: Authentication
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
+X-Discovery:
+  date: '2026-08-04'
+  method: probed
+  note: Submitted through the Add-API pipeline and PARKED as low_confidence. Reviewed by hand and approved
+    — the pipeline was misled by a site-wide HTML catch-all.
+  findings:
+  - surface: OpenAPI
+    url: https://sylvia-api.com/openapi.json
+    http_status: 200
+    real: true
+    note: OpenAPI 3.0.3, 12 paths, 12 operations, 8 schemas, ApiKeyAuth, server api.sylvia-api.com/v1.
+      All 12 operations carry an operationId.
+  - surface: LlmsTxt
+    url: https://sylvia-api.com/llms.txt
+    http_status: 200
+    real: true
+    note: 3,558 bytes, distinct from the catch-all body.
+  - surface: Control
+    url: https://sylvia-api.com/zzz-control
+    http_status: 200
+    real: false
+    note: CATCH-ALL CONFIRMED — /, /apis.json, /docs and this control path all return the same 3,122 bytes
+      (md5 65bd0d3b). That is why the submission scored low confidence. The OpenAPI and llms.txt above
+      return DIFFERENT bytes and different checksums, which is what distinguishes a real artifact from
+      the catch-all.

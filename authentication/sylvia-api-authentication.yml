@@ -1,0 +1,15 @@
+generated: '2026-08-04'
+method: searched
+status: published
+source: https://sylvia-api.com/openapi.json
+description: API key authentication, read from the provider-published specification.
+verified: '2026-08-04'
+schemes:
+- id: ApiKeyAuth
+  type: apiKey
+  in: header
+  name: X-API-Key
+evidence:
+- url: https://sylvia-api.com/openapi.json
+  status: 200
+  note: distinct document — differs from the site-wide HTML catch-all

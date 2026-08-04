@@ -1,0 +1,116 @@
+# Sylvia API
+
+> Read-only Reddit data API. Structured JSON access to posts, comments, subreddits, and user profiles — no OAuth, no KYC, real-time data.
+
+Sylvia API lets you fetch any public Reddit data via simple HTTP requests. Sign up, get an API key, and start making requests in seconds. No Reddit developer credentials needed.
+
+## Base URL
+
+```
+https://sylvia-api.com/v1/reddit
+```
+
+## Authentication
+
+All requests require an API key via the `X-API-KEY` header:
+
+```bash
+curl -H "X-API-KEY: syl_your_key_here" \
+  https://sylvia-api.com/v1/reddit/r/all/hot?limit=25
+```
+
+Sign up at https://sylvia-api.com to get your key.
+
+## Pricing
+
+- **Standard requests**: $0.0005 each
+- **Live streams**: $0.05 each (`/comments/live`, `/r/{sub}/comments/live`)
+- **Free tier**: $0.50 credit on signup (~1,000 requests)
+- Payments: crypto only (USDT, BTC, LTC, BNB via NowPayments)
+- Failed requests (4xx, 5xx) are never charged
+
+## Endpoints
+
+### Subreddits
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /r/{subreddit}/about` | Subreddit info (members, description, icon) |
+| `GET /r/{subreddit}/about/rules` | Subreddit rules |
+| `GET /r/{subreddit}/about/moderators` | Moderator list |
+| `GET /r/{subreddit}/{sort}` | Posts — hot, new, top, rising, controversial |
+| `GET /r/{subreddit}/comments/live` | Real-time comment stream |
+| `GET /r/{subreddit}/sticky` | Sticky/pinned posts |
+| `GET /r/{subreddit}/sidebar` | Sidebar content |
+| `GET /r/{subreddit}/wiki/pages` | List wiki pages |
+| `GET /r/{subreddit}/wiki/{page}` | Wiki page content |
+
+### Users
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /u/{username}/about` | Profile metadata |
+| `GET /u/{username}/submitted` | User's posts |
+| `GET /u/{username}/comments` | User's comments |
+| `GET /u/{username}/overview` | Combined posts + comments |
+
+### Posts & Comments
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /submission?url={reddit_url}` | Fetch post by URL |
+| `GET /comment?url={reddit_url}` | Fetch comment by URL |
+| `GET /submission/{id}/full` | Full thread with all nested comments |
+| `GET /duplicates/{id}` | Crosspost duplicates |
+| `GET /domain/{domain}` | Posts linking to a domain |
+| `GET /morechildren` | Load more comments |
+| `GET /by_id` | Fetch by fullname IDs (e.g. `t3_abc,t3_def`) |
+
+### Discovery
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /subreddits/{category}` | Browse subreddits — popular, default, new, premium |
+| `GET /subreddits/search` | Search subreddits by name or description |
+| `GET /subreddit_autocomplete` | Autocomplete subreddit names |
+
+### Search
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /search` | Search Reddit posts globally |
+
+### Global Feeds
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /r/all/{sort}` | r/all feed — hot, new, top, rising, controversial |
+| `GET /comments/live` | Global comment firehose |
+
+## Common Parameters
+
+- `limit` — 1-100, default 25 (items per page)
+- `after` — pagination token from previous response
+- `time` — time filter for top sort: hour, day, week, month, year, all
+- `sort` — hot, new, top, rising, controversial
+- `response_format` — markdown or json (for subreddit scanning)
+
+## Response Format
+
+```json
+{
+  "success": true,
+  "data": {
+    "posts": [...],
+    "after": "t3_nextpage"
+  },
+  "request_id": "uuid"
+}
+```
+
+## Links
+
+- Website: https://sylvia-api.com
+- Dashboard: https://sylvia-api.com
+- API docs: https://sylvia-api.com/docs
+- GitHub: https://github.com/svetvett/sylvia-api
