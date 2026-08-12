@@ -25,30 +25,132 @@ tags:
 - Content
 - Datasets
 apis:
-- aid: sylvia-api:sylvia-api
-  name: Sylvia API
-  description: Reddit content as JSON — posts, recursive comment threads, subreddits, users, a live feed
-    and bulk datasets.
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+- aid: sylvia-api:sylvia-api-comments-api
+  name: Sylvia API Comments API
+  description: The Comments API from Sylvia API — 2 operation(s) for comments.
   humanURL: https://sylvia-api.com/
   baseURL: https://api.sylvia-api.com/v1
   tags:
-  - Reddit
-  - Social
-  - Search
   - Comments
+  properties:
+  - type: OpenAPI
+    url: openapi/sylvia-api-comments-api-openapi.yml
+  - type: X-OpenAPI-Source
+    url: https://sylvia-api.com/openapi.json
+  - type: Website
+    url: https://sylvia-api.com/
+  - type: Authentication
+    url: authentication/sylvia-api-authentication.yml
+  - type: LlmsText
+    url: https://sylvia-api.com/llms.txt
+- aid: sylvia-api:sylvia-api-datasets-api
+  name: Sylvia API Datasets API
+  description: The Datasets API from Sylvia API — 1 operation(s) for datasets.
+  humanURL: https://sylvia-api.com/
+  baseURL: https://api.sylvia-api.com/v1
+  tags:
   - Datasets
   properties:
-  - url: openapi/sylvia-api-openapi.json
-    type: OpenAPI
-  - url: https://sylvia-api.com/openapi.json
-    type: X-OpenAPI-Source
-  - url: https://sylvia-api.com/
-    type: Website
-  - url: authentication/sylvia-api-authentication.yml
-    type: Authentication
-  - url: https://sylvia-api.com/llms.txt
-    type: LlmsText
+  - type: OpenAPI
+    url: openapi/sylvia-api-datasets-api-openapi.yml
+  - type: X-OpenAPI-Source
+    url: https://sylvia-api.com/openapi.json
+  - type: Website
+    url: https://sylvia-api.com/
+  - type: Authentication
+    url: authentication/sylvia-api-authentication.yml
+  - type: LlmsText
+    url: https://sylvia-api.com/llms.txt
+- aid: sylvia-api:sylvia-api-live-api
+  name: Sylvia API Live API
+  description: The Live API from Sylvia API — 1 operation(s) for live.
+  humanURL: https://sylvia-api.com/
+  baseURL: https://api.sylvia-api.com/v1
+  tags:
+  - Live
+  properties:
+  - type: OpenAPI
+    url: openapi/sylvia-api-live-api-openapi.yml
+  - type: X-OpenAPI-Source
+    url: https://sylvia-api.com/openapi.json
+  - type: Website
+    url: https://sylvia-api.com/
+  - type: Authentication
+    url: authentication/sylvia-api-authentication.yml
+  - type: LlmsText
+    url: https://sylvia-api.com/llms.txt
+- aid: sylvia-api:sylvia-api-posts-api
+  name: Sylvia API Posts API
+  description: The Posts API from Sylvia API — 2 operation(s) for posts.
+  humanURL: https://sylvia-api.com/
+  baseURL: https://api.sylvia-api.com/v1
+  tags:
+  - Posts
+  properties:
+  - type: OpenAPI
+    url: openapi/sylvia-api-posts-api-openapi.yml
+  - type: X-OpenAPI-Source
+    url: https://sylvia-api.com/openapi.json
+  - type: Website
+    url: https://sylvia-api.com/
+  - type: Authentication
+    url: authentication/sylvia-api-authentication.yml
+  - type: LlmsText
+    url: https://sylvia-api.com/llms.txt
+- aid: sylvia-api:sylvia-api-subreddits-api
+  name: Sylvia API Subreddits API
+  description: The Subreddits API from Sylvia API — 2 operation(s) for subreddits.
+  humanURL: https://sylvia-api.com/
+  baseURL: https://api.sylvia-api.com/v1
+  tags:
+  - Subreddits
+  properties:
+  - type: OpenAPI
+    url: openapi/sylvia-api-subreddits-api-openapi.yml
+  - type: X-OpenAPI-Source
+    url: https://sylvia-api.com/openapi.json
+  - type: Website
+    url: https://sylvia-api.com/
+  - type: Authentication
+    url: authentication/sylvia-api-authentication.yml
+  - type: LlmsText
+    url: https://sylvia-api.com/llms.txt
+- aid: sylvia-api:sylvia-api-usage-api
+  name: Sylvia API Usage API
+  description: The Usage API from Sylvia API — 1 operation(s) for usage.
+  humanURL: https://sylvia-api.com/
+  baseURL: https://api.sylvia-api.com/v1
+  tags:
+  - Usage
+  properties:
+  - type: OpenAPI
+    url: openapi/sylvia-api-usage-api-openapi.yml
+  - type: X-OpenAPI-Source
+    url: https://sylvia-api.com/openapi.json
+  - type: Website
+    url: https://sylvia-api.com/
+  - type: Authentication
+    url: authentication/sylvia-api-authentication.yml
+  - type: LlmsText
+    url: https://sylvia-api.com/llms.txt
+- aid: sylvia-api:sylvia-api-users-api
+  name: Sylvia API Users API
+  description: The Users API from Sylvia API — 3 operation(s) for users.
+  humanURL: https://sylvia-api.com/
+  baseURL: https://api.sylvia-api.com/v1
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/sylvia-api-users-api-openapi.yml
+  - type: X-OpenAPI-Source
+    url: https://sylvia-api.com/openapi.json
+  - type: Website
+    url: https://sylvia-api.com/
+  - type: Authentication
+    url: authentication/sylvia-api-authentication.yml
+  - type: LlmsText
+    url: https://sylvia-api.com/llms.txt
 common:
 - url: https://sylvia-api.com/
   type: Website
