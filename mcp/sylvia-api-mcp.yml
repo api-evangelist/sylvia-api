@@ -1,0 +1,33 @@
+generated: '2026-08-18'
+method: searched
+status: published
+source: https://sylvia-api.com/llms.txt
+agent_card_source: https://sylvia-api.com/.well-known/agent-card.json
+server:
+  name: sylvia-api
+  transport: http
+  url: https://api.sylvia-api.com/mcp
+auth:
+  methods:
+  - apikey
+  apikey:
+    header: X-API-KEY
+    signup: https://sylvia-api.com/login/
+probed:
+- url: https://api.sylvia-api.com/mcp
+  method: POST
+  body: '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+  status: 401
+  response: '{"jsonrpc":"2.0","id":1,"error":{"code":-32001,"message":"Missing X-API-KEY header."}}'
+  checked: '2026-08-18'
+  note: >-
+    A well-formed JSON-RPC error, not an HTML shell or a generic 401 — the server is live and
+    speaking MCP, and only the tool list is gated. Per the enrichment contract, for a gated server
+    the llms.txt endpoint tables are the ceiling; tools below are DERIVED from the OpenAPI
+    operations the provider documents as MCP-exposed, not read from tools/list.
+tool_source: derived-from-openapi
+tool_discovery: gated
+notes: >-
+  Sylvia API advertises the MCP endpoint in llms.txt ("Also available as an MCP server for AI
+  agents") and in its A2A agent card `endpoint` field. Both point at the same URL. The tool list
+  could not be enumerated anonymously, so no tool inventory is asserted here.

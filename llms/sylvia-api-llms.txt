@@ -1,13 +1,13 @@
 # Sylvia API
 
-> Read-only Reddit data API. Structured JSON access to posts, comments, subreddits, and user profiles — no OAuth, no KYC, real-time data.
+> Read-only Reddit data API. Structured JSON access to posts, comments, subreddits, user profiles, search, and live streams — no OAuth, no KYC.
 
-Sylvia API lets you fetch any public Reddit data via simple HTTP requests. Sign up, get an API key, and start making requests in seconds. No Reddit developer credentials needed.
+Sylvia API lets you fetch any public Reddit data via simple HTTP requests. Sign up, get an API key, and start making requests in seconds. Also available as an MCP server for AI agents.
 
 ## Base URL
 
 ```
-https://sylvia-api.com/v1/reddit
+https://api.sylvia-api.com/v1/reddit
 ```
 
 ## Authentication
@@ -16,18 +16,35 @@ All requests require an API key via the `X-API-KEY` header:
 
 ```bash
 curl -H "X-API-KEY: syl_your_key_here" \
-  https://sylvia-api.com/v1/reddit/r/all/hot?limit=25
+  "https://api.sylvia-api.com/v1/reddit/r/all/hot?limit=25"
 ```
 
 Sign up at https://sylvia-api.com to get your key.
+
+## MCP Server
+
+Model Context Protocol endpoint for direct agent tool-calling: `https://api.sylvia-api.com/mcp`
 
 ## Pricing
 
 - **Standard requests**: $0.0005 each
 - **Live streams**: $0.05 each (`/comments/live`, `/r/{sub}/comments/live`)
+- **Search**: $0.05 each
 - **Free tier**: $0.50 credit on signup (~1,000 requests)
+- **Tiers**: Free, Strela ($50+/30d), Svetka ($200+/30d), Enterprise ($500+/30d)
 - Payments: crypto only (USDT, BTC, LTC, BNB via NowPayments)
 - Failed requests (4xx, 5xx) are never charged
+
+## Rate Limits
+
+| Tier | Requests/min | Burst |
+|------|--------------|-------|
+| Free | 480 | 15 |
+| Strela | 1,200 | 40 |
+| Svetka | 2,400 | 80 |
+| Enterprise | 3,600 | 100 |
+
+Headers: `X-RateLimit-Tier`, `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Reset`, `Retry-After`.
 
 ## Endpoints
 
@@ -37,11 +54,9 @@ Sign up at https://sylvia-api.com to get your key.
 |----------|-------------|
 | `GET /r/{subreddit}/about` | Subreddit info (members, description, icon) |
 | `GET /r/{subreddit}/about/rules` | Subreddit rules |
-| `GET /r/{subreddit}/about/moderators` | Moderator list |
 | `GET /r/{subreddit}/{sort}` | Posts — hot, new, top, rising, controversial |
 | `GET /r/{subreddit}/comments/live` | Real-time comment stream |
 | `GET /r/{subreddit}/sticky` | Sticky/pinned posts |
-| `GET /r/{subreddit}/sidebar` | Sidebar content |
 | `GET /r/{subreddit}/wiki/pages` | List wiki pages |
 | `GET /r/{subreddit}/wiki/{page}` | Wiki page content |
 
@@ -87,13 +102,23 @@ Sign up at https://sylvia-api.com to get your key.
 | `GET /r/all/{sort}` | r/all feed — hot, new, top, rising, controversial |
 | `GET /comments/live` | Global comment firehose |
 
-## Common Parameters
+### Account
 
-- `limit` — 1-100, default 25 (items per page)
-- `after` — pagination token from previous response
-- `time` — time filter for top sort: hour, day, week, month, year, all
-- `sort` — hot, new, top, rising, controversial
-- `response_format` — markdown or json (for subreddit scanning)
+| Endpoint | Description |
+|----------|-------------|
+| `GET /auth/me` | Account profile (email, tier, balance, status) |
+| `GET /keys` | List API keys (masked prefixes) |
+| `POST /keys` | Create a key (full key shown once) |
+| `DELETE /keys/{id}` | Revoke a key |
+| `GET /templates` / `POST /templates` | List or create custom templates |
+| `DELETE /templates/{name}` | Delete a custom template |
+| `GET /auth/formats` | List formats and availability on your tier |
+| `POST /auth/default-format` | Set the account default format |
+| `GET /auth/recent-requests` | Recent request history |
+| `GET /auth/usage-history` | Per-day usage analytics |
+| `POST /createPayment` | Create a crypto deposit payment link |
+
+Account endpoints require the account token (`x-sylvia-auth: SV_...` or `Authorization: Bearer SV_...`).
 
 ## Response Format
 
@@ -101,16 +126,28 @@ Sign up at https://sylvia-api.com to get your key.
 {
   "success": true,
   "data": {
-    "posts": [...],
+    "posts": [],
     "after": "t3_nextpage"
   },
   "request_id": "uuid"
 }
 ```
 
+## Machine-readable artifacts
+
+- OpenAPI: https://sylvia-api.com/openapi.json
+- APIs.json index: https://sylvia-api.com/apis.json
+- Plans: https://sylvia-api.com/plans.json
+- Rate limits: https://sylvia-api.com/rate-limits.json
+- FinOps: https://sylvia-api.com/finops.json
+- Agent card: https://sylvia-api.com/.well-known/agent-card.json
+- API catalog: https://sylvia-api.com/.well-known/api-catalog
+- Security policy: https://sylvia-api.com/security/
+- Status: https://sylvia-api.instatus.com/
+- Changelog: https://sylvia-api.com/changelog/
+
 ## Links
 
 - Website: https://sylvia-api.com
 - Dashboard: https://sylvia-api.com
-- API docs: https://sylvia-api.com/docs
-- GitHub: https://github.com/svetvett/sylvia-api
+- API docs: https://sylvia-api.com/docs/

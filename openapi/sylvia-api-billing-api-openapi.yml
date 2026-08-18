@@ -1,0 +1,251 @@
+openapi: 3.2.0
+info:
+  title: Sylvia Billing API
+  version: 3.0.0
+  description: 'Sylvia API is a read-only Reddit data gateway serving structured JSON for posts, comments with full recursive threads, subreddits, users, search, and live comment streams. Authentication uses a single API key in the X-API-KEY header; no OAuth, no KYC.
+
+
+    ## Idempotency
+
+    All operations are HTTP GET and read-only: they do not mutate server state and are safe to retry. Repeated identical requests return identical data (modulo the live endpoints, which are inherently time-sensitive). No Idempotency-Key header is required.
+
+
+    ## Stable error envelope
+
+    Every response is wrapped in a stable envelope. On success: {"success": true, "data": {...}, "request_id": "<uuid>"}. On failure: {"success": false, "error": "<message>", "request_id": "<uuid>"} with an appropriate 4xx/5xx status code. Error responses always reference the ErrorResponse schema.
+
+
+    ## Rate limiting
+
+    Rate limits are enforced per API key with a sliding window, signalled through response headers: X-RateLimit-Tier, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, and Retry-After on 429. Tiers: Free (480 req/min), Strela (1,200), Svetka (2,400), Enterprise (3,600).
+
+
+    ## Live streams
+
+    The live endpoints (/comments/live and /r/{subreddit}/comments/live) return a paged poll of the newest comments. Pass the `after` cursor to advance. Each comment carries a stable, documented shape (see the onComment callback).
+
+
+    ## Agent access
+
+    The same surface is available as a Model Context Protocol (MCP) server at https://api.sylvia-api.com/mcp, and agent access semantics are declared in x-agentic-access. See https://sylvia-api.com/llms.txt.'
+  contact:
+    name: Sylvia API
+    url: https://sylvia-api.com
+    email: support@sylvia-api.com
+  license:
+    name: Proprietary
+    url: https://sylvia-api.com/terms
+  x-agentic-access:
+    intent: read-only
+    authenticated: true
+    idempotent: true
+    rateLimits:
+      headers:
+      - X-RateLimit-Limit
+      - X-RateLimit-Remaining
+      - X-RateLimit-Reset
+      - Retry-After
+      statusCode: 429
+    mcpServer: https://api.sylvia-api.com/mcp
+    llmsTxt: https://sylvia-api.com/llms.txt
+servers:
+- url: https://api.sylvia-api.com/v1
+  description: Production API server
+security:
+- ApiKeyAuth: []
+tags:
+- name: Billing
+paths:
+  /createPayment:
+    servers:
+    - url: https://api.sylvia-api.com
+    post:
+      summary: Create crypto deposit payment
+      operationId: createPayment
+      security:
+      - AccountTokenAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - amount
+              properties:
+                amount:
+                  type: number
+      responses:
+        '200':
+          description: Payment link
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+              example:
+                success: true
+                data: {}
+                request_id: 00000000-0000-0000-0000-000000000000
+          headers:
+            X-RateLimit-Tier:
+              $ref: '#/components/headers/X-RateLimit-Tier'
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+            Retry-After:
+              $ref: '#/components/headers/Retry-After'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+      tags:
+      - Billing
+  /paymentStatus/{id}:
+    servers:
+    - url: https://api.sylvia-api.com
+    get:
+      summary: Get payment status
+      operationId: getPaymentStatus
+      security:
+      - AccountTokenAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Payment status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+              example:
+                success: true
+                data: {}
+                request_id: 00000000-0000-0000-0000-000000000000
+          headers:
+            X-RateLimit-Tier:
+              $ref: '#/components/headers/X-RateLimit-Tier'
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
+            Retry-After:
+              $ref: '#/components/headers/Retry-After'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+      tags:
+      - Billing
+components:
+  responses:
+    Forbidden:
+      description: Forbidden — insufficient access or credits
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    RateLimited:
+      description: Rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad request — invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  headers:
+    X-RateLimit-Limit:
+      description: Requests per second for the tier.
+      schema:
+        type: integer
+    Retry-After:
+      description: Seconds until retry is allowed, present on 429.
+      schema:
+        type: integer
+    X-RateLimit-Tier:
+      description: 'Rate limit tier: free | strela | svetka | enterprise.'
+      schema:
+        type: string
+    X-RateLimit-Reset:
+      description: Epoch milliseconds when the window resets.
+      schema:
+        type: integer
+    X-RateLimit-Remaining:
+      description: Remaining requests in the current window.
+      schema:
+        type: integer
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        error:
+          type: string
+        message:
+          type: string
+        status:
+          type: integer
+        code:
+          type: string
+        request_id:
+          type: string
+    GenericResponse:
+      allOf:
+      - $ref: '#/components/schemas/Envelope'
+      - type: object
+        properties:
+          data:
+            type: object
+    Envelope:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type:
+          - string
+          - 'null'
+        error:
+          type:
+          - string
+          - 'null'
+        request_id:
+          type: string
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key for authentication. Get yours at https://sylvia-api.com
+    AccountTokenAuth:
+      type: apiKey
+      in: header
+      name: x-sylvia-auth
+      description: Account token (SV_...) for account management endpoints. Sign in at https://sylvia-api.com to get yours.

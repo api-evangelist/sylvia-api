@@ -1,0 +1,39 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://sylvia-api.com/",
+      "rel": "service-desc",
+      "type": "application/apis+json",
+      "href": "https://sylvia-api.com/apis.json"
+    },
+    {
+      "anchor": "https://sylvia-api.com/",
+      "rel": "service-desc",
+      "type": "application/yaml",
+      "href": "https://sylvia-api.com/apis.yml"
+    },
+    {
+      "anchor": "https://sylvia-api.com/",
+      "rel": "service-desc",
+      "type": "application/vnd.oai.openapi+json",
+      "href": "https://sylvia-api.com/openapi.json"
+    },
+    {
+      "anchor": "https://sylvia-api.com/",
+      "rel": "llms.txt",
+      "href": "https://sylvia-api.com/llms.txt"
+    },
+    {
+      "anchor": "https://sylvia-api.com/",
+      "rel": "security",
+      "type": "text/plain",
+      "href": "https://sylvia-api.com/.well-known/security.txt"
+    },
+    {
+      "anchor": "https://sylvia-api.com/",
+      "rel": "agent-card",
+      "type": "application/json",
+      "href": "https://sylvia-api.com/.well-known/agent-card.json"
+    }
+  ]
+}

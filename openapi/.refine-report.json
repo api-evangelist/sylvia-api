@@ -1,0 +1,42 @@
+{
+  "provider": "sylvia-api",
+  "sources": [
+    "sylvia-api-openapi.json"
+  ],
+  "outputs": [
+    "sylvia-api-account-api-openapi.yml",
+    "sylvia-api-billing-api-openapi.yml",
+    "sylvia-api-discovery-api-openapi.yml",
+    "sylvia-api-domains-api-openapi.yml",
+    "sylvia-api-health-api-openapi.yml",
+    "sylvia-api-keys-api-openapi.yml",
+    "sylvia-api-live-api-openapi.yml",
+    "sylvia-api-posts-comments-api-openapi.yml",
+    "sylvia-api-search-api-openapi.yml",
+    "sylvia-api-subreddits-api-openapi.yml",
+    "sylvia-api-templates-api-openapi.yml",
+    "sylvia-api-users-api-openapi.yml"
+  ],
+  "archived": [
+    "archived openapi/sylvia-api-openapi.json"
+  ],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "sylvia-api-openapi.json: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "sylvia-api-openapi.json: declared missing tag: Account",
+    "sylvia-api-openapi.json: declared missing tag: Billing",
+    "sylvia-api-openapi.json: declared missing tag: Discovery",
+    "sylvia-api-openapi.json: declared missing tag: Domains",
+    "sylvia-api-openapi.json: declared missing tag: Health",
+    "sylvia-api-openapi.json: declared missing tag: Keys",
+    "sylvia-api-openapi.json: declared missing tag: Live",
+    "sylvia-api-openapi.json: declared missing tag: Posts & Comments",
+    "sylvia-api-openapi.json: declared missing tag: Search",
+    "sylvia-api-openapi.json: declared missing tag: Subreddits",
+    "sylvia-api-openapi.json: declared missing tag: Templates",
+    "sylvia-api-openapi.json: declared missing tag: Users",
+    "apis.yml register: written (+9 apis, 12 total)"
+  ],
+  "skipped": []
+}

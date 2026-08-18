@@ -1,34 +1,187 @@
-# Sylvia API
+# Sylvia API (sylvia-api)
 
-Third-party Reddit data API — Reddit content as JSON, with full recursive comment threads, a live
-feed, and bulk datasets.
+Sylvia API is a third-party Reddit data API that serves Reddit content as JSON — posts, comments with full recursive threads, subreddit and user surfaces, and a live comment feed. Thirty-six operations across twelve tags cover the read surface plus account self-service — key management, response templates, usage history and billing. Authentication is an API key. It occupies the gap left by Pushshift, giving researchers and developers queryable Reddit history without going through OAuth on the first-party API.
 
-- **Website:** https://sylvia-api.com/
-- **OpenAPI:** https://sylvia-api.com/openapi.json
-- **llms.txt:** https://sylvia-api.com/llms.txt
-- **API base:** `https://api.sylvia-api.com/v1`
+**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/sylvia-api/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/sylvia-api/refs/heads/main/apis.yml)
 
-Part of the [API Evangelist](https://apievangelist.com) network. Submitted through the Add-API
-pipeline, **parked for review**, and approved by hand on 2026-08-04 — see `X-Discovery` in
-`apis.yml`.
+## Scope
 
-## Surface
+- **Type:** Index
+- **Position:** Producing
+- **Access:** 3rd-Party
 
-Twelve read operations: post and comment search, single-item lookup, subreddit and user timelines,
-a live comments feed, dataset torrents for bulk access, and a usage endpoint. API key auth.
+## Tags
 
-It sits in the gap Pushshift left — queryable Reddit history without going through OAuth on the
-first-party API.
+- Reddit
+- Social
+- Data
+- Search
+- Comments
+- Research
+- Content
+- Datasets
 
-## Why it was parked, and why that was wrong
+## Timestamps
 
-The pipeline scored it **low confidence**. `sylvia-api.com` returns an identical 3,122-byte page
-for `/`, `/apis.json`, `/docs` **and** a control path `/zzz-control` — a site-wide HTML catch-all,
-which normally means an artifact does not exist.
+- **Created:** 2026-08-04
+- **Modified:** 2026-08-04
 
-But `/openapi.json` (22,328 bytes) and `/llms.txt` (3,558 bytes) return **different bytes with
-different checksums**. Both are real. The spec parses as OpenAPI 3.0.3 and **all 12 operations
-carry an `operationId`**, which is better hygiene than most specs in this catalog.
+## APIs
 
-A status code alone could not tell these apart. Comparing a candidate artifact against a control
-path is what separates a real document from a catch-all, in both directions.
+### Sylvia API Comments API
+
+The Comments API from Sylvia API — 2 operation(s) for comments.
+
+- **Human URL:** [https://sylvia-api.com/](https://sylvia-api.com/)
+- **Base URL:** `https://api.sylvia-api.com/v1`
+
+#### Tags
+
+- Comments
+
+#### Properties
+
+- [OpenAPI](openapi/sylvia-api-comments-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Postman Collection](collections/sylvia-api-comments-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sylvia-api-comments-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [X- Open A P I- Source](https://sylvia-api.com/openapi.json)
+- [Website](https://sylvia-api.com/)
+- [Authentication](authentication/sylvia-api-authentication.yml)
+- [Llms Text](https://sylvia-api.com/llms.txt)
+
+### Sylvia API Datasets API
+
+The Datasets API from Sylvia API — 1 operation(s) for datasets.
+
+- **Human URL:** [https://sylvia-api.com/](https://sylvia-api.com/)
+- **Base URL:** `https://api.sylvia-api.com/v1`
+
+#### Tags
+
+- Datasets
+
+#### Properties
+
+- [OpenAPI](openapi/sylvia-api-datasets-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Postman Collection](collections/sylvia-api-datasets-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sylvia-api-datasets-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [X- Open A P I- Source](https://sylvia-api.com/openapi.json)
+- [Website](https://sylvia-api.com/)
+- [Authentication](authentication/sylvia-api-authentication.yml)
+- [Llms Text](https://sylvia-api.com/llms.txt)
+
+### Sylvia API Live API
+
+The Live API from Sylvia API — 1 operation(s) for live.
+
+- **Human URL:** [https://sylvia-api.com/](https://sylvia-api.com/)
+- **Base URL:** `https://api.sylvia-api.com/v1`
+
+#### Tags
+
+- Live
+
+#### Properties
+
+- [OpenAPI](openapi/sylvia-api-live-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Postman Collection](collections/sylvia-api-live-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sylvia-api-live-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [X- Open A P I- Source](https://sylvia-api.com/openapi.json)
+- [Website](https://sylvia-api.com/)
+- [Authentication](authentication/sylvia-api-authentication.yml)
+- [Llms Text](https://sylvia-api.com/llms.txt)
+
+### Sylvia API Posts API
+
+The Posts API from Sylvia API — 2 operation(s) for posts.
+
+- **Human URL:** [https://sylvia-api.com/](https://sylvia-api.com/)
+- **Base URL:** `https://api.sylvia-api.com/v1`
+
+#### Tags
+
+- Posts
+
+#### Properties
+
+- [OpenAPI](openapi/sylvia-api-posts-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Postman Collection](collections/sylvia-api-posts-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sylvia-api-posts-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [X- Open A P I- Source](https://sylvia-api.com/openapi.json)
+- [Website](https://sylvia-api.com/)
+- [Authentication](authentication/sylvia-api-authentication.yml)
+- [Llms Text](https://sylvia-api.com/llms.txt)
+
+### Sylvia API Subreddits API
+
+The Subreddits API from Sylvia API — 2 operation(s) for subreddits.
+
+- **Human URL:** [https://sylvia-api.com/](https://sylvia-api.com/)
+- **Base URL:** `https://api.sylvia-api.com/v1`
+
+#### Tags
+
+- Subreddits
+
+#### Properties
+
+- [OpenAPI](openapi/sylvia-api-subreddits-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Postman Collection](collections/sylvia-api-subreddits-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sylvia-api-subreddits-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [X- Open A P I- Source](https://sylvia-api.com/openapi.json)
+- [Website](https://sylvia-api.com/)
+- [Authentication](authentication/sylvia-api-authentication.yml)
+- [Llms Text](https://sylvia-api.com/llms.txt)
+
+### Sylvia API Usage API
+
+The Usage API from Sylvia API — 1 operation(s) for usage.
+
+- **Human URL:** [https://sylvia-api.com/](https://sylvia-api.com/)
+- **Base URL:** `https://api.sylvia-api.com/v1`
+
+#### Tags
+
+- Usage
+
+#### Properties
+
+- [OpenAPI](openapi/sylvia-api-usage-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Postman Collection](collections/sylvia-api-usage-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sylvia-api-usage-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [X- Open A P I- Source](https://sylvia-api.com/openapi.json)
+- [Website](https://sylvia-api.com/)
+- [Authentication](authentication/sylvia-api-authentication.yml)
+- [Llms Text](https://sylvia-api.com/llms.txt)
+
+### Sylvia API Users API
+
+The Users API from Sylvia API — 3 operation(s) for users.
+
+- **Human URL:** [https://sylvia-api.com/](https://sylvia-api.com/)
+- **Base URL:** `https://api.sylvia-api.com/v1`
+
+#### Tags
+
+- Users
+
+#### Properties
+
+- [OpenAPI](openapi/sylvia-api-users-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Postman Collection](collections/sylvia-api-users-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sylvia-api-users-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [X- Open A P I- Source](https://sylvia-api.com/openapi.json)
+- [Website](https://sylvia-api.com/)
+- [Authentication](authentication/sylvia-api-authentication.yml)
+- [Llms Text](https://sylvia-api.com/llms.txt)
+
+## Common Properties
+
+- [Website](https://sylvia-api.com/)
+- [Llms Text](https://sylvia-api.com/llms.txt)
+- [Authentication](authentication/sylvia-api-authentication.yml)
+
+## Maintainers
+
+**FN:** Kin Lane
+**Email:** kin@apievangelist.com

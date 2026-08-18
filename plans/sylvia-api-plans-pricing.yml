@@ -1,0 +1,58 @@
+generated: '2026-08-18'
+method: searched
+source: https://sylvia-api.com/plans.json
+checked: '2026-08-18'
+upstream_format: API Commons Plans 0.1
+upstream_modified: '2026-08-18'
+summary: Sylvia API publishes machine-readable plans at /plans.json in API Commons Plans 0.1 format
+  — the same specification this catalog uses. Pricing is pay-per-request across four tiers rather than
+  a monthly seat fee, with tier entry set by 30-day spend. Prices are published, self-serve and require
+  no sales contact. Payment is crypto only.
+plan_count: 4
+prices_published: true
+currency: USD
+billing_period: per-request (30-day spend determines tier)
+public_signup_pricing: true
+payment_methods:
+- USDT
+- BTC
+- LTC
+- BNB
+payment_note: Crypto only, via NowPayments. No card payment offered.
+plans:
+- name: Free
+  id: sylvia-api-free
+  type: freemium
+  price_per_request: '0.0005'
+  price_per_live_stream: '0.05'
+  currency: USD
+  rate_limit_rpm: 480
+  burst: 15
+  positioning: Default tier. Starts with $0.50 credit (~1,000 standard requests).
+- name: Strela
+  id: sylvia-api-strela
+  type: paid
+  price_per_request: '0.0005'
+  price_per_live_stream: '0.05'
+  currency: USD
+  rate_limit_rpm: 1200
+  burst: 40
+  positioning: Trailing-30-day deposit of $50+. Unlocks minimal and csv formats, 5 templates.
+- name: Svetka
+  id: sylvia-api-svetka
+  type: paid
+  price_per_request: '0.0005'
+  price_per_live_stream: '0.05'
+  currency: USD
+  rate_limit_rpm: 2400
+  burst: 80
+  positioning: Trailing-30-day deposit of $200+. Unlocks ndjson format and unlimited templates.
+- name: Enterprise
+  id: sylvia-api-enterprise
+  type: paid
+  price_per_request: '0.0005'
+  price_per_live_stream: '0.05'
+  currency: USD
+  rate_limit_rpm: 3600
+  burst: 100
+  positioning: Trailing-30-day deposit of $500+. All formats, unlimited templates, highest limits.

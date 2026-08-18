@@ -1,0 +1,7 @@
+generated: '2026-08-18'
+method: searched
+source: https://sylvia-api.com/finops.json
+checked: '2026-08-18'
+upstream_format: FinOps Framework 1.0
+upstream_modified: '2026-08-18'
+summary: FinOps framework definition for the Sylvia API surface. Pay-per-request usage with crypto billing.

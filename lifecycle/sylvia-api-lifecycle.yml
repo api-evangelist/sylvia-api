@@ -1,0 +1,38 @@
+generated: '2026-08-18'
+method: searched
+source: https://sylvia-api.instatus.com + https://sylvia-api.com/changelog/ + https://sylvia-api.com/llms.txt
+versioning:
+  scheme: path-prefix
+  base_url: https://api.sylvia-api.com/v1
+  notes: >-
+    Single documented version segment (/v1) on the API host. The OpenAPI `info.version` reads
+    3.0.0, which tracks the product release, not the path version.
+status_page:
+  url: https://sylvia-api.instatus.com/
+  provider: Instatus
+  machine_readable_api: false
+  probed:
+  - url: https://sylvia-api.com/status
+    status: 200
+    checked: '2026-08-18'
+    note: meta-refresh redirect to the Instatus page
+  - url: https://sylvia-api.instatus.com/
+    status: 200
+    content_type: text/html
+    bytes: 164629
+    checked: '2026-08-18'
+changelog:
+  url: https://sylvia-api.com/changelog/
+  probed:
+  - url: https://sylvia-api.com/changelog/
+    status: 200
+    content_type: text/html
+    bytes: 2345
+    checked: '2026-08-18'
+  notes: >-
+    Returns 200 with a small server-rendered page. No dated machine-readable entries were
+    capturable, so no changelog artifact is asserted.
+deprecation:
+  policy_published: false
+  notes: >-
+    No deprecation or sunset policy found on the developer surface as of 2026-08-18. Not asserted.

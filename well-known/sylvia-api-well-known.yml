@@ -1,0 +1,39 @@
+generated: '2026-08-18'
+method: searched
+source: https://sylvia-api.com/.well-known/
+entries:
+- path: /.well-known/security.txt
+  type: SecurityTxt
+  status: 200
+  content_type: text/plain
+  bytes: 237
+  artifact: well-known/sylvia-api-security.txt
+  standard: RFC 9116
+  checked: '2026-08-18'
+- path: /.well-known/api-catalog
+  type: APICatalog
+  status: 200
+  bytes: 1035
+  artifact: well-known/sylvia-api-api-catalog.json
+  standard: RFC 9727
+  format: linkset
+  checked: '2026-08-18'
+  note: >-
+    Served as binary/octet-stream rather than application/linkset+json. Content parses as a valid
+    linkset; the media type is the only defect.
+- path: /.well-known/agent-card.json
+  type: AgentCard
+  status: 200
+  content_type: application/json
+  bytes: 728
+  artifact: a2a/sylvia-api-agent-card.json
+  checked: '2026-08-18'
+negative_control:
+- path: /.well-known/not-a-real-thing-xyz.txt
+  status: 404
+  content_type: text/plain
+  bytes: 10
+  checked: '2026-08-18'
+  note: >-
+    Run deliberately. A real 404 on a nonsense .well-known path proves the 200s above are genuine
+    and not a catch-all handing out false credit.

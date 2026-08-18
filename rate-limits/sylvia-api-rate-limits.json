@@ -1,0 +1,79 @@
+{
+  "specification": "API Commons Rate Limits",
+  "specificationVersion": "0.1",
+  "schema": "https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits",
+  "provider": "Sylvia API",
+  "providerId": "sylvia-api",
+  "created": "2026-08-04",
+  "modified": "2026-08-18",
+  "tags": [
+    "Reddit",
+    "Data",
+    "Rate Limiting",
+    "Quotas",
+    "Throttling"
+  ],
+  "description": "Machine-readable rate limit definitions for the Sylvia API surface.",
+  "headers": {
+    "tier": "X-RateLimit-Tier",
+    "limit": "X-RateLimit-Limit",
+    "remaining": "X-RateLimit-Remaining",
+    "reset": "X-RateLimit-Reset",
+    "retryAfter": "Retry-After"
+  },
+  "responseCodes": {
+    "throttled": 429,
+    "quotaExceeded": 429,
+    "serviceUnavailable": 503
+  },
+  "limits": [
+    {
+      "tier": "free",
+      "name": "Free Tier Default",
+      "scope": "api-key",
+      "metric": "requests_per_minute",
+      "limit": 480,
+      "burst": 15,
+      "timeFrame": "minute",
+      "applies": [
+        "Sylvia API"
+      ]
+    },
+    {
+      "tier": "strela",
+      "name": "Strela Tier Default",
+      "scope": "api-key",
+      "metric": "requests_per_minute",
+      "limit": 1200,
+      "burst": 40,
+      "timeFrame": "minute",
+      "applies": [
+        "Sylvia API"
+      ]
+    },
+    {
+      "tier": "svetka",
+      "name": "Svetka Tier Default",
+      "scope": "api-key",
+      "metric": "requests_per_minute",
+      "limit": 2400,
+      "burst": 80,
+      "timeFrame": "minute",
+      "applies": [
+        "Sylvia API"
+      ]
+    },
+    {
+      "tier": "enterprise",
+      "name": "Enterprise Tier Default",
+      "scope": "api-key",
+      "metric": "requests_per_minute",
+      "limit": 3600,
+      "burst": 100,
+      "timeFrame": "minute",
+      "applies": [
+        "Sylvia API"
+      ]
+    }
+  ]
+}

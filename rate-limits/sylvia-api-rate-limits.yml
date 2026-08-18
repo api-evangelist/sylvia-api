@@ -1,0 +1,46 @@
+generated: '2026-08-18'
+method: searched
+source: https://sylvia-api.com/rate-limits.json
+checked: '2026-08-18'
+upstream_format: API Commons Rate Limits 0.1
+upstream_modified: '2026-08-18'
+confidence: high
+confidence_note: Read verbatim from the provider's own machine-readable rate-limits document, not scraped
+  from a rendered page and not inferred from a gateway fingerprint. Header names and limits are the
+  provider's published values. Not yet observed on a live 429 from this repo.
+headers:
+  tier: X-RateLimit-Tier
+  limit: X-RateLimit-Limit
+  remaining: X-RateLimit-Remaining
+  reset: X-RateLimit-Reset
+  retryAfter: Retry-After
+response_codes:
+  throttled: 429
+  quotaExceeded: 429
+  serviceUnavailable: 503
+limit_count: 4
+scopes:
+- scope: api-key
+  tier: free
+  surface: REST (api.sylvia-api.com/v1)
+  window: minute
+  limit: 480
+  burst: 15
+- scope: api-key
+  tier: strela
+  surface: REST (api.sylvia-api.com/v1)
+  window: minute
+  limit: 1200
+  burst: 40
+- scope: api-key
+  tier: svetka
+  surface: REST (api.sylvia-api.com/v1)
+  window: minute
+  limit: 2400
+  burst: 80
+- scope: api-key
+  tier: enterprise
+  surface: REST (api.sylvia-api.com/v1)
+  window: minute
+  limit: 3600
+  burst: 100

@@ -1,15 +1,16 @@
 aid: sylvia-api
 url: https://raw.githubusercontent.com/api-evangelist/sylvia-api/refs/heads/main/apis.yml
 name: Sylvia API
-description: Sylvia API is a third-party Reddit data API that serves Reddit content as JSON — posts, comments
-  with full recursive threads, subreddit and user surfaces, and a live comment feed. Twelve read operations
-  cover post and comment search, single-item lookup, subreddit and user timelines, a live comments stream,
-  dataset torrents for bulk access, and a usage endpoint. Authentication is an API key. It occupies the
-  gap left by Pushshift, giving researchers and developers queryable Reddit history without going through
-  OAuth on the first-party API.
+description: 'Sylvia API is a third-party Reddit data API that serves Reddit content as JSON — posts,
+  comments with full recursive threads, subreddit and user surfaces, global search, and a live comment
+  stream. Thirty-six operations across twelve tags cover the read surface (posts, comments, subreddits,
+  users, search, domains, discovery and live feeds) plus account self-service: API key issue and revoke,
+  response-format templates, usage history and crypto billing. Authentication is an API key for data endpoints
+  and a separate account token for account operations. It occupies the gap left by Pushshift, giving researchers
+  and developers queryable Reddit history without going through OAuth on the first-party API.'
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/sylvia-api.png
 created: '2026-08-04'
-modified: '2026-08-04'
+modified: '2026-08-18'
 specificationVersion: '0.21'
 type: Index
 position: Producing
@@ -25,42 +26,6 @@ tags:
 - Content
 - Datasets
 apis:
-- aid: sylvia-api:sylvia-api-comments-api
-  name: Sylvia API Comments API
-  description: The Comments API from Sylvia API — 2 operation(s) for comments.
-  humanURL: https://sylvia-api.com/
-  baseURL: https://api.sylvia-api.com/v1
-  tags:
-  - Comments
-  properties:
-  - type: OpenAPI
-    url: openapi/sylvia-api-comments-api-openapi.yml
-  - type: X-OpenAPI-Source
-    url: https://sylvia-api.com/openapi.json
-  - type: Website
-    url: https://sylvia-api.com/
-  - type: Authentication
-    url: authentication/sylvia-api-authentication.yml
-  - type: LlmsText
-    url: https://sylvia-api.com/llms.txt
-- aid: sylvia-api:sylvia-api-datasets-api
-  name: Sylvia API Datasets API
-  description: The Datasets API from Sylvia API — 1 operation(s) for datasets.
-  humanURL: https://sylvia-api.com/
-  baseURL: https://api.sylvia-api.com/v1
-  tags:
-  - Datasets
-  properties:
-  - type: OpenAPI
-    url: openapi/sylvia-api-datasets-api-openapi.yml
-  - type: X-OpenAPI-Source
-    url: https://sylvia-api.com/openapi.json
-  - type: Website
-    url: https://sylvia-api.com/
-  - type: Authentication
-    url: authentication/sylvia-api-authentication.yml
-  - type: LlmsText
-    url: https://sylvia-api.com/llms.txt
 - aid: sylvia-api:sylvia-api-live-api
   name: Sylvia API Live API
   description: The Live API from Sylvia API — 1 operation(s) for live.
@@ -71,24 +36,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/sylvia-api-live-api-openapi.yml
-  - type: X-OpenAPI-Source
-    url: https://sylvia-api.com/openapi.json
-  - type: Website
-    url: https://sylvia-api.com/
-  - type: Authentication
-    url: authentication/sylvia-api-authentication.yml
-  - type: LlmsText
-    url: https://sylvia-api.com/llms.txt
-- aid: sylvia-api:sylvia-api-posts-api
-  name: Sylvia API Posts API
-  description: The Posts API from Sylvia API — 2 operation(s) for posts.
-  humanURL: https://sylvia-api.com/
-  baseURL: https://api.sylvia-api.com/v1
-  tags:
-  - Posts
-  properties:
-  - type: OpenAPI
-    url: openapi/sylvia-api-posts-api-openapi.yml
   - type: X-OpenAPI-Source
     url: https://sylvia-api.com/openapi.json
   - type: Website
@@ -115,24 +62,6 @@ apis:
     url: authentication/sylvia-api-authentication.yml
   - type: LlmsText
     url: https://sylvia-api.com/llms.txt
-- aid: sylvia-api:sylvia-api-usage-api
-  name: Sylvia API Usage API
-  description: The Usage API from Sylvia API — 1 operation(s) for usage.
-  humanURL: https://sylvia-api.com/
-  baseURL: https://api.sylvia-api.com/v1
-  tags:
-  - Usage
-  properties:
-  - type: OpenAPI
-    url: openapi/sylvia-api-usage-api-openapi.yml
-  - type: X-OpenAPI-Source
-    url: https://sylvia-api.com/openapi.json
-  - type: Website
-    url: https://sylvia-api.com/
-  - type: Authentication
-    url: authentication/sylvia-api-authentication.yml
-  - type: LlmsText
-    url: https://sylvia-api.com/llms.txt
 - aid: sylvia-api:sylvia-api-users-api
   name: Sylvia API Users API
   description: The Users API from Sylvia API — 3 operation(s) for users.
@@ -151,6 +80,168 @@ apis:
     url: authentication/sylvia-api-authentication.yml
   - type: LlmsText
     url: https://sylvia-api.com/llms.txt
+- aid: sylvia-api:sylvia-api-account-api
+  name: Sylvia API Account API
+  description: The Account API from Sylvia API — 5 operation(s) for account.
+  humanURL: https://sylvia-api.com/
+  baseURL: https://api.sylvia-api.com/v1
+  tags:
+  - Account
+  properties:
+  - type: OpenAPI
+    url: openapi/sylvia-api-account-api-openapi.yml
+  - type: X-OpenAPI-Source
+    url: https://sylvia-api.com/openapi.json
+  - type: Website
+    url: https://sylvia-api.com/
+  - type: Authentication
+    url: authentication/sylvia-api-authentication.yml
+  - type: LlmsText
+    url: https://sylvia-api.com/llms.txt
+- aid: sylvia-api:sylvia-api-billing-api
+  name: Sylvia API Billing API
+  description: The Billing API from Sylvia API — 2 operation(s) for billing.
+  humanURL: https://sylvia-api.com/
+  baseURL: https://api.sylvia-api.com/v1
+  tags:
+  - Billing
+  properties:
+  - type: OpenAPI
+    url: openapi/sylvia-api-billing-api-openapi.yml
+  - type: X-OpenAPI-Source
+    url: https://sylvia-api.com/openapi.json
+  - type: Website
+    url: https://sylvia-api.com/
+  - type: Authentication
+    url: authentication/sylvia-api-authentication.yml
+  - type: LlmsText
+    url: https://sylvia-api.com/llms.txt
+- aid: sylvia-api:sylvia-api-discovery-api
+  name: Sylvia API Discovery API
+  description: The Discovery API from Sylvia API — 3 operation(s) for discovery.
+  humanURL: https://sylvia-api.com/
+  baseURL: https://api.sylvia-api.com/v1
+  tags:
+  - Discovery
+  properties:
+  - type: OpenAPI
+    url: openapi/sylvia-api-discovery-api-openapi.yml
+  - type: X-OpenAPI-Source
+    url: https://sylvia-api.com/openapi.json
+  - type: Website
+    url: https://sylvia-api.com/
+  - type: Authentication
+    url: authentication/sylvia-api-authentication.yml
+  - type: LlmsText
+    url: https://sylvia-api.com/llms.txt
+- aid: sylvia-api:sylvia-api-domains-api
+  name: Sylvia API Domains API
+  description: The Domains API from Sylvia API — 2 operation(s) for domains.
+  humanURL: https://sylvia-api.com/
+  baseURL: https://api.sylvia-api.com/v1
+  tags:
+  - Domains
+  properties:
+  - type: OpenAPI
+    url: openapi/sylvia-api-domains-api-openapi.yml
+  - type: X-OpenAPI-Source
+    url: https://sylvia-api.com/openapi.json
+  - type: Website
+    url: https://sylvia-api.com/
+  - type: Authentication
+    url: authentication/sylvia-api-authentication.yml
+  - type: LlmsText
+    url: https://sylvia-api.com/llms.txt
+- aid: sylvia-api:sylvia-api-health-api
+  name: Sylvia API Health API
+  description: The Health API from Sylvia API — 1 operation(s) for health.
+  humanURL: https://sylvia-api.com/
+  baseURL: https://api.sylvia-api.com/v1
+  tags:
+  - Health
+  properties:
+  - type: OpenAPI
+    url: openapi/sylvia-api-health-api-openapi.yml
+  - type: X-OpenAPI-Source
+    url: https://sylvia-api.com/openapi.json
+  - type: Website
+    url: https://sylvia-api.com/
+  - type: Authentication
+    url: authentication/sylvia-api-authentication.yml
+  - type: LlmsText
+    url: https://sylvia-api.com/llms.txt
+- aid: sylvia-api:sylvia-api-keys-api
+  name: Sylvia API Keys API
+  description: The Keys API from Sylvia API — 2 operation(s) for keys.
+  humanURL: https://sylvia-api.com/
+  baseURL: https://api.sylvia-api.com/v1
+  tags:
+  - Keys
+  properties:
+  - type: OpenAPI
+    url: openapi/sylvia-api-keys-api-openapi.yml
+  - type: X-OpenAPI-Source
+    url: https://sylvia-api.com/openapi.json
+  - type: Website
+    url: https://sylvia-api.com/
+  - type: Authentication
+    url: authentication/sylvia-api-authentication.yml
+  - type: LlmsText
+    url: https://sylvia-api.com/llms.txt
+- aid: sylvia-api:sylvia-api-posts-comments-api
+  name: Sylvia API Posts & Comments API
+  description: The Posts & Comments API from Sylvia API — 6 operation(s) for posts & comments.
+  humanURL: https://sylvia-api.com/
+  baseURL: https://api.sylvia-api.com/v1
+  tags:
+  - Posts & Comments
+  properties:
+  - type: OpenAPI
+    url: openapi/sylvia-api-posts-comments-api-openapi.yml
+  - type: X-OpenAPI-Source
+    url: https://sylvia-api.com/openapi.json
+  - type: Website
+    url: https://sylvia-api.com/
+  - type: Authentication
+    url: authentication/sylvia-api-authentication.yml
+  - type: LlmsText
+    url: https://sylvia-api.com/llms.txt
+- aid: sylvia-api:sylvia-api-search-api
+  name: Sylvia API Search API
+  description: The Search API from Sylvia API — 1 operation(s) for search.
+  humanURL: https://sylvia-api.com/
+  baseURL: https://api.sylvia-api.com/v1
+  tags:
+  - Search
+  properties:
+  - type: OpenAPI
+    url: openapi/sylvia-api-search-api-openapi.yml
+  - type: X-OpenAPI-Source
+    url: https://sylvia-api.com/openapi.json
+  - type: Website
+    url: https://sylvia-api.com/
+  - type: Authentication
+    url: authentication/sylvia-api-authentication.yml
+  - type: LlmsText
+    url: https://sylvia-api.com/llms.txt
+- aid: sylvia-api:sylvia-api-templates-api
+  name: Sylvia API Templates API
+  description: The Templates API from Sylvia API — 2 operation(s) for templates.
+  humanURL: https://sylvia-api.com/
+  baseURL: https://api.sylvia-api.com/v1
+  tags:
+  - Templates
+  properties:
+  - type: OpenAPI
+    url: openapi/sylvia-api-templates-api-openapi.yml
+  - type: X-OpenAPI-Source
+    url: https://sylvia-api.com/openapi.json
+  - type: Website
+    url: https://sylvia-api.com/
+  - type: Authentication
+    url: authentication/sylvia-api-authentication.yml
+  - type: LlmsText
+    url: https://sylvia-api.com/llms.txt
 common:
 - url: https://sylvia-api.com/
   type: Website
@@ -158,6 +249,52 @@ common:
   type: LlmsText
 - url: authentication/sylvia-api-authentication.yml
   type: Authentication
+- type: DeveloperPortal
+  url: https://sylvia-api.com/
+- type: Documentation
+  url: https://sylvia-api.com/docs/
+- type: APIReference
+  url: https://sylvia-api.com/docs/
+- type: Pricing
+  url: https://sylvia-api.com/pricing/
+- type: Plans
+  url: plans/sylvia-api-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/sylvia-api-rate-limits.yml
+- type: FinOps
+  url: finops/sylvia-api-finops.yml
+- type: StatusPage
+  url: https://sylvia-api.instatus.com/
+- type: Lifecycle
+  url: lifecycle/sylvia-api-lifecycle.yml
+- type: ChangeLog
+  url: https://sylvia-api.com/changelog/
+- type: Security
+  url: https://sylvia-api.com/security/
+- type: SecurityTxt
+  url: well-known/sylvia-api-security.txt
+- type: VulnerabilityDisclosure
+  url: https://sylvia-api.com/.well-known/security.txt
+- type: PrivacyPolicy
+  url: https://sylvia-api.com/privacy/
+- type: Blog
+  url: https://sylvia-api.com/blog/
+- type: SDK
+  url: https://sylvia-api.com/sdk/
+- type: Packages
+  url: https://pypi.org/project/sylvia-api/
+- type: MCPServer
+  url: https://api.sylvia-api.com/mcp
+- type: AgentCard
+  url: a2a/sylvia-api-agent-card.json
+- type: APICatalog
+  url: well-known/sylvia-api-api-catalog.json
+- type: WellKnown
+  url: well-known/sylvia-api-well-known.yml
+- type: APIsJSON
+  url: https://sylvia-api.com/apis.json
+- type: OpenAPI
+  url: https://sylvia-api.com/openapi.json
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -186,3 +323,39 @@ X-Discovery:
       (md5 65bd0d3b). That is why the submission scored low confidence. The OpenAPI and llms.txt above
       return DIFFERENT bytes and different checksums, which is what distinguishes a real artifact from
       the catch-all.
+x-evidence:
+  round: '2026-08-18'
+  trigger: 'Provider request — api-evangelist/sylvia-api issue #1 (c1nn3r), fixes applied, re-score asked'
+  openapi_source:
+    url: https://sylvia-api.com/openapi.json
+    fetched: '2026-08-18'
+    bytes: 115852
+    paths: 34
+    operations: 36
+    schemas: 21
+    upstream_tags: 12
+    archived_to: openapi/_original/sylvia-api-openapi-2026-08-18.json
+    supersedes:
+      file: openapi/_original/sylvia-api-openapi-2026-08-04.json
+      fetched: '2026-08-04'
+      bytes: 22328
+      paths: 12
+      operations: 12
+      schemas: 8
+      upstream_tags: 0
+      note: Every operation was untagged; refine derived tags from path segments.
+  catch_all_fixed:
+    probe: https://sylvia-api.com/definitely-not-a-real-path-xyz
+    status: 404
+    content_type: text/plain
+    bytes: 10
+    note: The site-wide HTML catch-all flagged on 2026-08-04 is genuinely gone.
+  not_wired:
+    TermsOfService: /terms/ returns 200 but is byte-identical to /login/ (md5 3f9a0a11, 135b of text)
+      — the SPA fallback shell carrying the homepage title, not a terms document.
+    SignUp: /login/ same shell as above. The route is real in a browser but serves no content to a non-JS
+      client.
+    Deprecation: No deprecation or sunset policy published as of 2026-08-18.
+    CLI: Mentioned in prose on /sdk/ but no install command, package or repository given.
+    Postman: collections/ holds 14 files generated from the superseded 12-operation spec and naming retired
+      tags; moved aside this round pending regeneration.

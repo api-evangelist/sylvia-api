@@ -1,0 +1,69 @@
+{
+  "specification": "FinOps Framework",
+  "specificationVersion": "1.0",
+  "alignedWith": {
+    "framework": "FinOps Foundation Framework",
+    "frameworkUrl": "https://www.finops.org/framework/",
+    "dataSpec": "FOCUS",
+    "dataSpecVersion": "1.3",
+    "dataSpecUrl": "https://focus.finops.org/focus-specification/v1-3/"
+  },
+  "provider": "Sylvia API",
+  "providerId": "sylvia-api",
+  "publisherName": "Sylvia API",
+  "serviceCategory": "API",
+  "created": "2026-08-04",
+  "modified": "2026-08-18",
+  "tags": [
+    "Reddit",
+    "Data",
+    "FinOps",
+    "Cost Management",
+    "FOCUS"
+  ],
+  "description": "FinOps framework definition for the Sylvia API surface. Pay-per-request usage with crypto billing.",
+  "principles": [
+    {
+      "name": "Visibility",
+      "description": "Every successful request is metered and reflected in the account balance in near real-time."
+    },
+    {
+      "name": "Allocation",
+      "description": "Each API key is a scoped unit of consumption, attributable to an account and a budget."
+    },
+    {
+      "name": "Optimization",
+      "description": "Tier selection and request-format choice drive cost per useful unit of work."
+    },
+    {
+      "name": "Accountability",
+      "description": "Keys carry an optional budget (USD cap) that halts usage when exhausted."
+    }
+  ],
+  "domains": [
+    {
+      "name": "Understand Usage and Cost",
+      "capabilities": [
+        "Data Ingestion",
+        "Allocation",
+        "Reporting and Analytics"
+      ]
+    },
+    {
+      "name": "Quantify Business Value",
+      "capabilities": [
+        "Planning and Estimating",
+        "Forecasting",
+        "Budgeting",
+        "Unit Economics"
+      ]
+    },
+    {
+      "name": "Optimize Usage and Cost",
+      "capabilities": [
+        "Rate Optimization",
+        "Workload Optimization"
+      ]
+    }
+  ]
+}

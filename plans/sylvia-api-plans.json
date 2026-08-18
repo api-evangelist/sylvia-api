@@ -1,0 +1,226 @@
+{
+  "specification": "API Commons Plans",
+  "specificationVersion": "0.1",
+  "schema": "https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans",
+  "provider": "Sylvia API",
+  "providerId": "sylvia-api",
+  "created": "2026-08-04",
+  "modified": "2026-08-18",
+  "tags": [
+    "Reddit",
+    "Data",
+    "Social",
+    "Streaming"
+  ],
+  "description": "Machine-readable plans and pricing for the Sylvia API surface. Pay-per-request across four tiers.",
+  "plans": [
+    {
+      "id": "sylvia-api-free",
+      "name": "Free",
+      "type": "freemium",
+      "description": "Default tier. Starts with $0.50 credit (~1,000 standard requests).",
+      "entries": [
+        {
+          "label": "API Requests",
+          "description": "Standard request unit (posts, comments, subreddits, users).",
+          "name": "api_requests",
+          "type": "unit",
+          "metric": "requests",
+          "unit": 1,
+          "price": "0.0005",
+          "userMultiplied": false
+        },
+        {
+          "label": "Rate Limit",
+          "description": "Maximum requests per minute on the Free tier.",
+          "name": "rate_limit",
+          "type": "rate",
+          "metric": "requests_per_minute",
+          "limit": 480,
+          "timeFrame": "minute",
+          "burst": 15,
+          "unit": 1,
+          "price": "0.00",
+          "userMultiplied": false
+        },
+        {
+          "label": "Live Stream",
+          "description": "Live comment stream request (firehose / subreddit stream).",
+          "name": "live_stream",
+          "type": "unit",
+          "metric": "requests",
+          "unit": 1,
+          "price": "0.05",
+          "userMultiplied": false
+        }
+      ],
+      "elements": [
+        {
+          "name": "Free tier"
+        },
+        {
+          "name": "Response formats: default, reddit, custom"
+        },
+        {
+          "name": "Crypto billing (USDT, BTC, LTC, BNB)"
+        }
+      ]
+    },
+    {
+      "id": "sylvia-api-strela",
+      "name": "Strela",
+      "type": "paid",
+      "description": "Trailing-30-day deposit of $50+. Unlocks minimal and csv formats, 5 templates.",
+      "entries": [
+        {
+          "label": "API Requests",
+          "description": "Standard request unit (posts, comments, subreddits, users).",
+          "name": "api_requests",
+          "type": "unit",
+          "metric": "requests",
+          "unit": 1,
+          "price": "0.0005",
+          "userMultiplied": false
+        },
+        {
+          "label": "Rate Limit",
+          "description": "Maximum requests per minute on the Strela tier.",
+          "name": "rate_limit",
+          "type": "rate",
+          "metric": "requests_per_minute",
+          "limit": 1200,
+          "timeFrame": "minute",
+          "burst": 40,
+          "unit": 1,
+          "price": "0.00",
+          "userMultiplied": false
+        },
+        {
+          "label": "Live Stream",
+          "description": "Live comment stream request (firehose / subreddit stream).",
+          "name": "live_stream",
+          "type": "unit",
+          "metric": "requests",
+          "unit": 1,
+          "price": "0.05",
+          "userMultiplied": false
+        }
+      ],
+      "elements": [
+        {
+          "name": "Strela tier"
+        },
+        {
+          "name": "Response formats: default, reddit, minimal, csv, custom"
+        },
+        {
+          "name": "Crypto billing (USDT, BTC, LTC, BNB)"
+        }
+      ]
+    },
+    {
+      "id": "sylvia-api-svetka",
+      "name": "Svetka",
+      "type": "paid",
+      "description": "Trailing-30-day deposit of $200+. Unlocks ndjson format and unlimited templates.",
+      "entries": [
+        {
+          "label": "API Requests",
+          "description": "Standard request unit (posts, comments, subreddits, users).",
+          "name": "api_requests",
+          "type": "unit",
+          "metric": "requests",
+          "unit": 1,
+          "price": "0.0005",
+          "userMultiplied": false
+        },
+        {
+          "label": "Rate Limit",
+          "description": "Maximum requests per minute on the Svetka tier.",
+          "name": "rate_limit",
+          "type": "rate",
+          "metric": "requests_per_minute",
+          "limit": 2400,
+          "timeFrame": "minute",
+          "burst": 80,
+          "unit": 1,
+          "price": "0.00",
+          "userMultiplied": false
+        },
+        {
+          "label": "Live Stream",
+          "description": "Live comment stream request (firehose / subreddit stream).",
+          "name": "live_stream",
+          "type": "unit",
+          "metric": "requests",
+          "unit": 1,
+          "price": "0.05",
+          "userMultiplied": false
+        }
+      ],
+      "elements": [
+        {
+          "name": "Svetka tier"
+        },
+        {
+          "name": "Response formats: default, reddit, minimal, csv, ndjson, custom"
+        },
+        {
+          "name": "Crypto billing (USDT, BTC, LTC, BNB)"
+        }
+      ]
+    },
+    {
+      "id": "sylvia-api-enterprise",
+      "name": "Enterprise",
+      "type": "paid",
+      "description": "Trailing-30-day deposit of $500+. All formats, unlimited templates, highest limits.",
+      "entries": [
+        {
+          "label": "API Requests",
+          "description": "Standard request unit (posts, comments, subreddits, users).",
+          "name": "api_requests",
+          "type": "unit",
+          "metric": "requests",
+          "unit": 1,
+          "price": "0.0005",
+          "userMultiplied": false
+        },
+        {
+          "label": "Rate Limit",
+          "description": "Maximum requests per minute on the Enterprise tier.",
+          "name": "rate_limit",
+          "type": "rate",
+          "metric": "requests_per_minute",
+          "limit": 3600,
+          "timeFrame": "minute",
+          "burst": 100,
+          "unit": 1,
+          "price": "0.00",
+          "userMultiplied": false
+        },
+        {
+          "label": "Live Stream",
+          "description": "Live comment stream request (firehose / subreddit stream).",
+          "name": "live_stream",
+          "type": "unit",
+          "metric": "requests",
+          "unit": 1,
+          "price": "0.05",
+          "userMultiplied": false
+        }
+      ],
+      "elements": [
+        {
+          "name": "Enterprise tier"
+        },
+        {
+          "name": "Response formats: default, reddit, minimal, csv, ndjson, custom"
+        },
+        {
+          "name": "Crypto billing (USDT, BTC, LTC, BNB)"
+        }
+      ]
+    }
+  ]
+}

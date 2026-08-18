@@ -1,0 +1,6 @@
+Contact: mailto:security@sylvia-api.com
+Contact: mailto:contact@sylvia-api.com
+Expires: 2027-01-01T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://sylvia-api.com/.well-known/security.txt
+Policy: https://sylvia-api.com/security/
