@@ -11,7 +11,7 @@ description: 'Sylvia API is a third-party Reddit data API that serves Reddit con
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/sylvia-api.png
 created: '2026-08-04'
 modified: '2026-08-18'
-specificationVersion: '0.21'
+specificationVersion: '0.23'
 type: Index
 position: Producing
 access: 3rd-Party
