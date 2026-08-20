@@ -10,7 +10,7 @@ description: 'Sylvia API is a third-party Reddit data API that serves Reddit con
   and developers queryable Reddit history without going through OAuth on the first-party API.'
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/sylvia-api.png
 created: '2026-08-04'
-modified: '2026-08-18'
+modified: '2026-08-20'
 specificationVersion: '0.23'
 type: Index
 position: Producing
@@ -68,6 +68,8 @@ apis:
   humanURL: https://sylvia-api.com/
   baseURL: https://api.sylvia-api.com/v1
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
@@ -295,6 +297,22 @@ common:
   url: https://sylvia-api.com/apis.json
 - type: OpenAPI
   url: https://sylvia-api.com/openapi.json
+- type: AgenticAccess
+  url: agentic-access/sylvia-api-agentic-access-contract.json
+- type: Postman
+  url: postman/sylvia-api.postman_collection.json
+- type: Conformance
+  url: conformance/sylvia-api-conformance.yml
+- type: Compliance
+  url: conformance/sylvia-api-conformance.yml
+- type: Overlay
+  url: overlays/sylvia-api-overlay.json
+- type: Deprecation
+  url: lifecycle/sylvia-api-deprecation.md
+- type: AgentSkill
+  url: skills/_index.yml
+- type: ErrorCatalog
+  url: errors/sylvia-api-error-codes.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -359,3 +377,22 @@ x-evidence:
     CLI: Mentioned in prose on /sdk/ but no install command, package or repository given.
     Postman: collections/ holds 14 files generated from the superseded 12-operation spec and naming retired
       tags; moved aside this round pending regeneration.
+  second_round_2026_08_20:
+    trigger: 'api-evangelist/sylvia-api issue #2 — c1nn3r shipped a second round after the 0.12.0 follow-up
+      named the exact gaps.'
+    verified_live:
+      agent-card.json: '200 application/json 4,147b — A2A shape confirmed: supportedInterfaces, securitySchemes
+        (apiKey + accountToken), securityRequirements, and 6 real skills (reddit-search, subreddit-listings,
+        full-threads, user-content, live-comment-streams, account-self-service).'
+      agentic-access-contract.json: 200 application/json 2,522b
+      api-catalog: 200 3,116b, expanded from 1,035b
+      postman collection: 200 application/json 31,950b
+      conformance.yml: 200 1,505b — real standards list with evidence
+      overlay.json: 200 792b
+      deprecation.md: 200 text/markdown 732b
+      openapi.json: '200 116,679b — ErrorResponse.code now enumerates all 9 stable codes: BAD_REQUEST,
+        UNAUTHORIZED, FORBIDDEN, NOT_FOUND, LOW_BALANCE, RATE_LIMITED, FEATURE_LOCKED, TIER_EXPIRED, REQUEST_FAILED.'
+      negative_control: /zzz-not-real-9137 -> 404 text/plain 10b, so every 200 above is genuine.
+    note: They addressed every dimension named in the 0.12.0 follow-up — agent_card, agentic_access, error_semantics,
+      well_known_catalog, agent_skills, plus the contract_governance block (ruleset, vocabulary, conformance,
+      overlay).
