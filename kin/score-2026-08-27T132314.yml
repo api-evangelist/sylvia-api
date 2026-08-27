@@ -1,0 +1,51 @@
+# Kin Score artifact — sylvia-api — 2026-08-27T132314
+# The API Evangelist rating (https://github.com/api-evangelist/kin-score). Generated; do not edit.
+---
+kin_score:
+  slug: sylvia-api
+  schema_version: 0.15.1
+  scored_at: '2026-08-27'
+  run_ts: 2026-08-27T132314
+  composite: 57.5
+  band: strong
+  facets:
+    discoverability: 92.6
+    contract_quality: 58.4
+    governance: 30.3
+    operational_transparency: 34.2
+    developer_ergonomics: 59.5
+    commercial_clarity: 68.4
+    contract_governance: 30.3
+    access_clarity: 68.4
+  agent_readiness:
+    score: 64.4
+    band: agent-native
+    dimensions:
+      spec_presence: true
+      agentic_access: true
+      reversibility_documented: na
+      mcp_server: documented
+      auth_clarity: bearer
+      idempotency: na
+      error_semantics: documented
+      openapi_examples: verified
+      rate_limit_signal: verified
+      event_surface_described: true
+      agent_skills: true
+      well_known_catalog: true
+      consent_identity: false
+      agent_card: conformant
+      dry_run_mode: na
+      delegated_identity: false
+      protected_resource_metadata: false
+      dynamic_client_registration: false
+      agentic_commerce: false
+  provenance:
+    mcp: first-party
+    skills: first-party
+    conformance: unknown
+    contracts:
+      total: 12
+      derived: 0
+      coverage: 0.0
+      callable: 100.0
