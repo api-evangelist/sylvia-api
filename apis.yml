@@ -8,6 +8,18 @@ description: 'Sylvia API is a third-party Reddit data API that serves Reddit con
   response-format templates, usage history and crypto billing. Authentication is an API key for data endpoints
   and a separate account token for account operations. It occupies the gap left by Pushshift, giving researchers
   and developers queryable Reddit history without going through OAuth on the first-party API.'
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/sylvia-api.png
 created: '2026-08-04'
 modified: '2026-08-20'
