@@ -1,33 +1,6 @@
 openapi: 3.2.0
 info:
   title: Sylvia Users API
-  version: 3.0.0
-  description: 'Sylvia API is a read-only Reddit data gateway serving structured JSON for posts, comments with full recursive threads, subreddits, users, search, and live comment streams. Authentication uses a single API key in the X-API-KEY header; no OAuth, no KYC.
-
-
-    ## Idempotency
-
-    All operations are HTTP GET and read-only: they do not mutate server state and are safe to retry. Repeated identical requests return identical data (modulo the live endpoints, which are inherently time-sensitive). No Idempotency-Key header is required.
-
-
-    ## Stable error envelope
-
-    Every response is wrapped in a stable envelope. On success: {"success": true, "data": {...}, "request_id": "<uuid>"}. On failure: {"success": false, "error": "<message>", "request_id": "<uuid>"} with an appropriate 4xx/5xx status code. Error responses always reference the ErrorResponse schema.
-
-
-    ## Rate limiting
-
-    Rate limits are enforced per API key with a sliding window, signalled through response headers: X-RateLimit-Tier, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, and Retry-After on 429. Tiers: Free (480 req/min), Strela (1,200), Svetka (2,400), Enterprise (3,600).
-
-
-    ## Live streams
-
-    The live endpoints (/comments/live and /r/{subreddit}/comments/live) return a paged poll of the newest comments. Pass the `after` cursor to advance. Each comment carries a stable, documented shape (see the onComment callback).
-
-
-    ## Agent access
-
-    The same surface is available as a Model Context Protocol (MCP) server at https://api.sylvia-api.com/mcp, and agent access semantics are declared in x-agentic-access. See https://sylvia-api.com/llms.txt.'
   contact:
     name: Sylvia API
     url: https://sylvia-api.com
@@ -35,19 +8,10 @@ info:
   license:
     name: Proprietary
     url: https://sylvia-api.com/terms
-  x-agentic-access:
-    intent: read-only
-    authenticated: true
-    idempotent: true
-    rateLimits:
-      headers:
-      - X-RateLimit-Limit
-      - X-RateLimit-Remaining
-      - X-RateLimit-Reset
-      - Retry-After
-      statusCode: 429
-    mcpServer: https://api.sylvia-api.com/mcp
-    llmsTxt: https://sylvia-api.com/llms.txt
+  x-refined-note:
+  - x-agentic-access differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged Users across 3 of this provider''s published API definitions: sylvia-api-openapi-2026-08-04.json, sylvia-api-openapi-2026-08-18.json, sylvia-api-openapi-2026-08-20.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.sylvia-api.com/v1
   description: Production API server
@@ -56,6 +20,166 @@ security:
 tags:
 - name: Users
 paths:
+  /users/{username}:
+    get:
+      summary: Get user profile
+      description: 'Fetch Reddit user profile: karma, cake day, avatar, bio, etc.'
+      operationId: getUser
+      parameters:
+      - name: username
+        in: path
+        description: Username (without u/)
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: User object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+      tags:
+      - Users
+    servers:
+    - url: https://api.sylvia-api.com/v1
+      description: Production API server
+  /users/{username}/posts:
+    get:
+      summary: Get user's posts
+      description: Fetch posts submitted by a specific user with pagination.
+      operationId: getUserPosts
+      parameters:
+      - name: username
+        in: path
+        description: Username (without u/)
+        required: true
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: Sort order
+        schema:
+          type: string
+          enum:
+          - new
+          - top
+          - controversial
+          default: new
+      - name: time
+        in: query
+        description: Time filter for 'top' sort
+        schema:
+          type: string
+          enum:
+          - hour
+          - day
+          - week
+          - month
+          - year
+          - all
+      - name: limit
+        in: query
+        description: Results per page (max 100)
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 25
+      - name: cursor
+        in: query
+        description: Pagination cursor
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Paginated posts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+      tags:
+      - Users
+    servers:
+    - url: https://api.sylvia-api.com/v1
+      description: Production API server
+  /users/{username}/comments:
+    get:
+      summary: Get user's comments
+      description: Fetch comments made by a specific user with pagination.
+      operationId: getUserComments
+      parameters:
+      - name: username
+        in: path
+        description: Username (without u/)
+        required: true
+        schema:
+          type: string
+      - name: sort
+        in: query
+        description: Sort order
+        schema:
+          type: string
+          enum:
+          - new
+          - top
+          - controversial
+          default: new
+      - name: time
+        in: query
+        description: Time filter for 'top' sort
+        schema:
+          type: string
+          enum:
+          - hour
+          - day
+          - week
+          - month
+          - year
+          - all
+      - name: limit
+        in: query
+        description: Results per page (max 100)
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 25
+      - name: cursor
+        in: query
+        description: Pagination cursor
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Paginated comments
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+      tags:
+      - Users
+    servers:
+    - url: https://api.sylvia-api.com/v1
+      description: Production API server
   /reddit/u/{username}/about:
     get:
       summary: User profile metadata
@@ -106,13 +230,16 @@ paths:
             Retry-After:
               $ref: '#/components/headers/Retry-After'
         '401':
-          $ref: '#/components/responses/Unauthorized'
+          $ref: '#/components/responses/Unauthorized_2'
         '404':
           $ref: '#/components/responses/NotFound'
         '429':
           $ref: '#/components/responses/RateLimited'
       tags:
       - Users
+    servers:
+    - url: https://api.sylvia-api.com/v1
+      description: Production API server
   /reddit/u/{username}/{where}:
     get:
       summary: User content
@@ -190,77 +317,66 @@ paths:
             Retry-After:
               $ref: '#/components/headers/Retry-After'
         '401':
-          $ref: '#/components/responses/Unauthorized'
+          $ref: '#/components/responses/Unauthorized_2'
         '404':
           $ref: '#/components/responses/NotFound'
         '429':
           $ref: '#/components/responses/RateLimited'
       tags:
       - Users
+    servers:
+    - url: https://api.sylvia-api.com/v1
+      description: Production API server
 components:
-  headers:
-    X-RateLimit-Limit:
-      description: Requests per second for the tier.
-      schema:
-        type: integer
-    Retry-After:
-      description: Seconds until retry is allowed, present on 429.
-      schema:
-        type: integer
-    X-RateLimit-Tier:
-      description: 'Rate limit tier: free | strela | svetka | enterprise.'
-      schema:
-        type: string
-    X-RateLimit-Reset:
-      description: Epoch milliseconds when the window resets.
-      schema:
-        type: integer
-    X-RateLimit-Remaining:
-      description: Remaining requests in the current window.
-      schema:
-        type: integer
-  responses:
-    Unauthorized:
-      description: Missing or invalid API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    RateLimited:
-      description: Rate limit exceeded
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   schemas:
-    ListingResponse:
-      allOf:
-      - $ref: '#/components/schemas/Envelope'
-      - type: object
-        properties:
-          data:
-            $ref: '#/components/schemas/ListingData'
+    SearchResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+        cursor:
+          type:
+          - string
+          - 'null'
+        has_more:
+          type: boolean
+        total:
+          type:
+          - integer
+          - 'null'
+    User:
+      type: object
+      properties:
+        name:
+          type: string
+        icon:
+          type:
+          - string
+          - 'null'
+        karma:
+          type: integer
+        cake_day:
+          type: integer
+          format: int64
+        is_mod:
+          type: boolean
+        is_gold:
+          type: boolean
+        verified:
+          type: boolean
+        has_verified_email:
+          type: boolean
     ErrorResponse:
       type: object
       properties:
-        success:
-          type: boolean
         error:
           type: string
         message:
           type: string
-        status:
-          type: integer
         code:
-          type: string
-        request_id:
-          type: string
+          type: integer
     ListingData:
       type: object
       properties:
@@ -272,44 +388,6 @@ components:
           type:
           - string
           - 'null'
-    User:
-      type: object
-      properties:
-        name:
-          type: string
-        created_utc:
-          type: integer
-          format: int64
-        link_karma:
-          type: integer
-        comment_karma:
-          type: integer
-        icon_img:
-          type:
-          - string
-          - 'null'
-    Envelope:
-      type: object
-      properties:
-        success:
-          type: boolean
-        message:
-          type:
-          - string
-          - 'null'
-        error:
-          type:
-          - string
-          - 'null'
-        request_id:
-          type: string
-    UserResponse:
-      allOf:
-      - $ref: '#/components/schemas/Envelope'
-      - type: object
-        properties:
-          data:
-            $ref: '#/components/schemas/User'
     Post:
       type: object
       properties:
@@ -342,6 +420,166 @@ components:
           type: boolean
         stickied:
           type: boolean
+    User_2:
+      type: object
+      properties:
+        name:
+          type: string
+        created_utc:
+          type: integer
+          format: int64
+        link_karma:
+          type: integer
+        comment_karma:
+          type: integer
+        icon_img:
+          type:
+          - string
+          - 'null'
+    ErrorResponse_2:
+      type: object
+      properties:
+        success:
+          type: boolean
+        error:
+          type: string
+        message:
+          type: string
+        status:
+          type: integer
+        code:
+          type: string
+        request_id:
+          type: string
+    Envelope:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type:
+          - string
+          - 'null'
+        error:
+          type:
+          - string
+          - 'null'
+        request_id:
+          type: string
+    ListingResponse:
+      allOf:
+      - $ref: '#/components/schemas/Envelope'
+      - type: object
+        properties:
+          data:
+            $ref: '#/components/schemas/ListingData'
+    UserResponse:
+      allOf:
+      - $ref: '#/components/schemas/Envelope'
+      - type: object
+        properties:
+          data:
+            $ref: '#/components/schemas/User_2'
+    User_3:
+      type: object
+      properties:
+        name:
+          type: string
+        created_utc:
+          type: integer
+          format: int64
+        link_karma:
+          type: integer
+        comment_karma:
+          type: integer
+        icon_img:
+          type:
+          - string
+          - 'null'
+    ErrorResponse_3:
+      type: object
+      properties:
+        success:
+          type: boolean
+        error:
+          type: string
+        message:
+          type: string
+        status:
+          type: integer
+        code:
+          type: string
+          enum:
+          - BAD_REQUEST
+          - UNAUTHORIZED
+          - FORBIDDEN
+          - NOT_FOUND
+          - LOW_BALANCE
+          - RATE_LIMITED
+          - FEATURE_LOCKED
+          - TIER_EXPIRED
+          - REQUEST_FAILED
+        request_id:
+          type: string
+    UserResponse_2:
+      allOf:
+      - $ref: '#/components/schemas/Envelope'
+      - type: object
+        properties:
+          data:
+            $ref: '#/components/schemas/User_3'
+  responses:
+    Unauthorized:
+      description: Invalid or missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    RateLimited:
+      description: Rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized_2:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse_2'
+    Unauthorized_3:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse_3'
+  headers:
+    X-RateLimit-Limit:
+      description: Requests per second for the tier.
+      schema:
+        type: integer
+    X-RateLimit-Tier:
+      description: 'Rate limit tier: free | strela | svetka | enterprise.'
+      schema:
+        type: string
+    Retry-After:
+      description: Seconds until retry is allowed, present on 429.
+      schema:
+        type: integer
+    X-RateLimit-Reset:
+      description: Epoch milliseconds when the window resets.
+      schema:
+        type: integer
+    X-RateLimit-Remaining:
+      description: Remaining requests in the current window.
+      schema:
+        type: integer
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
@@ -353,3 +591,7 @@ components:
       in: header
       name: x-sylvia-auth
       description: Account token (SV_...) for account management endpoints. Sign in at https://sylvia-api.com to get yours.
+x-refined-from:
+- sylvia-api-openapi-2026-08-04.json
+- sylvia-api-openapi-2026-08-18.json
+- sylvia-api-openapi-2026-08-20.json

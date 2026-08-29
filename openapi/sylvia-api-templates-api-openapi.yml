@@ -2,32 +2,6 @@ openapi: 3.2.0
 info:
   title: Sylvia Templates API
   version: 3.0.0
-  description: 'Sylvia API is a read-only Reddit data gateway serving structured JSON for posts, comments with full recursive threads, subreddits, users, search, and live comment streams. Authentication uses a single API key in the X-API-KEY header; no OAuth, no KYC.
-
-
-    ## Idempotency
-
-    All operations are HTTP GET and read-only: they do not mutate server state and are safe to retry. Repeated identical requests return identical data (modulo the live endpoints, which are inherently time-sensitive). No Idempotency-Key header is required.
-
-
-    ## Stable error envelope
-
-    Every response is wrapped in a stable envelope. On success: {"success": true, "data": {...}, "request_id": "<uuid>"}. On failure: {"success": false, "error": "<message>", "request_id": "<uuid>"} with an appropriate 4xx/5xx status code. Error responses always reference the ErrorResponse schema.
-
-
-    ## Rate limiting
-
-    Rate limits are enforced per API key with a sliding window, signalled through response headers: X-RateLimit-Tier, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, and Retry-After on 429. Tiers: Free (480 req/min), Strela (1,200), Svetka (2,400), Enterprise (3,600).
-
-
-    ## Live streams
-
-    The live endpoints (/comments/live and /r/{subreddit}/comments/live) return a paged poll of the newest comments. Pass the `after` cursor to advance. Each comment carries a stable, documented shape (see the onComment callback).
-
-
-    ## Agent access
-
-    The same surface is available as a Model Context Protocol (MCP) server at https://api.sylvia-api.com/mcp, and agent access semantics are declared in x-agentic-access. See https://sylvia-api.com/llms.txt.'
   contact:
     name: Sylvia API
     url: https://sylvia-api.com
@@ -48,6 +22,7 @@ info:
       statusCode: 429
     mcpServer: https://api.sylvia-api.com/mcp
     llmsTxt: https://sylvia-api.com/llms.txt
+  description: 'Operations tagged Templates across 2 of this provider''s published API definitions: sylvia-api-openapi-2026-08-18.json, sylvia-api-openapi-2026-08-20.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.sylvia-api.com/v1
   description: Production API server
@@ -201,6 +176,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad request — invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
     Unauthorized:
       description: Missing or invalid API key
       content:
@@ -213,34 +194,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: Bad request — invalid parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-  headers:
-    X-RateLimit-Limit:
-      description: Requests per second for the tier.
-      schema:
-        type: integer
-    Retry-After:
-      description: Seconds until retry is allowed, present on 429.
-      schema:
-        type: integer
-    X-RateLimit-Tier:
-      description: 'Rate limit tier: free | strela | svetka | enterprise.'
-      schema:
-        type: string
-    X-RateLimit-Reset:
-      description: Epoch milliseconds when the window resets.
-      schema:
-        type: integer
-    X-RateLimit-Remaining:
-      description: Remaining requests in the current window.
-      schema:
-        type: integer
   schemas:
+    Template:
+      type: object
+      properties:
+        name:
+          type: string
+        schema:
+          type: object
     ErrorResponse:
       type: object
       properties:
@@ -256,13 +217,6 @@ components:
           type: string
         request_id:
           type: string
-    GenericResponse:
-      allOf:
-      - $ref: '#/components/schemas/Envelope'
-      - type: object
-        properties:
-          data:
-            type: object
     Envelope:
       type: object
       properties:
@@ -278,13 +232,59 @@ components:
           - 'null'
         request_id:
           type: string
-    Template:
+    GenericResponse:
+      allOf:
+      - $ref: '#/components/schemas/Envelope'
+      - type: object
+        properties:
+          data:
+            type: object
+    ErrorResponse_2:
       type: object
       properties:
-        name:
+        success:
+          type: boolean
+        error:
           type: string
-        schema:
-          type: object
+        message:
+          type: string
+        status:
+          type: integer
+        code:
+          type: string
+          enum:
+          - BAD_REQUEST
+          - UNAUTHORIZED
+          - FORBIDDEN
+          - NOT_FOUND
+          - LOW_BALANCE
+          - RATE_LIMITED
+          - FEATURE_LOCKED
+          - TIER_EXPIRED
+          - REQUEST_FAILED
+        request_id:
+          type: string
+  headers:
+    X-RateLimit-Tier:
+      description: 'Rate limit tier: free | strela | svetka | enterprise.'
+      schema:
+        type: string
+    Retry-After:
+      description: Seconds until retry is allowed, present on 429.
+      schema:
+        type: integer
+    X-RateLimit-Reset:
+      description: Epoch milliseconds when the window resets.
+      schema:
+        type: integer
+    X-RateLimit-Remaining:
+      description: Remaining requests in the current window.
+      schema:
+        type: integer
+    X-RateLimit-Limit:
+      description: Requests per second for the tier.
+      schema:
+        type: integer
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
@@ -296,3 +296,6 @@ components:
       in: header
       name: x-sylvia-auth
       description: Account token (SV_...) for account management endpoints. Sign in at https://sylvia-api.com to get yours.
+x-refined-from:
+- sylvia-api-openapi-2026-08-18.json
+- sylvia-api-openapi-2026-08-20.json

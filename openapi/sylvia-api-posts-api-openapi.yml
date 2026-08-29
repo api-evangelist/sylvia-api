@@ -1,0 +1,222 @@
+openapi: 3.2.0
+info:
+  title: Sylvia Posts API
+  version: 1.0.0
+  description: Reddit data API - no OAuth, no rate limits, pay-per-request. Posts, comments, search, subreddits, users, live streams, datasets.
+  contact:
+    name: Sylvia API
+    url: https://sylvia-api.com
+    email: support@sylvia-api.com
+  license:
+    name: Proprietary
+    url: https://sylvia-api.com/terms
+servers:
+- url: https://api.sylvia-api.com/v1
+  description: Production API server
+security:
+- ApiKeyAuth: []
+tags:
+- name: Posts
+paths:
+  /posts/search:
+    get:
+      summary: Search posts
+      description: Search Reddit posts by query, subreddit, author, time range, and more. Returns paginated results with full post objects.
+      operationId: searchPosts
+      parameters:
+      - name: q
+        in: query
+        description: Search query (Reddit search syntax supported)
+        required: true
+        schema:
+          type: string
+      - name: subreddit
+        in: query
+        description: Limit to specific subreddit (without r/)
+        schema:
+          type: string
+      - name: author
+        in: query
+        description: Limit to specific author (without u/)
+        schema:
+          type: string
+      - name: after
+        in: query
+        description: Unix timestamp - only posts after this time
+        schema:
+          type: integer
+          format: int64
+      - name: before
+        in: query
+        description: Unix timestamp - only posts before this time
+        schema:
+          type: integer
+          format: int64
+      - name: sort
+        in: query
+        description: Sort order
+        schema:
+          type: string
+          enum:
+          - relevance
+          - new
+          - top
+          - comments
+          default: relevance
+      - name: limit
+        in: query
+        description: Results per page (max 100)
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 25
+      - name: cursor
+        in: query
+        description: Pagination cursor from previous response
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful search results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/ServerError'
+      tags:
+      - Posts
+  /posts/{id}:
+    get:
+      summary: Get single post by ID
+      description: Fetch a single Reddit post by its full ID (e.g., 't3_abc123' or just 'abc123')
+      operationId: getPost
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Post object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+      tags:
+      - Posts
+components:
+  responses:
+    ServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Invalid or missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    RateLimited:
+      description: Rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  schemas:
+    SearchResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+        cursor:
+          type:
+          - string
+          - 'null'
+        has_more:
+          type: boolean
+        total:
+          type:
+          - integer
+          - 'null'
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        code:
+          type: integer
+    Post:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        selftext:
+          type: string
+        author:
+          type: string
+        subreddit:
+          type: string
+        score:
+          type: integer
+        upvote_ratio:
+          type: number
+        num_comments:
+          type: integer
+        created_utc:
+          type: integer
+          format: int64
+        permalink:
+          type: string
+        url:
+          type: string
+        is_self:
+          type: boolean
+        is_video:
+          type: boolean
+        flair:
+          type:
+          - string
+          - 'null'
+        awards:
+          type: integer
+        gilded:
+          type: integer
+        over_18:
+          type: boolean
+        spoiler:
+          type: boolean
+        stickied:
+          type: boolean
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key for authentication. Get yours at https://sylvia-api.com

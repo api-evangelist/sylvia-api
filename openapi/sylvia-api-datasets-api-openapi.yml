@@ -1,0 +1,84 @@
+openapi: 3.2.0
+info:
+  title: Sylvia Datasets API
+  version: 1.0.0
+  description: Reddit data API - no OAuth, no rate limits, pay-per-request. Posts, comments, search, subreddits, users, live streams, datasets.
+  contact:
+    name: Sylvia API
+    url: https://sylvia-api.com
+    email: support@sylvia-api.com
+  license:
+    name: Proprietary
+    url: https://sylvia-api.com/terms
+servers:
+- url: https://api.sylvia-api.com/v1
+  description: Production API server
+security:
+- ApiKeyAuth: []
+tags:
+- name: Datasets
+paths:
+  /datasets/torrents:
+    get:
+      summary: List available dataset torrents
+      description: Get metadata about available Reddit dataset torrents (historical dumps).
+      operationId: listTorrents
+      responses:
+        '200':
+          description: List of torrent metadata
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TorrentInfo'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+      tags:
+      - Datasets
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        code:
+          type: integer
+    TorrentInfo:
+      type: object
+      properties:
+        name:
+          type: string
+        size_bytes:
+          type: integer
+          format: int64
+        magnet:
+          type: string
+        description:
+          type: string
+        date_range:
+          type: string
+  responses:
+    Unauthorized:
+      description: Invalid or missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    RateLimited:
+      description: Rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key for authentication. Get yours at https://sylvia-api.com

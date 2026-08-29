@@ -256,6 +256,46 @@ apis:
     url: authentication/sylvia-api-authentication.yml
   - type: LlmsText
     url: https://sylvia-api.com/llms.txt
+- aid: sylvia-api:sylvia-api-comments-api
+  name: Sylvia API Comments API
+  description: The Comments API from Sylvia API — 2 operation(s) for comments.
+  humanURL: https://sylvia-api.com/
+  baseURL: https://api.sylvia-api.com/v1
+  tags:
+  - Comments
+  properties:
+  - type: OpenAPI
+    url: openapi/sylvia-api-comments-api-openapi.yml
+- aid: sylvia-api:sylvia-api-datasets-api
+  name: Sylvia API Datasets API
+  description: The Datasets API from Sylvia API — 1 operation(s) for datasets.
+  humanURL: https://sylvia-api.com/
+  baseURL: https://api.sylvia-api.com/v1
+  tags:
+  - Datasets
+  properties:
+  - type: OpenAPI
+    url: openapi/sylvia-api-datasets-api-openapi.yml
+- aid: sylvia-api:sylvia-api-posts-api
+  name: Sylvia API Posts API
+  description: The Posts API from Sylvia API — 2 operation(s) for posts.
+  humanURL: https://sylvia-api.com/
+  baseURL: https://api.sylvia-api.com/v1
+  tags:
+  - Posts
+  properties:
+  - type: OpenAPI
+    url: openapi/sylvia-api-posts-api-openapi.yml
+- aid: sylvia-api:sylvia-api-usage-api
+  name: Sylvia API Usage API
+  description: The Usage API from Sylvia API — 1 operation(s) for usage.
+  humanURL: https://sylvia-api.com/
+  baseURL: https://api.sylvia-api.com/v1
+  tags:
+  - Usage
+  properties:
+  - type: OpenAPI
+    url: openapi/sylvia-api-usage-api-openapi.yml
 common:
 - url: https://sylvia-api.com/
   type: Website
