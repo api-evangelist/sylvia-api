@@ -1,17 +1,17 @@
 ---
 kin_checks:
   slug: sylvia-api
-  schema_version: 0.18.2
-  scored_at: '2026-09-04'
-  run_ts: 2026-09-04T062714
+  schema_version: 0.21.0
+  scored_at: '2026-09-12'
+  run_ts: 2026-09-12T080032
   note: Actionable checks only (missed + partial). earned/na are every other check
-    in rubric/scoring-0.18.2.yml; counts below let you verify that.
+    in rubric/scoring-0.21.0.yml; counts below let you verify that.
   counts:
-    total: 132
+    total: 136
     earned: 55
     partial: 9
-    missed: 39
-    na: 29
+    missed: 46
+    na: 26
   checks:
   - id: well_known_published
     status: missed
@@ -84,7 +84,21 @@ kin_checks:
     status: missed
   - id: reg_terms_of_service
     status: missed
+  - id: upsert_outcome_discriminator
+    status: missed
+  - id: upsert_alternate_key
+    status: missed
+  - id: upsert_named
+    status: missed
+  - id: upsert_declared_conflict
+    status: missed
+  - id: reversibility_documented
+    status: missed
+  - id: idempotency
+    status: missed
   - id: consent_identity
+    status: missed
+  - id: dry_run_mode
     status: missed
   - id: delegated_identity
     status: missed
