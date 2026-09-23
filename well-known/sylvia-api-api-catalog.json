@@ -20,6 +20,18 @@
     },
     {
       "anchor": "https://sylvia-api.com/",
+      "rel": "plans",
+      "type": "application/json",
+      "href": "https://sylvia-api.com/plans.json"
+    },
+    {
+      "anchor": "https://sylvia-api.com/",
+      "rel": "rate-limits",
+      "type": "application/json",
+      "href": "https://sylvia-api.com/rate-limits.json"
+    },
+    {
+      "anchor": "https://sylvia-api.com/",
       "rel": "llms.txt",
       "href": "https://sylvia-api.com/llms.txt"
     },
@@ -34,6 +46,65 @@
       "rel": "agent-card",
       "type": "application/json",
       "href": "https://sylvia-api.com/.well-known/agent-card.json"
+    },
+    {
+      "anchor": "https://sylvia-api.com/",
+      "rel": "agentic-access-contract",
+      "type": "application/json",
+      "href": "https://sylvia-api.com/.well-known/agentic-access-contract.json"
+    },
+    {
+      "anchor": "https://sylvia-api.com/",
+      "rel": "agent-skill",
+      "type": "text/markdown",
+      "href": "https://sylvia-api.com/skills/sylvia-api-skill.md"
+    },
+    {
+      "anchor": "https://sylvia-api.com/",
+      "rel": "ruleset",
+      "type": "application/yaml",
+      "href": "https://sylvia-api.com/.spectral.yml"
+    },
+    {
+      "anchor": "https://sylvia-api.com/",
+      "rel": "vocabulary",
+      "type": "application/json",
+      "href": "https://sylvia-api.com/vocabulary.json"
+    },
+    {
+      "anchor": "https://sylvia-api.com/",
+      "rel": "conformance",
+      "type": "application/yaml",
+      "href": "https://sylvia-api.com/conformance.yml"
+    },
+    {
+      "anchor": "https://sylvia-api.com/",
+      "rel": "overlay",
+      "type": "application/json",
+      "href": "https://sylvia-api.com/overlays/sylvia-api-overlay.json"
+    },
+    {
+      "anchor": "https://sylvia-api.com/",
+      "rel": "postman",
+      "type": "application/json",
+      "href": "https://sylvia-api.com/postman/sylvia-api.postman_collection.json"
+    },
+    {
+      "anchor": "https://sylvia-api.com/",
+      "rel": "changelog",
+      "type": "text/markdown",
+      "href": "https://sylvia-api.com/changelog.md"
+    },
+    {
+      "anchor": "https://sylvia-api.com/",
+      "rel": "deprecation",
+      "type": "text/markdown",
+      "href": "https://sylvia-api.com/deprecation.md"
+    },
+    {
+      "anchor": "https://sylvia-api.com/",
+      "rel": "status",
+      "href": "https://sylvia-api.com/status/"
     }
   ]
 }

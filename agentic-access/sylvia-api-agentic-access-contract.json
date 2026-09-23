@@ -1,0 +1,90 @@
+{
+  "name": "Sylvia API Agentic Access Contract",
+  "description": "How autonomous agents access and drive the Sylvia API \u2014 authentication, permissions, idempotency, error semantics, and reversibility.",
+  "version": "1.0.0",
+  "url": "https://sylvia-api.com/.well-known/agentic-access-contract.json",
+  "interfaces": [
+    {
+      "type": "MCP",
+      "url": "https://api.sylvia-api.com/mcp",
+      "transport": "Streamable HTTP",
+      "tools": "26 read + account/format tools"
+    },
+    {
+      "type": "REST",
+      "url": "https://api.sylvia-api.com/v1/reddit",
+      "method": "GET, read-only"
+    }
+  ],
+  "authentication": {
+    "dataEndpoints": {
+      "scheme": "apiKey",
+      "header": "X-API-KEY",
+      "obtain": "https://dashboard.sylvia-api.com/sign-up"
+    },
+    "accountEndpoints": {
+      "scheme": "apiKey",
+      "header": "x-sylvia-auth"
+    }
+  },
+  "permissions": {
+    "readOnly": true,
+    "idempotent": true,
+    "rateLimits": {
+      "free": "480 req/min",
+      "strela": "1200 req/min",
+      "svetka": "2400 req/min",
+      "enterprise": "3600 req/min"
+    }
+  },
+  "semantics": {
+    "envelope": "{\"success\": true, \"data\": {...}, \"request_id\": \"<uuid>\"}",
+    "idempotency": "All operations are GET and read-only; repeated requests are safe to retry.",
+    "errors": [
+      {
+        "code": "BAD_REQUEST",
+        "status": 400,
+        "meaning": "Invalid endpoint or parameters"
+      },
+      {
+        "code": "UNAUTHORIZED",
+        "status": 401,
+        "meaning": "Missing or invalid API key"
+      },
+      {
+        "code": "FORBIDDEN",
+        "status": 403,
+        "meaning": "Invalid key or endpoint not permitted"
+      },
+      {
+        "code": "NOT_FOUND",
+        "status": 404,
+        "meaning": "Resource not found"
+      },
+      {
+        "code": "LOW_BALANCE",
+        "status": 402,
+        "meaning": "Insufficient credits for the request"
+      },
+      {
+        "code": "RATE_LIMITED",
+        "status": 429,
+        "meaning": "Rate limit exceeded; honor X-RateLimit-Reset and Retry-After"
+      },
+      {
+        "code": "FEATURE_LOCKED",
+        "status": 403,
+        "meaning": "Format or template above the current tier"
+      },
+      {
+        "code": "TIER_EXPIRED",
+        "status": 403,
+        "meaning": "Paid tier lapsed; templates locked"
+      }
+    ]
+  },
+  "reversibility": {
+    "description": "Read-only surface; no state is mutated, no data is written, and all requests are safe to retry.",
+    "reversible": true
+  }
+}

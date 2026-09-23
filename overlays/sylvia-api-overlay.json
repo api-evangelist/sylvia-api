@@ -1,0 +1,31 @@
+{
+  "overlay": "1.0.0",
+  "info": {
+    "title": "Sylvia API governance overlay",
+    "version": "1.0.0"
+  },
+  "extends": "https://sylvia-api.com/openapi.json",
+  "generated": "2026-08-20",
+  "actions": [
+    {
+      "target": "$.info",
+      "update": {
+        "x-sylvia-governance": {
+          "catalog": "https://apis.io/providers/sylvia-api",
+          "provider": "Sylvia API",
+          "artifacts": [
+            "apis.json",
+            "vocabulary.json",
+            ".spectral.yml",
+            "conformance.yml",
+            ".well-known/agent-card.json",
+            ".well-known/agentic-access-contract.json",
+            ".well-known/api-catalog",
+            "postman/sylvia-api.postman_collection.json",
+            "openapi.json"
+          ]
+        }
+      }
+    }
+  ]
+}

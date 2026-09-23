@@ -1,0 +1,1481 @@
+{
+  "info": {
+    "_postman_id": "sylvia-api",
+    "name": "Sylvia API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "API health check",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-API-KEY",
+            "value": "{{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.sylvia-api.com/v1/reddit/reddit/health",
+          "host": [
+            "api",
+            "sylvia-api",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "reddit",
+            "reddit",
+            "health"
+          ],
+          "query": [
+            {
+              "key": "format",
+              "value": "",
+              "disabled": false
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Subreddit metadata",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-API-KEY",
+            "value": "{{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.sylvia-api.com/v1/reddit/reddit/r/:subreddit/about",
+          "host": [
+            "api",
+            "sylvia-api",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "reddit",
+            "reddit",
+            "r",
+            ":subreddit",
+            "about"
+          ],
+          "query": [
+            {
+              "key": "subreddit",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "format",
+              "value": "",
+              "disabled": false
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Subreddit rules",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-API-KEY",
+            "value": "{{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.sylvia-api.com/v1/reddit/reddit/r/:subreddit/about/rules",
+          "host": [
+            "api",
+            "sylvia-api",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "reddit",
+            "reddit",
+            "r",
+            ":subreddit",
+            "about",
+            "rules"
+          ],
+          "query": [
+            {
+              "key": "subreddit",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "format",
+              "value": "",
+              "disabled": false
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Subreddit post listing",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-API-KEY",
+            "value": "{{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.sylvia-api.com/v1/reddit/reddit/r/:subreddit/:sort",
+          "host": [
+            "api",
+            "sylvia-api",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "reddit",
+            "reddit",
+            "r",
+            ":subreddit",
+            ":sort"
+          ],
+          "query": [
+            {
+              "key": "subreddit",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "sort",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "limit",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "after",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "before",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "t",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "format",
+              "value": "",
+              "disabled": false
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Subreddit live comment stream",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-API-KEY",
+            "value": "{{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.sylvia-api.com/v1/reddit/reddit/r/:subreddit/comments/live",
+          "host": [
+            "api",
+            "sylvia-api",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "reddit",
+            "reddit",
+            "r",
+            ":subreddit",
+            "comments",
+            "live"
+          ],
+          "query": [
+            {
+              "key": "subreddit",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "limit",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "after",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "format",
+              "value": "",
+              "disabled": false
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Subreddit sticky posts",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-API-KEY",
+            "value": "{{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.sylvia-api.com/v1/reddit/reddit/r/:subreddit/sticky",
+          "host": [
+            "api",
+            "sylvia-api",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "reddit",
+            "reddit",
+            "r",
+            ":subreddit",
+            "sticky"
+          ],
+          "query": [
+            {
+              "key": "subreddit",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "format",
+              "value": "",
+              "disabled": false
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "List subreddit wiki pages",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-API-KEY",
+            "value": "{{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.sylvia-api.com/v1/reddit/reddit/r/:subreddit/wiki/pages",
+          "host": [
+            "api",
+            "sylvia-api",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "reddit",
+            "reddit",
+            "r",
+            ":subreddit",
+            "wiki",
+            "pages"
+          ],
+          "query": [
+            {
+              "key": "subreddit",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "format",
+              "value": "",
+              "disabled": false
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get subreddit wiki page",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-API-KEY",
+            "value": "{{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.sylvia-api.com/v1/reddit/reddit/r/:subreddit/wiki/:page",
+          "host": [
+            "api",
+            "sylvia-api",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "reddit",
+            "reddit",
+            "r",
+            ":subreddit",
+            "wiki",
+            ":page"
+          ],
+          "query": [
+            {
+              "key": "subreddit",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "page",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "format",
+              "value": "",
+              "disabled": false
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "User profile metadata",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-API-KEY",
+            "value": "{{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.sylvia-api.com/v1/reddit/reddit/u/:username/about",
+          "host": [
+            "api",
+            "sylvia-api",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "reddit",
+            "reddit",
+            "u",
+            ":username",
+            "about"
+          ],
+          "query": [
+            {
+              "key": "username",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "format",
+              "value": "",
+              "disabled": false
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "User content",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-API-KEY",
+            "value": "{{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.sylvia-api.com/v1/reddit/reddit/u/:username/:where",
+          "host": [
+            "api",
+            "sylvia-api",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "reddit",
+            "reddit",
+            "u",
+            ":username",
+            ":where"
+          ],
+          "query": [
+            {
+              "key": "username",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "where",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "limit",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "after",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "before",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "format",
+              "value": "",
+              "disabled": false
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Fetch post by URL",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-API-KEY",
+            "value": "{{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.sylvia-api.com/v1/reddit/reddit/submission",
+          "host": [
+            "api",
+            "sylvia-api",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "reddit",
+            "reddit",
+            "submission"
+          ],
+          "query": [
+            {
+              "key": "url",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "format",
+              "value": "",
+              "disabled": false
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Fetch comment by URL",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-API-KEY",
+            "value": "{{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.sylvia-api.com/v1/reddit/reddit/comment",
+          "host": [
+            "api",
+            "sylvia-api",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "reddit",
+            "reddit",
+            "comment"
+          ],
+          "query": [
+            {
+              "key": "url",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "format",
+              "value": "",
+              "disabled": false
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Fully resolved thread",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-API-KEY",
+            "value": "{{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.sylvia-api.com/v1/reddit/reddit/submission/:post_id/full",
+          "host": [
+            "api",
+            "sylvia-api",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "reddit",
+            "reddit",
+            "submission",
+            ":post_id",
+            "full"
+          ],
+          "query": [
+            {
+              "key": "post_id",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "sort",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "format",
+              "value": "",
+              "disabled": false
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Global Reddit search",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-API-KEY",
+            "value": "{{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.sylvia-api.com/v1/reddit/reddit/search",
+          "host": [
+            "api",
+            "sylvia-api",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "reddit",
+            "reddit",
+            "search"
+          ],
+          "query": [
+            {
+              "key": "q",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "sort",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "limit",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "after",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "subreddit",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "include_over_18",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "format",
+              "value": "",
+              "disabled": false
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Global live comment firehose",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-API-KEY",
+            "value": "{{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.sylvia-api.com/v1/reddit/reddit/comments/live",
+          "host": [
+            "api",
+            "sylvia-api",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "reddit",
+            "reddit",
+            "comments",
+            "live"
+          ],
+          "query": [
+            {
+              "key": "limit",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "after",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "format",
+              "value": "",
+              "disabled": false
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Crosspost duplicates",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-API-KEY",
+            "value": "{{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.sylvia-api.com/v1/reddit/reddit/duplicates/:submission_id",
+          "host": [
+            "api",
+            "sylvia-api",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "reddit",
+            "reddit",
+            "duplicates",
+            ":submission_id"
+          ],
+          "query": [
+            {
+              "key": "submission_id",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "limit",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "format",
+              "value": "",
+              "disabled": false
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Posts linking to a domain",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-API-KEY",
+            "value": "{{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.sylvia-api.com/v1/reddit/reddit/domain/:domain/:sort",
+          "host": [
+            "api",
+            "sylvia-api",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "reddit",
+            "reddit",
+            "domain",
+            ":domain",
+            ":sort"
+          ],
+          "query": [
+            {
+              "key": "domain",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "sort",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "limit",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "after",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "t",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "format",
+              "value": "",
+              "disabled": false
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Posts linking to a domain",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-API-KEY",
+            "value": "{{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.sylvia-api.com/v1/reddit/reddit/domain/:domain",
+          "host": [
+            "api",
+            "sylvia-api",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "reddit",
+            "reddit",
+            "domain",
+            ":domain"
+          ],
+          "query": [
+            {
+              "key": "domain",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "limit",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "after",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "format",
+              "value": "",
+              "disabled": false
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Load more comments",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-API-KEY",
+            "value": "{{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.sylvia-api.com/v1/reddit/reddit/morechildren",
+          "host": [
+            "api",
+            "sylvia-api",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "reddit",
+            "reddit",
+            "morechildren"
+          ],
+          "query": [
+            {
+              "key": "link_id",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "children",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "sort",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "format",
+              "value": "",
+              "disabled": false
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Fetch by fullname IDs",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-API-KEY",
+            "value": "{{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.sylvia-api.com/v1/reddit/reddit/by_id",
+          "host": [
+            "api",
+            "sylvia-api",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "reddit",
+            "reddit",
+            "by_id"
+          ],
+          "query": [
+            {
+              "key": "names",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "format",
+              "value": "",
+              "disabled": false
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Browse subreddits",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-API-KEY",
+            "value": "{{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.sylvia-api.com/v1/reddit/reddit/subreddits/:category",
+          "host": [
+            "api",
+            "sylvia-api",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "reddit",
+            "reddit",
+            "subreddits",
+            ":category"
+          ],
+          "query": [
+            {
+              "key": "category",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "limit",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "after",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "format",
+              "value": "",
+              "disabled": false
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Search subreddits",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-API-KEY",
+            "value": "{{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.sylvia-api.com/v1/reddit/reddit/subreddits/search",
+          "host": [
+            "api",
+            "sylvia-api",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "reddit",
+            "reddit",
+            "subreddits",
+            "search"
+          ],
+          "query": [
+            {
+              "key": "q",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "limit",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "format",
+              "value": "",
+              "disabled": false
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Autocomplete subreddit names",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-API-KEY",
+            "value": "{{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.sylvia-api.com/v1/reddit/reddit/subreddit_autocomplete",
+          "host": [
+            "api",
+            "sylvia-api",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "reddit",
+            "reddit",
+            "subreddit_autocomplete"
+          ],
+          "query": [
+            {
+              "key": "q",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "limit",
+              "value": "",
+              "disabled": false
+            },
+            {
+              "key": "format",
+              "value": "",
+              "disabled": false
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get account profile",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-API-KEY",
+            "value": "{{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.sylvia-api.com/v1/reddit/auth/me",
+          "host": [
+            "api",
+            "sylvia-api",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "reddit",
+            "auth",
+            "me"
+          ],
+          "query": []
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Recent request history",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-API-KEY",
+            "value": "{{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.sylvia-api.com/v1/reddit/auth/recent-requests",
+          "host": [
+            "api",
+            "sylvia-api",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "reddit",
+            "auth",
+            "recent-requests"
+          ],
+          "query": [
+            {
+              "key": "max",
+              "value": "",
+              "disabled": false
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Per-day usage analytics",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-API-KEY",
+            "value": "{{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.sylvia-api.com/v1/reddit/auth/usage-history",
+          "host": [
+            "api",
+            "sylvia-api",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "reddit",
+            "auth",
+            "usage-history"
+          ],
+          "query": [
+            {
+              "key": "days",
+              "value": "",
+              "disabled": false
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "List available response formats",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-API-KEY",
+            "value": "{{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.sylvia-api.com/v1/reddit/auth/formats",
+          "host": [
+            "api",
+            "sylvia-api",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "reddit",
+            "auth",
+            "formats"
+          ],
+          "query": []
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Set default response format",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "X-API-KEY",
+            "value": "{{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.sylvia-api.com/v1/reddit/auth/default-format",
+          "host": [
+            "api",
+            "sylvia-api",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "reddit",
+            "auth",
+            "default-format"
+          ],
+          "query": []
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "List API keys",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-API-KEY",
+            "value": "{{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.sylvia-api.com/v1/reddit/keys",
+          "host": [
+            "api",
+            "sylvia-api",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "reddit",
+            "keys"
+          ],
+          "query": []
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create API key",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "X-API-KEY",
+            "value": "{{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.sylvia-api.com/v1/reddit/keys",
+          "host": [
+            "api",
+            "sylvia-api",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "reddit",
+            "keys"
+          ],
+          "query": []
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Revoke API key",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "X-API-KEY",
+            "value": "{{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.sylvia-api.com/v1/reddit/keys/:key_id",
+          "host": [
+            "api",
+            "sylvia-api",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "reddit",
+            "keys",
+            ":key_id"
+          ],
+          "query": [
+            {
+              "key": "key_id",
+              "value": "",
+              "disabled": false
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "List custom templates",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-API-KEY",
+            "value": "{{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.sylvia-api.com/v1/reddit/templates",
+          "host": [
+            "api",
+            "sylvia-api",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "reddit",
+            "templates"
+          ],
+          "query": []
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create custom template",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "X-API-KEY",
+            "value": "{{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.sylvia-api.com/v1/reddit/templates",
+          "host": [
+            "api",
+            "sylvia-api",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "reddit",
+            "templates"
+          ],
+          "query": []
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete custom template",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "X-API-KEY",
+            "value": "{{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.sylvia-api.com/v1/reddit/templates/:name",
+          "host": [
+            "api",
+            "sylvia-api",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "reddit",
+            "templates",
+            ":name"
+          ],
+          "query": [
+            {
+              "key": "name",
+              "value": "",
+              "disabled": false
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create crypto deposit payment",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "X-API-KEY",
+            "value": "{{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.sylvia-api.com/v1/reddit/createPayment",
+          "host": [
+            "api",
+            "sylvia-api",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "reddit",
+            "createPayment"
+          ],
+          "query": []
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get payment status",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-API-KEY",
+            "value": "{{API_KEY}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.sylvia-api.com/v1/reddit/paymentStatus/:id",
+          "host": [
+            "api",
+            "sylvia-api",
+            "com"
+          ],
+          "path": [
+            "v1",
+            "reddit",
+            "paymentStatus",
+            ":id"
+          ],
+          "query": [
+            {
+              "key": "id",
+              "value": "",
+              "disabled": false
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

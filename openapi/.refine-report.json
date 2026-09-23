@@ -2,8 +2,7 @@
   "provider": "sylvia-api",
   "sources": [
     "_original/sylvia-api-openapi-2026-08-04.json",
-    "_original/sylvia-api-openapi-2026-08-18.json",
-    "_original/sylvia-api-openapi-2026-08-20.json"
+    "_original/sylvia-api-openapi-2026-08-18.json"
   ],
   "outputs": [
     "sylvia-api-comments-api-openapi.yml",
@@ -27,7 +26,8 @@
   "errors": [],
   "warnings": [],
   "notes": [
-    "sourced from openapi/_original/ (3 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "1 archived document(s) dropped as subsets of other archived documents",
+    "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
     "sylvia-api-openapi-2026-08-04.json: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
     "sylvia-api-openapi-2026-08-04.json: tagged paths GET /posts/search -> Posts",
     "sylvia-api-openapi-2026-08-04.json: tagged paths GET /posts/{id} -> Posts",
@@ -61,44 +61,28 @@
     "sylvia-api-openapi-2026-08-18.json: declared missing tag: Subreddits",
     "sylvia-api-openapi-2026-08-18.json: declared missing tag: Templates",
     "sylvia-api-openapi-2026-08-18.json: declared missing tag: Users",
-    "sylvia-api-openapi-2026-08-20.json: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "sylvia-api-openapi-2026-08-20.json: declared missing tag: Account",
-    "sylvia-api-openapi-2026-08-20.json: declared missing tag: Billing",
-    "sylvia-api-openapi-2026-08-20.json: declared missing tag: Discovery",
-    "sylvia-api-openapi-2026-08-20.json: declared missing tag: Domains",
-    "sylvia-api-openapi-2026-08-20.json: declared missing tag: Health",
-    "sylvia-api-openapi-2026-08-20.json: declared missing tag: Keys",
-    "sylvia-api-openapi-2026-08-20.json: declared missing tag: Live",
-    "sylvia-api-openapi-2026-08-20.json: declared missing tag: Posts & Comments",
-    "sylvia-api-openapi-2026-08-20.json: declared missing tag: Search",
-    "sylvia-api-openapi-2026-08-20.json: declared missing tag: Subreddits",
-    "sylvia-api-openapi-2026-08-20.json: declared missing tag: Templates",
-    "sylvia-api-openapi-2026-08-20.json: declared missing tag: Users",
-    "tag 'Live' spans 3 source specs (sylvia-api-openapi-2026-08-04.json, sylvia-api-openapi-2026-08-18.json, sylvia-api-openapi-2026-08-20.json): per-path servers applied",
-    "tag 'Subreddits' spans 3 source specs (sylvia-api-openapi-2026-08-04.json, sylvia-api-openapi-2026-08-18.json, sylvia-api-openapi-2026-08-20.json): per-path servers applied",
-    "tag 'Users' spans 3 source specs (sylvia-api-openapi-2026-08-04.json, sylvia-api-openapi-2026-08-18.json, sylvia-api-openapi-2026-08-20.json): per-path servers applied",
-    "tag 'Account' spans 2 source specs (sylvia-api-openapi-2026-08-18.json, sylvia-api-openapi-2026-08-20.json): per-path servers applied",
-    "tag 'Billing' spans 2 source specs (sylvia-api-openapi-2026-08-18.json, sylvia-api-openapi-2026-08-20.json): per-path servers applied",
-    "tag 'Discovery' spans 2 source specs (sylvia-api-openapi-2026-08-18.json, sylvia-api-openapi-2026-08-20.json): per-path servers applied",
-    "tag 'Domains' spans 2 source specs (sylvia-api-openapi-2026-08-18.json, sylvia-api-openapi-2026-08-20.json): per-path servers applied",
-    "tag 'Health' spans 2 source specs (sylvia-api-openapi-2026-08-18.json, sylvia-api-openapi-2026-08-20.json): per-path servers applied",
-    "tag 'Keys' spans 2 source specs (sylvia-api-openapi-2026-08-18.json, sylvia-api-openapi-2026-08-20.json): per-path servers applied",
-    "tag 'Posts & Comments' spans 2 source specs (sylvia-api-openapi-2026-08-18.json, sylvia-api-openapi-2026-08-20.json): per-path servers applied",
-    "tag 'Search' spans 2 source specs (sylvia-api-openapi-2026-08-18.json, sylvia-api-openapi-2026-08-20.json): per-path servers applied",
-    "tag 'Templates' spans 2 source specs (sylvia-api-openapi-2026-08-18.json, sylvia-api-openapi-2026-08-20.json): per-path servers applied"
+    "tag 'Live' spans 2 source specs (sylvia-api-openapi-2026-08-04.json, sylvia-api-openapi-2026-08-18.json): per-path servers applied",
+    "tag 'Subreddits' spans 2 source specs (sylvia-api-openapi-2026-08-04.json, sylvia-api-openapi-2026-08-18.json): per-path servers applied",
+    "tag 'Users' spans 2 source specs (sylvia-api-openapi-2026-08-04.json, sylvia-api-openapi-2026-08-18.json): per-path servers applied",
+    "apis.yml register: already-registered"
   ],
   "skipped": [
+    "_original/sylvia-api-openapi-2026-08-20.json: archived document superseded by a larger archived document",
     "sylvia-api-account-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "sylvia-api-billing-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "sylvia-api-comments-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "sylvia-api-datasets-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "sylvia-api-discovery-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "sylvia-api-domains-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "sylvia-api-health-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "sylvia-api-keys-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "sylvia-api-live-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "sylvia-api-posts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "sylvia-api-posts-comments-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "sylvia-api-search-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "sylvia-api-subreddits-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "sylvia-api-templates-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "sylvia-api-usage-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "sylvia-api-users-api-openapi.yml: previously refined output, superseded by openapi/_original/"
   ]
 }

@@ -11,7 +11,7 @@ info:
   x-refined-note:
   - x-agentic-access differs across the merged source definitions and was not carried
   version: '1.0'
-  description: 'Operations tagged Subreddits across 3 of this provider''s published API definitions: sylvia-api-openapi-2026-08-04.json, sylvia-api-openapi-2026-08-18.json, sylvia-api-openapi-2026-08-20.json. Each path carries the servers of the definition it was published in.'
+  description: 'Operations tagged Subreddits across 2 of this provider''s published API definitions: sylvia-api-openapi-2026-08-04.json, sylvia-api-openapi-2026-08-18.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.sylvia-api.com/v1
   description: Production API server
@@ -523,24 +523,38 @@ paths:
     - url: https://api.sylvia-api.com/v1
       description: Production API server
 components:
+  responses:
+    RateLimited:
+      description: Rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Invalid or missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad request — invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse_2'
+    Unauthorized_2:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse_2'
   schemas:
-    SearchResponse:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            type: object
-        cursor:
-          type:
-          - string
-          - 'null'
-        has_more:
-          type: boolean
-        total:
-          type:
-          - integer
-          - 'null'
     ErrorResponse:
       type: object
       properties:
@@ -585,6 +599,65 @@ components:
                 type: string
               description:
                 type: string
+    SearchResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+        cursor:
+          type:
+          - string
+          - 'null'
+        has_more:
+          type: boolean
+        total:
+          type:
+          - integer
+          - 'null'
+    SubredditResponse:
+      allOf:
+      - $ref: '#/components/schemas/Envelope'
+      - type: object
+        properties:
+          data:
+            $ref: '#/components/schemas/Subreddit_2'
+    Subreddit_2:
+      type: object
+      properties:
+        name:
+          type: string
+        members:
+          type: integer
+        description:
+          type: string
+        is_private:
+          type: boolean
+        over18:
+          type: boolean
+        icon_img:
+          type:
+          - string
+          - 'null'
+        created_utc:
+          type: integer
+          format: int64
+    Envelope:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type:
+          - string
+          - 'null'
+        error:
+          type:
+          - string
+          - 'null'
+        request_id:
+          type: string
     ListingData:
       type: object
       properties:
@@ -596,13 +669,28 @@ components:
           type:
           - string
           - 'null'
-    SubredditResponse:
+    ErrorResponse_2:
+      type: object
+      properties:
+        success:
+          type: boolean
+        error:
+          type: string
+        message:
+          type: string
+        status:
+          type: integer
+        code:
+          type: string
+        request_id:
+          type: string
+    GenericResponse:
       allOf:
       - $ref: '#/components/schemas/Envelope'
       - type: object
         properties:
           data:
-            $ref: '#/components/schemas/Subreddit_2'
+            type: object
     Post:
       type: object
       properties:
@@ -642,163 +730,11 @@ components:
         properties:
           data:
             $ref: '#/components/schemas/ListingData'
-    ErrorResponse_2:
-      type: object
-      properties:
-        success:
-          type: boolean
-        error:
-          type: string
-        message:
-          type: string
-        status:
-          type: integer
-        code:
-          type: string
-        request_id:
-          type: string
-    Subreddit_2:
-      type: object
-      properties:
-        name:
-          type: string
-        members:
-          type: integer
-        description:
-          type: string
-        is_private:
-          type: boolean
-        over18:
-          type: boolean
-        icon_img:
-          type:
-          - string
-          - 'null'
-        created_utc:
-          type: integer
-          format: int64
-    Envelope:
-      type: object
-      properties:
-        success:
-          type: boolean
-        message:
-          type:
-          - string
-          - 'null'
-        error:
-          type:
-          - string
-          - 'null'
-        request_id:
-          type: string
-    GenericResponse:
-      allOf:
-      - $ref: '#/components/schemas/Envelope'
-      - type: object
-        properties:
-          data:
-            type: object
-    SubredditResponse_2:
-      allOf:
-      - $ref: '#/components/schemas/Envelope'
-      - type: object
-        properties:
-          data:
-            $ref: '#/components/schemas/Subreddit_3'
-    ErrorResponse_3:
-      type: object
-      properties:
-        success:
-          type: boolean
-        error:
-          type: string
-        message:
-          type: string
-        status:
-          type: integer
-        code:
-          type: string
-          enum:
-          - BAD_REQUEST
-          - UNAUTHORIZED
-          - FORBIDDEN
-          - NOT_FOUND
-          - LOW_BALANCE
-          - RATE_LIMITED
-          - FEATURE_LOCKED
-          - TIER_EXPIRED
-          - REQUEST_FAILED
-        request_id:
-          type: string
-    Subreddit_3:
-      type: object
-      properties:
-        name:
-          type: string
-        members:
-          type: integer
-        description:
-          type: string
-        is_private:
-          type: boolean
-        over18:
-          type: boolean
-        icon_img:
-          type:
-          - string
-          - 'null'
-        created_utc:
-          type: integer
-          format: int64
-  responses:
-    Unauthorized:
-      description: Invalid or missing API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    RateLimited:
-      description: Rate limit exceeded
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: Bad request — invalid parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse_2'
-    Unauthorized_2:
-      description: Missing or invalid API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse_2'
-    BadRequest_2:
-      description: Bad request — invalid parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse_3'
-    Unauthorized_3:
-      description: Missing or invalid API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse_3'
   headers:
-    X-RateLimit-Tier:
-      description: 'Rate limit tier: free | strela | svetka | enterprise.'
+    X-RateLimit-Limit:
+      description: Requests per second for the tier.
       schema:
-        type: string
+        type: integer
     Retry-After:
       description: Seconds until retry is allowed, present on 429.
       schema:
@@ -807,12 +743,12 @@ components:
       description: Epoch milliseconds when the window resets.
       schema:
         type: integer
+    X-RateLimit-Tier:
+      description: 'Rate limit tier: free | strela | svetka | enterprise.'
+      schema:
+        type: string
     X-RateLimit-Remaining:
       description: Remaining requests in the current window.
-      schema:
-        type: integer
-    X-RateLimit-Limit:
-      description: Requests per second for the tier.
       schema:
         type: integer
   securitySchemes:
@@ -829,4 +765,3 @@ components:
 x-refined-from:
 - sylvia-api-openapi-2026-08-04.json
 - sylvia-api-openapi-2026-08-18.json
-- sylvia-api-openapi-2026-08-20.json

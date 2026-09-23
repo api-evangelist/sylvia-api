@@ -1,28 +1,155 @@
 {
-  "name": "Sylvia API",
-  "description": "Read-only Reddit data gateway \u2014 posts, comments with recursive threads, subreddits, users, search, and live streams, served as JSON and via an MCP server.",
-  "url": "https://sylvia-api.com",
-  "version": "2.0.0",
+  "name": "Sylvia API Agent",
+  "description": "Read-only Reddit data agent. Query posts, recursive comment threads, subreddits, users, global search, and live comment streams as JSON without OAuth or KYC.",
+  "supportedInterfaces": [
+    {
+      "url": "https://api.sylvia-api.com/mcp",
+      "protocolBinding": "HTTP+JSON",
+      "protocolVersion": "1.0"
+    },
+    {
+      "url": "https://api.sylvia-api.com/v1/reddit",
+      "protocolBinding": "HTTP+JSON",
+      "protocolVersion": "1.0"
+    }
+  ],
+  "provider": {
+    "organization": "Sylvia API",
+    "url": "https://sylvia-api.com"
+  },
+  "iconUrl": "https://sylvia-api.com/og.png",
+  "version": "3.0.0",
+  "documentationUrl": "https://sylvia-api.com/docs/",
   "capabilities": {
     "streaming": false,
     "pushNotifications": false,
-    "stateTransitionHistory": false
+    "extendedAgentCard": false
   },
-  "defaultInputModes": [
-    "text"
-  ],
-  "defaultOutputModes": [
-    "text"
-  ],
-  "authentication": {
-    "schemes": [
-      "apiKey"
-    ],
+  "securitySchemes": {
     "apiKey": {
-      "header": "X-API-KEY"
+      "apiKeySecurityScheme": {
+        "description": "Data API key sent in the X-API-KEY header. Get one free at https://dashboard.sylvia-api.com/sign-up.",
+        "location": "header",
+        "name": "X-API-KEY"
+      }
+    },
+    "accountToken": {
+      "apiKeySecurityScheme": {
+        "description": "Account token (SV_...) sent in the x-sylvia-auth header for account management endpoints.",
+        "location": "header",
+        "name": "x-sylvia-auth"
+      }
     }
   },
-  "endpoint": "https://api.sylvia-api.com/mcp",
-  "openapi": "https://sylvia-api.com/openapi.json",
-  "llmsTxt": "https://sylvia-api.com/llms.txt"
+  "securityRequirements": [
+    {
+      "schemes": {
+        "apiKey": {
+          "list": []
+        }
+      }
+    }
+  ],
+  "defaultInputModes": [
+    "text/plain"
+  ],
+  "defaultOutputModes": [
+    "application/json",
+    "text/plain"
+  ],
+  "skills": [
+    {
+      "id": "reddit-search",
+      "name": "Reddit Search",
+      "description": "Global keyword search across all public Reddit posts with relevance or recency sorting, optional subreddit restriction, and NSFW filter.",
+      "tags": [
+        "reddit",
+        "search",
+        "posts",
+        "query"
+      ],
+      "examples": [
+        "Find Reddit posts comparing the best note taking apps for students"
+      ]
+    },
+    {
+      "id": "subreddit-listings",
+      "name": "Subreddit Listings",
+      "description": "Fetch hot, new, top, rising, or controversial posts from any subreddit, with limit, time filter, and pagination.",
+      "tags": [
+        "reddit",
+        "subreddit",
+        "posts",
+        "listing",
+        "hot",
+        "top"
+      ],
+      "examples": [
+        "Show the top posts on r/programming this week",
+        "What is hot on r/CryptoCurrency right now?"
+      ]
+    },
+    {
+      "id": "full-threads",
+      "name": "Full Recursive Threads",
+      "description": "Resolve any post into its complete nested comment tree.",
+      "tags": [
+        "reddit",
+        "threads",
+        "comments",
+        "nested"
+      ],
+      "examples": [
+        "Get every comment and reply in thread 1vr7srb"
+      ]
+    },
+    {
+      "id": "user-content",
+      "name": "User Content",
+      "description": "Fetch a Reddit user's profile metadata, submitted posts, comments, and combined overview.",
+      "tags": [
+        "reddit",
+        "users",
+        "profile",
+        "karma",
+        "posts",
+        "comments"
+      ],
+      "examples": [
+        "What has u/spez posted recently?",
+        "Show me the comment karma for u/spez"
+      ]
+    },
+    {
+      "id": "live-comment-streams",
+      "name": "Live Comment Streams",
+      "description": "Poll the global comment firehose or a per-subreddit real-time comment stream.",
+      "tags": [
+        "reddit",
+        "live",
+        "comments",
+        "stream",
+        "realtime"
+      ],
+      "examples": [
+        "Stream the latest comments from r/CryptoCurrency"
+      ]
+    },
+    {
+      "id": "account-self-service",
+      "name": "Account Self-Service",
+      "description": "Manage API keys, response formats, usage history, and crypto billing under the account token.",
+      "tags": [
+        "account",
+        "keys",
+        "billing",
+        "usage",
+        "templates"
+      ],
+      "examples": [
+        "Create an API key labeled dev",
+        "Show my usage history for the last 7 days"
+      ]
+    }
+  ]
 }

@@ -1,4 +1,4 @@
-generated: '2026-08-18'
+generated: '2026-08-20'
 method: searched
 source: https://sylvia-api.com/.well-known/agent-card.json
 checked: '2026-08-18'
@@ -24,11 +24,31 @@ card:
     streaming: false
     push_notifications: false
     state_transition_history: false
-  default_input_modes: [text]
-  default_output_modes: [text]
+  default_input_modes:
+  - text
+  default_output_modes:
+  - text
   authentication:
-    schemes: [apiKey]
+    schemes:
+    - apiKey
     header: X-API-KEY
-notes: >-
-  Harvested verbatim, never generated. The card's `endpoint` agrees with the MCP URL advertised in
-  llms.txt, and its `openapi` and `llmsTxt` fields resolve to the same documents this repo holds.
+  file: a2a/sylvia-api-agent-card.json
+notes: Harvested verbatim, never generated. The card's `endpoint` agrees with the MCP URL advertised in llms.txt, and its `openapi` and `llmsTxt` fields resolve to the same documents this repo holds.
+conformance:
+  spec: A2A 1.0.0
+  grade: conformant
+  checked: '2026-08-20'
+  basis: Every A2A 1.0 required top-level field is present — name, description, version, capabilities, defaultInputModes, defaultOutputModes, skills — plus supportedInterfaces in place of the pre-1.0 single url. All 6 skills carry the required id, name, description and tags. securitySchemes (apiKey, accountToken) and securityRequirements are declared. Graded from the served document, not from the provider's claim.
+skills:
+- id: reddit-search
+  name: Reddit Search
+- id: subreddit-listings
+  name: Subreddit Listings
+- id: full-threads
+  name: Full Recursive Threads
+- id: user-content
+  name: User Content
+- id: live-comment-streams
+  name: Live Comment Streams
+- id: account-self-service
+  name: Account Self-Service

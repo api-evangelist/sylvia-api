@@ -1,0 +1,40 @@
+name: Sylvia API Conformance Statement
+description: Declares the standards the Sylvia API conforms to, with evidence.
+version: 1.0.0
+generated: '2026-08-20'
+provider: Sylvia API
+standards:
+- id: api-key-auth
+  conforms: true
+  evidence: All data endpoints require an API key in the X-API-KEY header; declared
+    in openapi securitySchemes.
+- id: account-token-auth
+  conforms: true
+  evidence: Account management endpoints require the account token (SV_) in the x-sylvia-auth
+    header.
+- id: oauth2
+  conforms: false
+  evidence: No OAuth; the surface is intentionally key-based to avoid first-party
+    OAuth friction.
+- id: oidc
+  conforms: false
+  evidence: No /.well-known/openid-configuration is published.
+- id: idempotency
+  conforms: true
+  evidence: Every operation is HTTP GET and read-only; repeated identical requests
+    are safe to retry with identical results.
+- id: pagination
+  conforms: true
+  evidence: Cursor-based pagination via the after parameter on all listing endpoints.
+- id: rate-limit-signaling
+  conforms: true
+  evidence: X-RateLimit-Tier/Limit/Remaining/Reset headers on every response and Retry-After
+    on 429; machine-readable at /rate-limits.json.
+- id: stable-error-envelope
+  conforms: true
+  evidence: All errors share the envelope {success, error, code, status, request_id}
+    with stable, documented codes in openapi.json.
+- id: well-known-security
+  conforms: true
+  evidence: security.txt served at /.well-known/security.txt with a canonical policy
+    link.

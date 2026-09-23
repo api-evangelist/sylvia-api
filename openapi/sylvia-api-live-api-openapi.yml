@@ -11,7 +11,7 @@ info:
   x-refined-note:
   - x-agentic-access differs across the merged source definitions and was not carried
   version: '1.0'
-  description: 'Operations tagged Live across 3 of this provider''s published API definitions: sylvia-api-openapi-2026-08-04.json, sylvia-api-openapi-2026-08-18.json, sylvia-api-openapi-2026-08-20.json. Each path carries the servers of the definition it was published in.'
+  description: 'Operations tagged Live across 2 of this provider''s published API definitions: sylvia-api-openapi-2026-08-04.json, sylvia-api-openapi-2026-08-18.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.sylvia-api.com/v1
   description: Production API server
@@ -233,6 +233,31 @@ paths:
     - url: https://api.sylvia-api.com/v1
       description: Production API server
 components:
+  responses:
+    RateLimited:
+      description: Rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Invalid or missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Forbidden:
+      description: Forbidden — insufficient access or credits
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse_2'
+    Unauthorized_2:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse_2'
   schemas:
     ErrorResponse:
       type: object
@@ -288,6 +313,21 @@ components:
           type: string
         request_id:
           type: string
+    Envelope:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type:
+          - string
+          - 'null'
+        error:
+          type:
+          - string
+          - 'null'
+        request_id:
+          type: string
     Comment_2:
       type: object
       properties:
@@ -314,21 +354,6 @@ components:
           type: string
         depth:
           type: integer
-    Envelope:
-      type: object
-      properties:
-        success:
-          type: boolean
-        message:
-          type:
-          - string
-          - 'null'
-        error:
-          type:
-          - string
-          - 'null'
-        request_id:
-          type: string
     GenericResponse:
       allOf:
       - $ref: '#/components/schemas/Envelope'
@@ -336,99 +361,11 @@ components:
         properties:
           data:
             type: object
-    ErrorResponse_3:
-      type: object
-      properties:
-        success:
-          type: boolean
-        error:
-          type: string
-        message:
-          type: string
-        status:
-          type: integer
-        code:
-          type: string
-          enum:
-          - BAD_REQUEST
-          - UNAUTHORIZED
-          - FORBIDDEN
-          - NOT_FOUND
-          - LOW_BALANCE
-          - RATE_LIMITED
-          - FEATURE_LOCKED
-          - TIER_EXPIRED
-          - REQUEST_FAILED
-        request_id:
-          type: string
-    Comment_3:
-      type: object
-      properties:
-        id:
-          type: string
-        body:
-          type: string
-        author:
-          type: string
-        subreddit:
-          type: string
-        score:
-          type: integer
-        created_utc:
-          type: integer
-          format: int64
-        permalink:
-          type: string
-        parent_id:
-          type: string
-        link_id:
-          type: string
-        submission_id:
-          type: string
-        depth:
-          type: integer
-  responses:
-    RateLimited:
-      description: Rate limit exceeded
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Invalid or missing API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Forbidden:
-      description: Forbidden — insufficient access or credits
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse_2'
-    Unauthorized_2:
-      description: Missing or invalid API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse_2'
-    Forbidden_2:
-      description: Forbidden — insufficient access or credits
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse_3'
-    Unauthorized_3:
-      description: Missing or invalid API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse_3'
   headers:
-    X-RateLimit-Tier:
-      description: 'Rate limit tier: free | strela | svetka | enterprise.'
+    X-RateLimit-Limit:
+      description: Requests per second for the tier.
       schema:
-        type: string
+        type: integer
     Retry-After:
       description: Seconds until retry is allowed, present on 429.
       schema:
@@ -437,12 +374,12 @@ components:
       description: Epoch milliseconds when the window resets.
       schema:
         type: integer
+    X-RateLimit-Tier:
+      description: 'Rate limit tier: free | strela | svetka | enterprise.'
+      schema:
+        type: string
     X-RateLimit-Remaining:
       description: Remaining requests in the current window.
-      schema:
-        type: integer
-    X-RateLimit-Limit:
-      description: Requests per second for the tier.
       schema:
         type: integer
   securitySchemes:
@@ -459,4 +396,3 @@ components:
 x-refined-from:
 - sylvia-api-openapi-2026-08-04.json
 - sylvia-api-openapi-2026-08-18.json
-- sylvia-api-openapi-2026-08-20.json

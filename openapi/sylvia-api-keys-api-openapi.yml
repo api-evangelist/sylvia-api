@@ -2,6 +2,7 @@ openapi: 3.2.0
 info:
   title: Sylvia Keys API
   version: 3.0.0
+  description: Sylvia API is a read-only Reddit data gateway serving structured JSON for posts, comments with full recursive threads, subreddits, users, search, and live comment streams.
   contact:
     name: Sylvia API
     url: https://sylvia-api.com
@@ -22,7 +23,6 @@ info:
       statusCode: 429
     mcpServer: https://api.sylvia-api.com/mcp
     llmsTxt: https://sylvia-api.com/llms.txt
-  description: 'Operations tagged Keys across 2 of this provider''s published API definitions: sylvia-api-openapi-2026-08-18.json, sylvia-api-openapi-2026-08-20.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.sylvia-api.com/v1
   description: Production API server
@@ -169,6 +169,12 @@ paths:
       - Keys
 components:
   responses:
+    RateLimited:
+      description: Rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
     Forbidden:
       description: Forbidden — insufficient access or credits
       content:
@@ -187,31 +193,28 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    RateLimited:
-      description: Rate limit exceeded
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
+  headers:
+    X-RateLimit-Limit:
+      description: Requests per second for the tier.
+      schema:
+        type: integer
+    Retry-After:
+      description: Seconds until retry is allowed, present on 429.
+      schema:
+        type: integer
+    X-RateLimit-Reset:
+      description: Epoch milliseconds when the window resets.
+      schema:
+        type: integer
+    X-RateLimit-Tier:
+      description: 'Rate limit tier: free | strela | svetka | enterprise.'
+      schema:
+        type: string
+    X-RateLimit-Remaining:
+      description: Remaining requests in the current window.
+      schema:
+        type: integer
   schemas:
-    CreateKeyResponse:
-      type: object
-      properties:
-        id:
-          type: string
-        label:
-          type: string
-        key:
-          type: string
-        createdAt:
-          type: string
-    ApiKeyList:
-      type: object
-      properties:
-        keys:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiKey'
     ErrorResponse:
       type: object
       properties:
@@ -227,21 +230,13 @@ components:
           type: string
         request_id:
           type: string
-    Envelope:
+    ApiKeyList:
       type: object
       properties:
-        success:
-          type: boolean
-        message:
-          type:
-          - string
-          - 'null'
-        error:
-          type:
-          - string
-          - 'null'
-        request_id:
-          type: string
+        keys:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiKey'
     ApiKey:
       type: object
       properties:
@@ -263,6 +258,32 @@ components:
           type:
           - number
           - 'null'
+    CreateKeyResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        label:
+          type: string
+        key:
+          type: string
+        createdAt:
+          type: string
+    Envelope:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type:
+          - string
+          - 'null'
+        error:
+          type:
+          - string
+          - 'null'
+        request_id:
+          type: string
     GenericResponse:
       allOf:
       - $ref: '#/components/schemas/Envelope'
@@ -270,52 +291,6 @@ components:
         properties:
           data:
             type: object
-    ErrorResponse_2:
-      type: object
-      properties:
-        success:
-          type: boolean
-        error:
-          type: string
-        message:
-          type: string
-        status:
-          type: integer
-        code:
-          type: string
-          enum:
-          - BAD_REQUEST
-          - UNAUTHORIZED
-          - FORBIDDEN
-          - NOT_FOUND
-          - LOW_BALANCE
-          - RATE_LIMITED
-          - FEATURE_LOCKED
-          - TIER_EXPIRED
-          - REQUEST_FAILED
-        request_id:
-          type: string
-  headers:
-    X-RateLimit-Tier:
-      description: 'Rate limit tier: free | strela | svetka | enterprise.'
-      schema:
-        type: string
-    Retry-After:
-      description: Seconds until retry is allowed, present on 429.
-      schema:
-        type: integer
-    X-RateLimit-Reset:
-      description: Epoch milliseconds when the window resets.
-      schema:
-        type: integer
-    X-RateLimit-Remaining:
-      description: Remaining requests in the current window.
-      schema:
-        type: integer
-    X-RateLimit-Limit:
-      description: Requests per second for the tier.
-      schema:
-        type: integer
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
@@ -327,6 +302,3 @@ components:
       in: header
       name: x-sylvia-auth
       description: Account token (SV_...) for account management endpoints. Sign in at https://sylvia-api.com to get yours.
-x-refined-from:
-- sylvia-api-openapi-2026-08-18.json
-- sylvia-api-openapi-2026-08-20.json

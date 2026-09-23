@@ -1,0 +1,65 @@
+generated: '2026-08-20'
+method: searched
+source: https://sylvia-api.com/.well-known/agent-card.json (provider-published A2A card)
+published_by_provider: true
+api: Sylvia API
+base_url: https://api.sylvia-api.com/v1
+note: Transcribed from the provider's own agent card. Not authored here.
+skills:
+- name: reddit-search
+  label: Reddit Search
+  description: Global keyword search across all public Reddit posts with relevance or recency sorting,
+    optional subreddit restriction, and NSFW filter.
+  tags:
+  - reddit
+  - search
+  - posts
+  - query
+- name: subreddit-listings
+  label: Subreddit Listings
+  description: Fetch hot, new, top, rising, or controversial posts from any subreddit, with limit, time
+    filter, and pagination.
+  tags:
+  - reddit
+  - subreddit
+  - posts
+  - listing
+  - hot
+  - top
+- name: full-threads
+  label: Full Recursive Threads
+  description: Resolve any post into its complete nested comment tree.
+  tags:
+  - reddit
+  - threads
+  - comments
+  - nested
+- name: user-content
+  label: User Content
+  description: Fetch a Reddit user's profile metadata, submitted posts, comments, and combined overview.
+  tags:
+  - reddit
+  - users
+  - profile
+  - karma
+  - posts
+  - comments
+- name: live-comment-streams
+  label: Live Comment Streams
+  description: Poll the global comment firehose or a per-subreddit real-time comment stream.
+  tags:
+  - reddit
+  - live
+  - comments
+  - stream
+  - realtime
+- name: account-self-service
+  label: Account Self-Service
+  description: Manage API keys, response formats, usage history, and crypto billing under the account
+    token.
+  tags:
+  - account
+  - keys
+  - billing
+  - usage
+  - templates

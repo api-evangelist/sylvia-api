@@ -1,0 +1,20 @@
+generated: '2026-08-20'
+method: searched
+source: https://sylvia-api.com/openapi.json — components.schemas.ErrorResponse
+published_by_provider: true
+envelope:
+  shape: Every response carries a top-level success flag; failures return an ErrorResponse.
+  code_field: code
+  stable: true
+code_count: 9
+codes:
+- code: BAD_REQUEST
+- code: UNAUTHORIZED
+- code: FORBIDDEN
+- code: NOT_FOUND
+- code: LOW_BALANCE
+- code: RATE_LIMITED
+- code: FEATURE_LOCKED
+- code: TIER_EXPIRED
+- code: REQUEST_FAILED
+note: Transcribed from the provider's own published contract. Not authored here.

@@ -2,6 +2,7 @@ openapi: 3.2.0
 info:
   title: Sylvia Posts & Comments API
   version: 3.0.0
+  description: Sylvia API is a read-only Reddit data gateway serving structured JSON for posts, comments with full recursive threads, subreddits, users, search, and live comment streams.
   contact:
     name: Sylvia API
     url: https://sylvia-api.com
@@ -22,7 +23,6 @@ info:
       statusCode: 429
     mcpServer: https://api.sylvia-api.com/mcp
     llmsTxt: https://sylvia-api.com/llms.txt
-  description: 'Operations tagged Posts & Comments across 2 of this provider''s published API definitions: sylvia-api-openapi-2026-08-18.json, sylvia-api-openapi-2026-08-20.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.sylvia-api.com/v1
   description: Production API server
@@ -91,9 +91,6 @@ paths:
           $ref: '#/components/responses/RateLimited'
       tags:
       - Posts & Comments
-    servers:
-    - url: https://api.sylvia-api.com/v1
-      description: Production API server
   /reddit/comment:
     get:
       summary: Fetch comment by URL
@@ -154,9 +151,6 @@ paths:
           $ref: '#/components/responses/RateLimited'
       tags:
       - Posts & Comments
-    servers:
-    - url: https://api.sylvia-api.com/v1
-      description: Production API server
   /reddit/submission/{post_id}/full:
     get:
       summary: Fully resolved thread
@@ -228,9 +222,6 @@ paths:
           $ref: '#/components/responses/RateLimited'
       tags:
       - Posts & Comments
-    servers:
-    - url: https://api.sylvia-api.com/v1
-      description: Production API server
   /reddit/duplicates/{submission_id}:
     get:
       summary: Crosspost duplicates
@@ -297,9 +288,6 @@ paths:
           $ref: '#/components/responses/RateLimited'
       tags:
       - Posts & Comments
-    servers:
-    - url: https://api.sylvia-api.com/v1
-      description: Production API server
   /reddit/morechildren:
     get:
       summary: Load more comments
@@ -369,9 +357,6 @@ paths:
           $ref: '#/components/responses/RateLimited'
       tags:
       - Posts & Comments
-    servers:
-    - url: https://api.sylvia-api.com/v1
-      description: Production API server
   /reddit/by_id:
     get:
       summary: Fetch by fullname IDs
@@ -430,50 +415,29 @@ paths:
           $ref: '#/components/responses/RateLimited'
       tags:
       - Posts & Comments
-    servers:
-    - url: https://api.sylvia-api.com/v1
-      description: Production API server
 components:
-  responses:
-    Unauthorized:
-      description: Missing or invalid API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    RateLimited:
-      description: Rate limit exceeded
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: Bad request — invalid parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
+  headers:
+    X-RateLimit-Remaining:
+      description: Remaining requests in the current window.
+      schema:
+        type: integer
+    X-RateLimit-Limit:
+      description: Requests per second for the tier.
+      schema:
+        type: integer
+    X-RateLimit-Reset:
+      description: Epoch milliseconds when the window resets.
+      schema:
+        type: integer
+    Retry-After:
+      description: Seconds until retry is allowed, present on 429.
+      schema:
+        type: integer
+    X-RateLimit-Tier:
+      description: 'Rate limit tier: free | strela | svetka | enterprise.'
+      schema:
+        type: string
   schemas:
-    GenericResponse:
-      allOf:
-      - $ref: '#/components/schemas/Envelope'
-      - type: object
-        properties:
-          data:
-            type: object
-    ListingResponse:
-      allOf:
-      - $ref: '#/components/schemas/Envelope'
-      - type: object
-        properties:
-          data:
-            $ref: '#/components/schemas/ListingData'
     ListingData:
       type: object
       properties:
@@ -485,28 +449,6 @@ components:
           type:
           - string
           - 'null'
-    PostResponse:
-      allOf:
-      - $ref: '#/components/schemas/Envelope'
-      - type: object
-        properties:
-          data:
-            $ref: '#/components/schemas/Post'
-    ErrorResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        error:
-          type: string
-        message:
-          type: string
-        status:
-          type: integer
-        code:
-          type: string
-        request_id:
-          type: string
     Post:
       type: object
       properties:
@@ -539,13 +481,6 @@ components:
           type: boolean
         stickied:
           type: boolean
-    CommentResponse:
-      allOf:
-      - $ref: '#/components/schemas/Envelope'
-      - type: object
-        properties:
-          data:
-            $ref: '#/components/schemas/Comment'
     ThreadResponse:
       allOf:
       - $ref: '#/components/schemas/Envelope'
@@ -597,7 +532,35 @@ components:
           type: string
         depth:
           type: integer
-    ErrorResponse_2:
+    PostResponse:
+      allOf:
+      - $ref: '#/components/schemas/Envelope'
+      - type: object
+        properties:
+          data:
+            $ref: '#/components/schemas/Post'
+    GenericResponse:
+      allOf:
+      - $ref: '#/components/schemas/Envelope'
+      - type: object
+        properties:
+          data:
+            type: object
+    ListingResponse:
+      allOf:
+      - $ref: '#/components/schemas/Envelope'
+      - type: object
+        properties:
+          data:
+            $ref: '#/components/schemas/ListingData'
+    CommentResponse:
+      allOf:
+      - $ref: '#/components/schemas/Envelope'
+      - type: object
+        properties:
+          data:
+            $ref: '#/components/schemas/Comment'
+    ErrorResponse:
       type: object
       properties:
         success:
@@ -610,39 +573,33 @@ components:
           type: integer
         code:
           type: string
-          enum:
-          - BAD_REQUEST
-          - UNAUTHORIZED
-          - FORBIDDEN
-          - NOT_FOUND
-          - LOW_BALANCE
-          - RATE_LIMITED
-          - FEATURE_LOCKED
-          - TIER_EXPIRED
-          - REQUEST_FAILED
         request_id:
           type: string
-  headers:
-    X-RateLimit-Remaining:
-      description: Remaining requests in the current window.
-      schema:
-        type: integer
-    X-RateLimit-Tier:
-      description: 'Rate limit tier: free | strela | svetka | enterprise.'
-      schema:
-        type: string
-    X-RateLimit-Reset:
-      description: Epoch milliseconds when the window resets.
-      schema:
-        type: integer
-    Retry-After:
-      description: Seconds until retry is allowed, present on 429.
-      schema:
-        type: integer
-    X-RateLimit-Limit:
-      description: Requests per second for the tier.
-      schema:
-        type: integer
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    RateLimited:
+      description: Rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad request — invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
@@ -654,6 +611,3 @@ components:
       in: header
       name: x-sylvia-auth
       description: Account token (SV_...) for account management endpoints. Sign in at https://sylvia-api.com to get yours.
-x-refined-from:
-- sylvia-api-openapi-2026-08-18.json
-- sylvia-api-openapi-2026-08-20.json

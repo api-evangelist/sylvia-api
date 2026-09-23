@@ -1,39 +1,32 @@
-generated: '2026-08-18'
-method: searched
-source: https://sylvia-api.com/.well-known/
-entries:
-- path: /.well-known/security.txt
-  type: SecurityTxt
-  status: 200
-  content_type: text/plain
-  bytes: 237
-  artifact: well-known/sylvia-api-security.txt
-  standard: RFC 9116
-  checked: '2026-08-18'
-- path: /.well-known/api-catalog
-  type: APICatalog
-  status: 200
-  bytes: 1035
-  artifact: well-known/sylvia-api-api-catalog.json
-  standard: RFC 9727
-  format: linkset
-  checked: '2026-08-18'
-  note: >-
-    Served as binary/octet-stream rather than application/linkset+json. Content parses as a valid
-    linkset; the media type is the only defect.
-- path: /.well-known/agent-card.json
-  type: AgentCard
-  status: 200
-  content_type: application/json
-  bytes: 728
-  artifact: a2a/sylvia-api-agent-card.json
-  checked: '2026-08-18'
+generated: '2026-08-20'
+method: probed
+source: live probes of /.well-known/ on sylvia-api.com
+hosts:
+- host: sylvia-api.com
+  documents:
+  - path: /.well-known/api-catalog
+    status: 200
+    bytes: 3116
+    file: sylvia-api-api-catalog.json
+    standard: RFC 9727
+    note: linkset, 18 links
+  - path: /.well-known/agent-card.json
+    status: 200
+    bytes: 4147
+    file: a2a/sylvia-api-agent-card.json
+    standard: A2A 1.0.0
+  - path: /.well-known/agentic-access-contract.json
+    status: 200
+    bytes: 2522
+    file: agentic-access/sylvia-api-agentic-access-contract.json
+  - path: /.well-known/security.txt
+    status: 200
+    bytes: 237
+    file: sylvia-api-security.txt
+    standard: RFC 9116
 negative_control:
-- path: /.well-known/not-a-real-thing-xyz.txt
+  path: /.well-known/not-a-real-thing-xyz.txt
   status: 404
-  content_type: text/plain
-  bytes: 10
-  checked: '2026-08-18'
-  note: >-
-    Run deliberately. A real 404 on a nonsense .well-known path proves the 200s above are genuine
-    and not a catch-all handing out false credit.
+  note: Run deliberately — a real 404 proves the 200s above are not a catch-all.
+shape_note: Rewritten 2026-08-20 into hosts[] -> documents[]. The round-1 manifest used a flat entries[]
+  list, which well_known_docs() in score.rb cannot read, so a served api-catalog scored false.
