@@ -241,7 +241,7 @@ paths:
     get:
       summary: Subreddit post listing
       description: 'Returns posts from a subreddit by sort: hot, new, top, rising, or controversial.'
-      operationId: getSubredditPosts
+      operationId: getRedditRBySubredditBySort
       parameters:
       - name: subreddit
         in: path
@@ -337,6 +337,8 @@ paths:
           $ref: '#/components/responses/RateLimited'
       tags:
       - Subreddits
+      x-operation-id-source: normalized
+      x-operation-id-original: getSubredditPosts
     servers:
     - url: https://api.sylvia-api.com/v1
       description: Production API server
@@ -523,38 +525,24 @@ paths:
     - url: https://api.sylvia-api.com/v1
       description: Production API server
 components:
-  responses:
-    RateLimited:
-      description: Rate limit exceeded
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Invalid or missing API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: Bad request — invalid parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse_2'
-    Unauthorized_2:
-      description: Missing or invalid API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse_2'
   schemas:
+    SearchResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+        cursor:
+          type:
+          - string
+          - 'null'
+        has_more:
+          type: boolean
+        total:
+          type:
+          - integer
+          - 'null'
     ErrorResponse:
       type: object
       properties:
@@ -599,23 +587,60 @@ components:
                 type: string
               description:
                 type: string
-    SearchResponse:
+    ErrorResponse_2:
       type: object
       properties:
-        data:
-          type: array
-          items:
-            type: object
-        cursor:
-          type:
-          - string
-          - 'null'
-        has_more:
+        success:
           type: boolean
-        total:
-          type:
-          - integer
-          - 'null'
+        error:
+          type: string
+        message:
+          type: string
+        status:
+          type: integer
+        code:
+          type: string
+        request_id:
+          type: string
+    Post:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        selftext:
+          type: string
+        author:
+          type: string
+        subreddit:
+          type: string
+        score:
+          type: integer
+        upvote_ratio:
+          type: number
+        num_comments:
+          type: integer
+        created_utc:
+          type: integer
+          format: int64
+        permalink:
+          type: string
+        url:
+          type: string
+        is_self:
+          type: boolean
+        over_18:
+          type: boolean
+        stickied:
+          type: boolean
+    ListingResponse:
+      allOf:
+      - $ref: '#/components/schemas/Envelope'
+      - type: object
+        properties:
+          data:
+            $ref: '#/components/schemas/ListingData'
     SubredditResponse:
       allOf:
       - $ref: '#/components/schemas/Envelope'
@@ -669,21 +694,6 @@ components:
           type:
           - string
           - 'null'
-    ErrorResponse_2:
-      type: object
-      properties:
-        success:
-          type: boolean
-        error:
-          type: string
-        message:
-          type: string
-        status:
-          type: integer
-        code:
-          type: string
-        request_id:
-          type: string
     GenericResponse:
       allOf:
       - $ref: '#/components/schemas/Envelope'
@@ -691,56 +701,44 @@ components:
         properties:
           data:
             type: object
-    Post:
-      type: object
-      properties:
-        id:
-          type: string
-        title:
-          type: string
-        selftext:
-          type: string
-        author:
-          type: string
-        subreddit:
-          type: string
-        score:
-          type: integer
-        upvote_ratio:
-          type: number
-        num_comments:
-          type: integer
-        created_utc:
-          type: integer
-          format: int64
-        permalink:
-          type: string
-        url:
-          type: string
-        is_self:
-          type: boolean
-        over_18:
-          type: boolean
-        stickied:
-          type: boolean
-    ListingResponse:
-      allOf:
-      - $ref: '#/components/schemas/Envelope'
-      - type: object
-        properties:
-          data:
-            $ref: '#/components/schemas/ListingData'
+  responses:
+    Unauthorized:
+      description: Invalid or missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    RateLimited:
+      description: Rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized_2:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse_2'
+    BadRequest:
+      description: Bad request — invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse_2'
   headers:
-    X-RateLimit-Limit:
-      description: Requests per second for the tier.
-      schema:
-        type: integer
-    Retry-After:
-      description: Seconds until retry is allowed, present on 429.
-      schema:
-        type: integer
     X-RateLimit-Reset:
       description: Epoch milliseconds when the window resets.
+      schema:
+        type: integer
+    X-RateLimit-Limit:
+      description: Requests per second for the tier.
       schema:
         type: integer
     X-RateLimit-Tier:
@@ -749,6 +747,10 @@ components:
         type: string
     X-RateLimit-Remaining:
       description: Remaining requests in the current window.
+      schema:
+        type: integer
+    Retry-After:
+      description: Seconds until retry is allowed, present on 429.
       schema:
         type: integer
   securitySchemes:

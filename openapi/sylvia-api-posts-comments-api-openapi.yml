@@ -416,39 +416,31 @@ paths:
       tags:
       - Posts & Comments
 components:
-  headers:
-    X-RateLimit-Remaining:
-      description: Remaining requests in the current window.
-      schema:
-        type: integer
-    X-RateLimit-Limit:
-      description: Requests per second for the tier.
-      schema:
-        type: integer
-    X-RateLimit-Reset:
-      description: Epoch milliseconds when the window resets.
-      schema:
-        type: integer
-    Retry-After:
-      description: Seconds until retry is allowed, present on 429.
-      schema:
-        type: integer
-    X-RateLimit-Tier:
-      description: 'Rate limit tier: free | strela | svetka | enterprise.'
-      schema:
-        type: string
   schemas:
-    ListingData:
-      type: object
-      properties:
-        posts:
-          type: array
-          items:
-            $ref: '#/components/schemas/Post'
-        after:
-          type:
-          - string
-          - 'null'
+    ListingResponse:
+      allOf:
+      - $ref: '#/components/schemas/Envelope'
+      - type: object
+        properties:
+          data:
+            $ref: '#/components/schemas/ListingData'
+    ThreadResponse:
+      allOf:
+      - $ref: '#/components/schemas/Envelope'
+      - type: object
+        properties:
+          data:
+            type: array
+            description: Reddit thread format [post_listing, comment_listing]
+            items:
+              type: object
+    CommentResponse:
+      allOf:
+      - $ref: '#/components/schemas/Envelope'
+      - type: object
+        properties:
+          data:
+            $ref: '#/components/schemas/Comment'
     Post:
       type: object
       properties:
@@ -481,31 +473,6 @@ components:
           type: boolean
         stickied:
           type: boolean
-    ThreadResponse:
-      allOf:
-      - $ref: '#/components/schemas/Envelope'
-      - type: object
-        properties:
-          data:
-            type: array
-            description: Reddit thread format [post_listing, comment_listing]
-            items:
-              type: object
-    Envelope:
-      type: object
-      properties:
-        success:
-          type: boolean
-        message:
-          type:
-          - string
-          - 'null'
-        error:
-          type:
-          - string
-          - 'null'
-        request_id:
-          type: string
     Comment:
       type: object
       properties:
@@ -532,6 +499,17 @@ components:
           type: string
         depth:
           type: integer
+    ListingData:
+      type: object
+      properties:
+        posts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Post'
+        after:
+          type:
+          - string
+          - 'null'
     PostResponse:
       allOf:
       - $ref: '#/components/schemas/Envelope'
@@ -539,27 +517,6 @@ components:
         properties:
           data:
             $ref: '#/components/schemas/Post'
-    GenericResponse:
-      allOf:
-      - $ref: '#/components/schemas/Envelope'
-      - type: object
-        properties:
-          data:
-            type: object
-    ListingResponse:
-      allOf:
-      - $ref: '#/components/schemas/Envelope'
-      - type: object
-        properties:
-          data:
-            $ref: '#/components/schemas/ListingData'
-    CommentResponse:
-      allOf:
-      - $ref: '#/components/schemas/Envelope'
-      - type: object
-        properties:
-          data:
-            $ref: '#/components/schemas/Comment'
     ErrorResponse:
       type: object
       properties:
@@ -575,13 +532,29 @@ components:
           type: string
         request_id:
           type: string
+    Envelope:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type:
+          - string
+          - 'null'
+        error:
+          type:
+          - string
+          - 'null'
+        request_id:
+          type: string
+    GenericResponse:
+      allOf:
+      - $ref: '#/components/schemas/Envelope'
+      - type: object
+        properties:
+          data:
+            type: object
   responses:
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
     RateLimited:
       description: Rate limit exceeded
       content:
@@ -600,6 +573,33 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  headers:
+    X-RateLimit-Reset:
+      description: Epoch milliseconds when the window resets.
+      schema:
+        type: integer
+    X-RateLimit-Remaining:
+      description: Remaining requests in the current window.
+      schema:
+        type: integer
+    Retry-After:
+      description: Seconds until retry is allowed, present on 429.
+      schema:
+        type: integer
+    X-RateLimit-Tier:
+      description: 'Rate limit tier: free | strela | svetka | enterprise.'
+      schema:
+        type: string
+    X-RateLimit-Limit:
+      description: Requests per second for the tier.
+      schema:
+        type: integer
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

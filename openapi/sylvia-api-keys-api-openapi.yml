@@ -169,20 +169,8 @@ paths:
       - Keys
 components:
   responses:
-    RateLimited:
-      description: Rate limit exceeded
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
     Forbidden:
       description: Forbidden — insufficient access or credits
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: Bad request — invalid parameters
       content:
         application/json:
           schema:
@@ -193,27 +181,18 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-  headers:
-    X-RateLimit-Limit:
-      description: Requests per second for the tier.
-      schema:
-        type: integer
-    Retry-After:
-      description: Seconds until retry is allowed, present on 429.
-      schema:
-        type: integer
-    X-RateLimit-Reset:
-      description: Epoch milliseconds when the window resets.
-      schema:
-        type: integer
-    X-RateLimit-Tier:
-      description: 'Rate limit tier: free | strela | svetka | enterprise.'
-      schema:
-        type: string
-    X-RateLimit-Remaining:
-      description: Remaining requests in the current window.
-      schema:
-        type: integer
+    RateLimited:
+      description: Rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad request — invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   schemas:
     ErrorResponse:
       type: object
@@ -230,13 +209,17 @@ components:
           type: string
         request_id:
           type: string
-    ApiKeyList:
+    CreateKeyResponse:
       type: object
       properties:
-        keys:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiKey'
+        id:
+          type: string
+        label:
+          type: string
+        key:
+          type: string
+        createdAt:
+          type: string
     ApiKey:
       type: object
       properties:
@@ -258,17 +241,13 @@ components:
           type:
           - number
           - 'null'
-    CreateKeyResponse:
+    ApiKeyList:
       type: object
       properties:
-        id:
-          type: string
-        label:
-          type: string
-        key:
-          type: string
-        createdAt:
-          type: string
+        keys:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiKey'
     Envelope:
       type: object
       properties:
@@ -291,6 +270,27 @@ components:
         properties:
           data:
             type: object
+  headers:
+    X-RateLimit-Reset:
+      description: Epoch milliseconds when the window resets.
+      schema:
+        type: integer
+    X-RateLimit-Limit:
+      description: Requests per second for the tier.
+      schema:
+        type: integer
+    X-RateLimit-Tier:
+      description: 'Rate limit tier: free | strela | svetka | enterprise.'
+      schema:
+        type: string
+    X-RateLimit-Remaining:
+      description: Remaining requests in the current window.
+      schema:
+        type: integer
+    Retry-After:
+      description: Seconds until retry is allowed, present on 429.
+      schema:
+        type: integer
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

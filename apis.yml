@@ -51,6 +51,7 @@ tags:
 - Research
 - Content
 - Datasets
+- A2A
 apis:
 - aid: sylvia-api:sylvia-api-live-api
   name: Sylvia API Live API
@@ -462,3 +463,10 @@ x-evidence:
     note: They addressed every dimension named in the 0.12.0 follow-up — agent_card, agentic_access, error_semantics,
       well_known_catalog, agent_skills, plus the contract_governance block (ruleset, vocabulary, conformance,
       overlay).
+x-a2a:
+  verified: true
+  probed: '2026-09-26'
+  url: "https://sylvia-api.com/.well-known/agent-card.json"
+  grade: "flavored"
+  protocol_version: "1.0"
+  control: 200

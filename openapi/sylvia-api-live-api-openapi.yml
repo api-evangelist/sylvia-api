@@ -234,14 +234,14 @@ paths:
       description: Production API server
 components:
   responses:
-    RateLimited:
-      description: Rate limit exceeded
+    Unauthorized:
+      description: Invalid or missing API key
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Invalid or missing API key
+    RateLimited:
+      description: Rate limit exceeded
       content:
         application/json:
           schema:
@@ -362,16 +362,12 @@ components:
           data:
             type: object
   headers:
-    X-RateLimit-Limit:
-      description: Requests per second for the tier.
-      schema:
-        type: integer
-    Retry-After:
-      description: Seconds until retry is allowed, present on 429.
-      schema:
-        type: integer
     X-RateLimit-Reset:
       description: Epoch milliseconds when the window resets.
+      schema:
+        type: integer
+    X-RateLimit-Limit:
+      description: Requests per second for the tier.
       schema:
         type: integer
     X-RateLimit-Tier:
@@ -380,6 +376,10 @@ components:
         type: string
     X-RateLimit-Remaining:
       description: Remaining requests in the current window.
+      schema:
+        type: integer
+    Retry-After:
+      description: Seconds until retry is allowed, present on 429.
       schema:
         type: integer
   securitySchemes:

@@ -328,41 +328,7 @@ paths:
     - url: https://api.sylvia-api.com/v1
       description: Production API server
 components:
-  responses:
-    RateLimited:
-      description: Rate limit exceeded
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Invalid or missing API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized_2:
-      description: Missing or invalid API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse_2'
   schemas:
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: string
-        message:
-          type: string
-        code:
-          type: integer
     SearchResponse:
       type: object
       properties:
@@ -380,6 +346,15 @@ components:
           type:
           - integer
           - 'null'
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        code:
+          type: integer
     User:
       type: object
       properties:
@@ -402,39 +377,6 @@ components:
           type: boolean
         has_verified_email:
           type: boolean
-    Envelope:
-      type: object
-      properties:
-        success:
-          type: boolean
-        message:
-          type:
-          - string
-          - 'null'
-        error:
-          type:
-          - string
-          - 'null'
-        request_id:
-          type: string
-    UserResponse:
-      allOf:
-      - $ref: '#/components/schemas/Envelope'
-      - type: object
-        properties:
-          data:
-            $ref: '#/components/schemas/User_2'
-    ListingData:
-      type: object
-      properties:
-        posts:
-          type: array
-          items:
-            $ref: '#/components/schemas/Post'
-        after:
-          type:
-          - string
-          - 'null'
     ErrorResponse_2:
       type: object
       properties:
@@ -450,22 +392,6 @@ components:
           type: string
         request_id:
           type: string
-    User_2:
-      type: object
-      properties:
-        name:
-          type: string
-        created_utc:
-          type: integer
-          format: int64
-        link_karma:
-          type: integer
-        comment_karma:
-          type: integer
-        icon_img:
-          type:
-          - string
-          - 'null'
     Post:
       type: object
       properties:
@@ -505,7 +431,85 @@ components:
         properties:
           data:
             $ref: '#/components/schemas/ListingData'
+    Envelope:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type:
+          - string
+          - 'null'
+        error:
+          type:
+          - string
+          - 'null'
+        request_id:
+          type: string
+    User_2:
+      type: object
+      properties:
+        name:
+          type: string
+        created_utc:
+          type: integer
+          format: int64
+        link_karma:
+          type: integer
+        comment_karma:
+          type: integer
+        icon_img:
+          type:
+          - string
+          - 'null'
+    UserResponse:
+      allOf:
+      - $ref: '#/components/schemas/Envelope'
+      - type: object
+        properties:
+          data:
+            $ref: '#/components/schemas/User_2'
+    ListingData:
+      type: object
+      properties:
+        posts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Post'
+        after:
+          type:
+          - string
+          - 'null'
+  responses:
+    Unauthorized:
+      description: Invalid or missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    RateLimited:
+      description: Rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized_2:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse_2'
   headers:
+    X-RateLimit-Reset:
+      description: Epoch milliseconds when the window resets.
+      schema:
+        type: integer
     X-RateLimit-Limit:
       description: Requests per second for the tier.
       schema:
@@ -514,16 +518,12 @@ components:
       description: Remaining requests in the current window.
       schema:
         type: integer
-    Retry-After:
-      description: Seconds until retry is allowed, present on 429.
-      schema:
-        type: integer
     X-RateLimit-Tier:
       description: 'Rate limit tier: free | strela | svetka | enterprise.'
       schema:
         type: string
-    X-RateLimit-Reset:
-      description: Epoch milliseconds when the window resets.
+    Retry-After:
+      description: Seconds until retry is allowed, present on 429.
       schema:
         type: integer
   securitySchemes:
