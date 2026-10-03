@@ -424,6 +424,17 @@ components:
         properties:
           data:
             $ref: '#/components/schemas/ListingData'
+    ListingData:
+      type: object
+      properties:
+        posts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Post'
+        after:
+          type:
+          - string
+          - 'null'
     ThreadResponse:
       allOf:
       - $ref: '#/components/schemas/Envelope'
@@ -434,6 +445,13 @@ components:
             description: Reddit thread format [post_listing, comment_listing]
             items:
               type: object
+    PostResponse:
+      allOf:
+      - $ref: '#/components/schemas/Envelope'
+      - type: object
+        properties:
+          data:
+            $ref: '#/components/schemas/Post'
     CommentResponse:
       allOf:
       - $ref: '#/components/schemas/Envelope'
@@ -499,39 +517,6 @@ components:
           type: string
         depth:
           type: integer
-    ListingData:
-      type: object
-      properties:
-        posts:
-          type: array
-          items:
-            $ref: '#/components/schemas/Post'
-        after:
-          type:
-          - string
-          - 'null'
-    PostResponse:
-      allOf:
-      - $ref: '#/components/schemas/Envelope'
-      - type: object
-        properties:
-          data:
-            $ref: '#/components/schemas/Post'
-    ErrorResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        error:
-          type: string
-        message:
-          type: string
-        status:
-          type: integer
-        code:
-          type: string
-        request_id:
-          type: string
     Envelope:
       type: object
       properties:
@@ -547,6 +532,21 @@ components:
           - 'null'
         request_id:
           type: string
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        error:
+          type: string
+        message:
+          type: string
+        status:
+          type: integer
+        code:
+          type: string
+        request_id:
+          type: string
     GenericResponse:
       allOf:
       - $ref: '#/components/schemas/Envelope'
@@ -554,19 +554,28 @@ components:
         properties:
           data:
             type: object
+  headers:
+    X-RateLimit-Remaining:
+      description: Remaining requests in the current window.
+      schema:
+        type: integer
+    X-RateLimit-Limit:
+      description: Requests per second for the tier.
+      schema:
+        type: integer
+    Retry-After:
+      description: Seconds until retry is allowed, present on 429.
+      schema:
+        type: integer
+    X-RateLimit-Tier:
+      description: 'Rate limit tier: free | strela | svetka | enterprise.'
+      schema:
+        type: string
+    X-RateLimit-Reset:
+      description: Epoch milliseconds when the window resets.
+      schema:
+        type: integer
   responses:
-    RateLimited:
-      description: Rate limit exceeded
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: Bad request — invalid parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
     Unauthorized:
       description: Missing or invalid API key
       content:
@@ -579,27 +588,18 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-  headers:
-    X-RateLimit-Reset:
-      description: Epoch milliseconds when the window resets.
-      schema:
-        type: integer
-    X-RateLimit-Remaining:
-      description: Remaining requests in the current window.
-      schema:
-        type: integer
-    Retry-After:
-      description: Seconds until retry is allowed, present on 429.
-      schema:
-        type: integer
-    X-RateLimit-Tier:
-      description: 'Rate limit tier: free | strela | svetka | enterprise.'
-      schema:
-        type: string
-    X-RateLimit-Limit:
-      description: Requests per second for the tier.
-      schema:
-        type: integer
+    RateLimited:
+      description: Rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad request — invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

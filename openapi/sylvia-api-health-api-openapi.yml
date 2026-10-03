@@ -80,22 +80,28 @@ paths:
           - markdown
           default: reddit
 components:
+  headers:
+    Retry-After:
+      description: Seconds until retry is allowed, present on 429.
+      schema:
+        type: integer
+    X-RateLimit-Reset:
+      description: Epoch milliseconds when the window resets.
+      schema:
+        type: integer
+    X-RateLimit-Tier:
+      description: 'Rate limit tier: free | strela | svetka | enterprise.'
+      schema:
+        type: string
+    X-RateLimit-Limit:
+      description: Requests per second for the tier.
+      schema:
+        type: integer
+    X-RateLimit-Remaining:
+      description: Remaining requests in the current window.
+      schema:
+        type: integer
   schemas:
-    ErrorResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        error:
-          type: string
-        message:
-          type: string
-        status:
-          type: integer
-        code:
-          type: string
-        request_id:
-          type: string
     Envelope:
       type: object
       properties:
@@ -111,6 +117,21 @@ components:
           - 'null'
         request_id:
           type: string
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        error:
+          type: string
+        message:
+          type: string
+        status:
+          type: integer
+        code:
+          type: string
+        request_id:
+          type: string
     GenericResponse:
       allOf:
       - $ref: '#/components/schemas/Envelope'
@@ -118,27 +139,6 @@ components:
         properties:
           data:
             type: object
-  headers:
-    X-RateLimit-Reset:
-      description: Epoch milliseconds when the window resets.
-      schema:
-        type: integer
-    X-RateLimit-Limit:
-      description: Requests per second for the tier.
-      schema:
-        type: integer
-    X-RateLimit-Tier:
-      description: 'Rate limit tier: free | strela | svetka | enterprise.'
-      schema:
-        type: string
-    X-RateLimit-Remaining:
-      description: Remaining requests in the current window.
-      schema:
-        type: integer
-    Retry-After:
-      description: Seconds until retry is allowed, present on 429.
-      schema:
-        type: integer
   responses:
     Unauthorized:
       description: Missing or invalid API key

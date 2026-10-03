@@ -118,32 +118,6 @@ paths:
       - Comments
 components:
   schemas:
-    SearchResponse:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            type: object
-        cursor:
-          type:
-          - string
-          - 'null'
-        has_more:
-          type: boolean
-        total:
-          type:
-          - integer
-          - 'null'
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: string
-        message:
-          type: string
-        code:
-          type: integer
     Comment:
       type: object
       properties:
@@ -174,15 +148,41 @@ components:
           type: integer
         collapsed:
           type: boolean
+    SearchResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+        cursor:
+          type:
+          - string
+          - 'null'
+        has_more:
+          type: boolean
+        total:
+          type:
+          - integer
+          - 'null'
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        code:
+          type: integer
   responses:
-    ServerError:
-      description: Internal server error
+    Unauthorized:
+      description: Invalid or missing API key
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Invalid or missing API key
+    NotFound:
+      description: Resource not found
       content:
         application/json:
           schema:
@@ -193,8 +193,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: Resource not found
+    ServerError:
+      description: Internal server error
       content:
         application/json:
           schema:

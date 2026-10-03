@@ -197,22 +197,28 @@ paths:
       tags:
       - Domains
 components:
+  headers:
+    Retry-After:
+      description: Seconds until retry is allowed, present on 429.
+      schema:
+        type: integer
+    X-RateLimit-Reset:
+      description: Epoch milliseconds when the window resets.
+      schema:
+        type: integer
+    X-RateLimit-Tier:
+      description: 'Rate limit tier: free | strela | svetka | enterprise.'
+      schema:
+        type: string
+    X-RateLimit-Limit:
+      description: Requests per second for the tier.
+      schema:
+        type: integer
+    X-RateLimit-Remaining:
+      description: Remaining requests in the current window.
+      schema:
+        type: integer
   schemas:
-    ErrorResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        error:
-          type: string
-        message:
-          type: string
-        status:
-          type: integer
-        code:
-          type: string
-        request_id:
-          type: string
     Post:
       type: object
       properties:
@@ -245,13 +251,6 @@ components:
           type: boolean
         stickied:
           type: boolean
-    ListingResponse:
-      allOf:
-      - $ref: '#/components/schemas/Envelope'
-      - type: object
-        properties:
-          data:
-            $ref: '#/components/schemas/ListingData'
     Envelope:
       type: object
       properties:
@@ -267,6 +266,28 @@ components:
           - 'null'
         request_id:
           type: string
+    ListingResponse:
+      allOf:
+      - $ref: '#/components/schemas/Envelope'
+      - type: object
+        properties:
+          data:
+            $ref: '#/components/schemas/ListingData'
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        error:
+          type: string
+        message:
+          type: string
+        status:
+          type: integer
+        code:
+          type: string
+        request_id:
+          type: string
     ListingData:
       type: object
       properties:
@@ -278,27 +299,6 @@ components:
           type:
           - string
           - 'null'
-  headers:
-    X-RateLimit-Reset:
-      description: Epoch milliseconds when the window resets.
-      schema:
-        type: integer
-    X-RateLimit-Limit:
-      description: Requests per second for the tier.
-      schema:
-        type: integer
-    X-RateLimit-Remaining:
-      description: Remaining requests in the current window.
-      schema:
-        type: integer
-    X-RateLimit-Tier:
-      description: 'Rate limit tier: free | strela | svetka | enterprise.'
-      schema:
-        type: string
-    Retry-After:
-      description: Seconds until retry is allowed, present on 429.
-      schema:
-        type: integer
   responses:
     Unauthorized:
       description: Missing or invalid API key
@@ -306,14 +306,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    RateLimited:
-      description: Rate limit exceeded
+    NotFound:
+      description: Resource not found
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: Resource not found
+    RateLimited:
+      description: Rate limit exceeded
       content:
         application/json:
           schema:
