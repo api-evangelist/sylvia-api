@@ -168,13 +168,38 @@ paths:
       tags:
       - Keys
 components:
+  responses:
+    RateLimited:
+      description: Rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Forbidden:
+      description: Forbidden — insufficient access or credits
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: Bad request — invalid parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   headers:
-    Retry-After:
-      description: Seconds until retry is allowed, present on 429.
+    X-RateLimit-Remaining:
+      description: Remaining requests in the current window.
       schema:
         type: integer
-    X-RateLimit-Reset:
-      description: Epoch milliseconds when the window resets.
+    Retry-After:
+      description: Seconds until retry is allowed, present on 429.
       schema:
         type: integer
     X-RateLimit-Tier:
@@ -185,11 +210,44 @@ components:
       description: Requests per second for the tier.
       schema:
         type: integer
-    X-RateLimit-Remaining:
-      description: Remaining requests in the current window.
+    X-RateLimit-Reset:
+      description: Epoch milliseconds when the window resets.
       schema:
         type: integer
   schemas:
+    Envelope:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type:
+          - string
+          - 'null'
+        error:
+          type:
+          - string
+          - 'null'
+        request_id:
+          type: string
+    GenericResponse:
+      allOf:
+      - $ref: '#/components/schemas/Envelope'
+      - type: object
+        properties:
+          data:
+            type: object
+    CreateKeyResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        label:
+          type: string
+        key:
+          type: string
+        createdAt:
+          type: string
     ApiKey:
       type: object
       properties:
@@ -211,32 +269,13 @@ components:
           type:
           - number
           - 'null'
-    CreateKeyResponse:
+    ApiKeyList:
       type: object
       properties:
-        id:
-          type: string
-        label:
-          type: string
-        key:
-          type: string
-        createdAt:
-          type: string
-    Envelope:
-      type: object
-      properties:
-        success:
-          type: boolean
-        message:
-          type:
-          - string
-          - 'null'
-        error:
-          type:
-          - string
-          - 'null'
-        request_id:
-          type: string
+        keys:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiKey'
     ErrorResponse:
       type: object
       properties:
@@ -252,45 +291,6 @@ components:
           type: string
         request_id:
           type: string
-    GenericResponse:
-      allOf:
-      - $ref: '#/components/schemas/Envelope'
-      - type: object
-        properties:
-          data:
-            type: object
-    ApiKeyList:
-      type: object
-      properties:
-        keys:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiKey'
-  responses:
-    Forbidden:
-      description: Forbidden — insufficient access or credits
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: Bad request — invalid parameters
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Missing or invalid API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    RateLimited:
-      description: Rate limit exceeded
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

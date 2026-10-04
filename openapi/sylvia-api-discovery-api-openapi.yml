@@ -230,13 +230,26 @@ paths:
       tags:
       - Discovery
 components:
+  responses:
+    RateLimited:
+      description: Rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   headers:
-    Retry-After:
-      description: Seconds until retry is allowed, present on 429.
+    X-RateLimit-Remaining:
+      description: Remaining requests in the current window.
       schema:
         type: integer
-    X-RateLimit-Reset:
-      description: Epoch milliseconds when the window resets.
+    Retry-After:
+      description: Seconds until retry is allowed, present on 429.
       schema:
         type: integer
     X-RateLimit-Tier:
@@ -247,8 +260,8 @@ components:
       description: Requests per second for the tier.
       schema:
         type: integer
-    X-RateLimit-Remaining:
-      description: Remaining requests in the current window.
+    X-RateLimit-Reset:
+      description: Epoch milliseconds when the window resets.
       schema:
         type: integer
   schemas:
@@ -267,6 +280,13 @@ components:
           - 'null'
         request_id:
           type: string
+    GenericResponse:
+      allOf:
+      - $ref: '#/components/schemas/Envelope'
+      - type: object
+        properties:
+          data:
+            type: object
     ErrorResponse:
       type: object
       properties:
@@ -282,26 +302,6 @@ components:
           type: string
         request_id:
           type: string
-    GenericResponse:
-      allOf:
-      - $ref: '#/components/schemas/Envelope'
-      - type: object
-        properties:
-          data:
-            type: object
-  responses:
-    Unauthorized:
-      description: Missing or invalid API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    RateLimited:
-      description: Rate limit exceeded
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

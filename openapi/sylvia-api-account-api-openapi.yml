@@ -257,36 +257,15 @@ paths:
       tags:
       - Account
 components:
-  headers:
-    Retry-After:
-      description: Seconds until retry is allowed, present on 429.
-      schema:
-        type: integer
-    X-RateLimit-Tier:
-      description: 'Rate limit tier: free | strela | svetka | enterprise.'
-      schema:
-        type: string
-    X-RateLimit-Reset:
-      description: Epoch milliseconds when the window resets.
-      schema:
-        type: integer
-    X-RateLimit-Limit:
-      description: Requests per second for the tier.
-      schema:
-        type: integer
-    X-RateLimit-Remaining:
-      description: Remaining requests in the current window.
-      schema:
-        type: integer
   responses:
-    Forbidden:
-      description: Forbidden — insufficient access or credits
+    RateLimited:
+      description: Rate limit exceeded
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: Bad request — invalid parameters
+    Forbidden:
+      description: Forbidden — insufficient access or credits
       content:
         application/json:
           schema:
@@ -297,26 +276,34 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    RateLimited:
-      description: Rate limit exceeded
+    BadRequest:
+      description: Bad request — invalid parameters
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
+  headers:
+    X-RateLimit-Remaining:
+      description: Remaining requests in the current window.
+      schema:
+        type: integer
+    Retry-After:
+      description: Seconds until retry is allowed, present on 429.
+      schema:
+        type: integer
+    X-RateLimit-Tier:
+      description: 'Rate limit tier: free | strela | svetka | enterprise.'
+      schema:
+        type: string
+    X-RateLimit-Limit:
+      description: Requests per second for the tier.
+      schema:
+        type: integer
+    X-RateLimit-Reset:
+      description: Epoch milliseconds when the window resets.
+      schema:
+        type: integer
   schemas:
-    FormatsResponse:
-      type: object
-      properties:
-        tier:
-          type: string
-        defaultFormat:
-          type:
-          - string
-          - 'null'
-        formats:
-          type: array
-          items:
-            $ref: '#/components/schemas/FormatInfo'
     Envelope:
       type: object
       properties:
@@ -332,21 +319,13 @@ components:
           - 'null'
         request_id:
           type: string
-    ErrorResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-        error:
-          type: string
-        message:
-          type: string
-        status:
-          type: integer
-        code:
-          type: string
-        request_id:
-          type: string
+    GenericResponse:
+      allOf:
+      - $ref: '#/components/schemas/Envelope'
+      - type: object
+        properties:
+          data:
+            type: object
     UserInfo:
       type: object
       properties:
@@ -377,13 +356,19 @@ components:
           - 'null'
         createdAt:
           type: string
-    GenericResponse:
-      allOf:
-      - $ref: '#/components/schemas/Envelope'
-      - type: object
-        properties:
-          data:
-            type: object
+    FormatsResponse:
+      type: object
+      properties:
+        tier:
+          type: string
+        defaultFormat:
+          type:
+          - string
+          - 'null'
+        formats:
+          type: array
+          items:
+            $ref: '#/components/schemas/FormatInfo'
     FormatInfo:
       type: object
       properties:
@@ -393,6 +378,21 @@ components:
           type: string
         available:
           type: boolean
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        error:
+          type: string
+        message:
+          type: string
+        status:
+          type: integer
+        code:
+          type: string
+        request_id:
+          type: string
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

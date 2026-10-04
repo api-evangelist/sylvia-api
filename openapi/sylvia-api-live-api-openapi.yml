@@ -233,16 +233,32 @@ paths:
     - url: https://api.sylvia-api.com/v1
       description: Production API server
 components:
+  responses:
+    RateLimited:
+      description: Rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Invalid or missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Forbidden:
+      description: Forbidden — insufficient access or credits
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse_2'
+    Unauthorized_2:
+      description: Missing or invalid API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse_2'
   schemas:
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: string
-        message:
-          type: string
-        code:
-          type: integer
     Comment:
       type: object
       properties:
@@ -273,6 +289,15 @@ components:
           type: integer
         collapsed:
           type: boolean
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        code:
+          type: integer
     Comment_2:
       type: object
       properties:
@@ -314,6 +339,13 @@ components:
           - 'null'
         request_id:
           type: string
+    GenericResponse:
+      allOf:
+      - $ref: '#/components/schemas/Envelope'
+      - type: object
+        properties:
+          data:
+            type: object
     ErrorResponse_2:
       type: object
       properties:
@@ -329,45 +361,13 @@ components:
           type: string
         request_id:
           type: string
-    GenericResponse:
-      allOf:
-      - $ref: '#/components/schemas/Envelope'
-      - type: object
-        properties:
-          data:
-            type: object
-  responses:
-    RateLimited:
-      description: Rate limit exceeded
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Invalid or missing API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Forbidden:
-      description: Forbidden — insufficient access or credits
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse_2'
-    Unauthorized_2:
-      description: Missing or invalid API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse_2'
   headers:
-    Retry-After:
-      description: Seconds until retry is allowed, present on 429.
+    X-RateLimit-Remaining:
+      description: Remaining requests in the current window.
       schema:
         type: integer
-    X-RateLimit-Reset:
-      description: Epoch milliseconds when the window resets.
+    Retry-After:
+      description: Seconds until retry is allowed, present on 429.
       schema:
         type: integer
     X-RateLimit-Tier:
@@ -378,8 +378,8 @@ components:
       description: Requests per second for the tier.
       schema:
         type: integer
-    X-RateLimit-Remaining:
-      description: Remaining requests in the current window.
+    X-RateLimit-Reset:
+      description: Epoch milliseconds when the window resets.
       schema:
         type: integer
   securitySchemes:

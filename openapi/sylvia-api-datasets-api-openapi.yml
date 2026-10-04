@@ -40,6 +40,15 @@ paths:
       - Datasets
 components:
   schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        code:
+          type: integer
     TorrentInfo:
       type: object
       properties:
@@ -54,15 +63,6 @@ components:
           type: string
         date_range:
           type: string
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: string
-        message:
-          type: string
-        code:
-          type: integer
   responses:
     Unauthorized:
       description: Invalid or missing API key
