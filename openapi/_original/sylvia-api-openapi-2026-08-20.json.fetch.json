@@ -1,0 +1,12 @@
+{
+ "url": "https://sylvia-api.com/openapi.json",
+ "requested_url": "https://sylvia-api.com/openapi.json",
+ "status": 200,
+ "content_type": "application/json",
+ "bytes": 117002,
+ "sha256": "0a57ce29a0aaddeda418f5ce46281d95625aa16ea7d2c847b2d9f60d549f851e",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "equivalent",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the provider's current document describes the same operations (Jaccard 1.0), but the bytes differ, so the archive is an earlier or reformatted copy."
+}
