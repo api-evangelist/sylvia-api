@@ -56,3 +56,33 @@ plans:
   rate_limit_rpm: 3600
   burst: 100
   positioning: Trailing-30-day deposit of $500+. All formats, unlimited templates, highest limits.
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models: []
+  units: []
+  plans:
+  - name: Free
+    access: freemium
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
+  - name: Strela
+    access: paid
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
+  - name: Svetka
+    access: paid
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
+  - name: Enterprise
+    access: paid
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
