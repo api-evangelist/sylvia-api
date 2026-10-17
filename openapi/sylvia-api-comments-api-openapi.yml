@@ -118,14 +118,14 @@ paths:
       - Comments
 components:
   responses:
-    RateLimited:
-      description: Rate limit exceeded
+    Unauthorized:
+      description: Invalid or missing API key
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Invalid or missing API key
+    RateLimited:
+      description: Rate limit exceeded
       content:
         application/json:
           schema:
@@ -143,6 +143,23 @@ components:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
   schemas:
+    SearchResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+        cursor:
+          type:
+          - string
+          - 'null'
+        has_more:
+          type: boolean
+        total:
+          type:
+          - integer
+          - 'null'
     Comment:
       type: object
       properties:
@@ -173,23 +190,6 @@ components:
           type: integer
         collapsed:
           type: boolean
-    SearchResponse:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            type: object
-        cursor:
-          type:
-          - string
-          - 'null'
-        has_more:
-          type: boolean
-        total:
-          type:
-          - integer
-          - 'null'
     ErrorResponse:
       type: object
       properties:

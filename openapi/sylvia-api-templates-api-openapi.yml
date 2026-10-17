@@ -170,8 +170,8 @@ paths:
       - Templates
 components:
   responses:
-    RateLimited:
-      description: Rate limit exceeded
+    Unauthorized:
+      description: Missing or invalid API key
       content:
         application/json:
           schema:
@@ -182,8 +182,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Missing or invalid API key
+    RateLimited:
+      description: Rate limit exceeded
       content:
         application/json:
           schema:
@@ -194,6 +194,27 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
+  headers:
+    X-RateLimit-Tier:
+      description: 'Rate limit tier: free | strela | svetka | enterprise.'
+      schema:
+        type: string
+    X-RateLimit-Limit:
+      description: Requests per second for the tier.
+      schema:
+        type: integer
+    X-RateLimit-Remaining:
+      description: Remaining requests in the current window.
+      schema:
+        type: integer
+    X-RateLimit-Reset:
+      description: Epoch milliseconds when the window resets.
+      schema:
+        type: integer
+    Retry-After:
+      description: Seconds until retry is allowed, present on 429.
+      schema:
+        type: integer
   schemas:
     Template:
       type: object
@@ -239,27 +260,6 @@ components:
           type: string
         request_id:
           type: string
-  headers:
-    X-RateLimit-Remaining:
-      description: Remaining requests in the current window.
-      schema:
-        type: integer
-    Retry-After:
-      description: Seconds until retry is allowed, present on 429.
-      schema:
-        type: integer
-    X-RateLimit-Tier:
-      description: 'Rate limit tier: free | strela | svetka | enterprise.'
-      schema:
-        type: string
-    X-RateLimit-Limit:
-      description: Requests per second for the tier.
-      schema:
-        type: integer
-    X-RateLimit-Reset:
-      description: Epoch milliseconds when the window resets.
-      schema:
-        type: integer
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

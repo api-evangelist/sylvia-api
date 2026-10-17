@@ -81,27 +81,19 @@ paths:
           default: reddit
 components:
   responses:
-    RateLimited:
-      description: Rate limit exceeded
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
     Unauthorized:
       description: Missing or invalid API key
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
+    RateLimited:
+      description: Rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   headers:
-    X-RateLimit-Remaining:
-      description: Remaining requests in the current window.
-      schema:
-        type: integer
-    Retry-After:
-      description: Seconds until retry is allowed, present on 429.
-      schema:
-        type: integer
     X-RateLimit-Tier:
       description: 'Rate limit tier: free | strela | svetka | enterprise.'
       schema:
@@ -110,8 +102,16 @@ components:
       description: Requests per second for the tier.
       schema:
         type: integer
+    X-RateLimit-Remaining:
+      description: Remaining requests in the current window.
+      schema:
+        type: integer
     X-RateLimit-Reset:
       description: Epoch milliseconds when the window resets.
+      schema:
+        type: integer
+    Retry-After:
+      description: Seconds until retry is allowed, present on 429.
       schema:
         type: integer
   schemas:

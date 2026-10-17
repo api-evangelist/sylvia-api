@@ -329,14 +329,14 @@ paths:
       description: Production API server
 components:
   responses:
-    RateLimited:
-      description: Rate limit exceeded
+    Unauthorized:
+      description: Invalid or missing API key
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Invalid or missing API key
+    RateLimited:
+      description: Rate limit exceeded
       content:
         application/json:
           schema:
@@ -402,6 +402,13 @@ components:
           type: string
         code:
           type: integer
+    ListingResponse:
+      allOf:
+      - $ref: '#/components/schemas/Envelope'
+      - type: object
+        properties:
+          data:
+            $ref: '#/components/schemas/ListingData'
     Envelope:
       type: object
       properties:
@@ -417,13 +424,22 @@ components:
           - 'null'
         request_id:
           type: string
-    ListingResponse:
-      allOf:
-      - $ref: '#/components/schemas/Envelope'
-      - type: object
-        properties:
-          data:
-            $ref: '#/components/schemas/ListingData'
+    User_2:
+      type: object
+      properties:
+        name:
+          type: string
+        created_utc:
+          type: integer
+          format: int64
+        link_karma:
+          type: integer
+        comment_karma:
+          type: integer
+        icon_img:
+          type:
+          - string
+          - 'null'
     Post:
       type: object
       properties:
@@ -456,29 +472,6 @@ components:
           type: boolean
         stickied:
           type: boolean
-    User_2:
-      type: object
-      properties:
-        name:
-          type: string
-        created_utc:
-          type: integer
-          format: int64
-        link_karma:
-          type: integer
-        comment_karma:
-          type: integer
-        icon_img:
-          type:
-          - string
-          - 'null'
-    UserResponse:
-      allOf:
-      - $ref: '#/components/schemas/Envelope'
-      - type: object
-        properties:
-          data:
-            $ref: '#/components/schemas/User_2'
     ListingData:
       type: object
       properties:
@@ -490,6 +483,13 @@ components:
           type:
           - string
           - 'null'
+    UserResponse:
+      allOf:
+      - $ref: '#/components/schemas/Envelope'
+      - type: object
+        properties:
+          data:
+            $ref: '#/components/schemas/User_2'
     ErrorResponse_2:
       type: object
       properties:
@@ -506,14 +506,6 @@ components:
         request_id:
           type: string
   headers:
-    X-RateLimit-Remaining:
-      description: Remaining requests in the current window.
-      schema:
-        type: integer
-    Retry-After:
-      description: Seconds until retry is allowed, present on 429.
-      schema:
-        type: integer
     X-RateLimit-Tier:
       description: 'Rate limit tier: free | strela | svetka | enterprise.'
       schema:
@@ -522,8 +514,16 @@ components:
       description: Requests per second for the tier.
       schema:
         type: integer
+    X-RateLimit-Remaining:
+      description: Remaining requests in the current window.
+      schema:
+        type: integer
     X-RateLimit-Reset:
       description: Epoch milliseconds when the window resets.
+      schema:
+        type: integer
+    Retry-After:
+      description: Seconds until retry is allowed, present on 429.
       schema:
         type: integer
   securitySchemes:

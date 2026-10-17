@@ -526,14 +526,14 @@ paths:
       description: Production API server
 components:
   responses:
-    RateLimited:
-      description: Rate limit exceeded
+    Unauthorized:
+      description: Invalid or missing API key
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Invalid or missing API key
+    RateLimited:
+      description: Rate limit exceeded
       content:
         application/json:
           schema:
@@ -618,21 +618,6 @@ components:
           type: string
         code:
           type: integer
-    Envelope:
-      type: object
-      properties:
-        success:
-          type: boolean
-        message:
-          type:
-          - string
-          - 'null'
-        error:
-          type:
-          - string
-          - 'null'
-        request_id:
-          type: string
     Subreddit_2:
       type: object
       properties:
@@ -660,13 +645,6 @@ components:
         properties:
           data:
             $ref: '#/components/schemas/ListingData'
-    GenericResponse:
-      allOf:
-      - $ref: '#/components/schemas/Envelope'
-      - type: object
-        properties:
-          data:
-            type: object
     Post:
       type: object
       properties:
@@ -699,6 +677,28 @@ components:
           type: boolean
         stickied:
           type: boolean
+    Envelope:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type:
+          - string
+          - 'null'
+        error:
+          type:
+          - string
+          - 'null'
+        request_id:
+          type: string
+    GenericResponse:
+      allOf:
+      - $ref: '#/components/schemas/Envelope'
+      - type: object
+        properties:
+          data:
+            type: object
     SubredditResponse:
       allOf:
       - $ref: '#/components/schemas/Envelope'
@@ -733,14 +733,6 @@ components:
         request_id:
           type: string
   headers:
-    X-RateLimit-Remaining:
-      description: Remaining requests in the current window.
-      schema:
-        type: integer
-    Retry-After:
-      description: Seconds until retry is allowed, present on 429.
-      schema:
-        type: integer
     X-RateLimit-Tier:
       description: 'Rate limit tier: free | strela | svetka | enterprise.'
       schema:
@@ -749,8 +741,16 @@ components:
       description: Requests per second for the tier.
       schema:
         type: integer
+    X-RateLimit-Remaining:
+      description: Remaining requests in the current window.
+      schema:
+        type: integer
     X-RateLimit-Reset:
       description: Epoch milliseconds when the window resets.
+      schema:
+        type: integer
+    Retry-After:
+      description: Seconds until retry is allowed, present on 429.
       schema:
         type: integer
   securitySchemes:
